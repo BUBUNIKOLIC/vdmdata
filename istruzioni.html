@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Istruzioni — VDM Basketball Coach</title>
+<meta name="description" content="Come si usa VDM Basketball Coach: video e tag, montaggi, playbook, scouting, personnel, allenamenti, presentazioni, lavoro in comune, licenza e problemi.">
+<style>
+  :root{--fondo:#0a1120;--card:rgba(255,255,255,.045);--bordo:rgba(255,255,255,.10);
+        --txt:#e8eef7;--muted:#9fb3cc;--acc:#4c8dff;}
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--fondo);color:var(--txt);
+       font:16px/1.68 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;}
+  a{color:var(--acc);text-decoration:none;} a:hover{text-decoration:underline;}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 22px;}
+  .bar{position:sticky;top:0;z-index:30;backdrop-filter:blur(14px);
+       background:rgba(10,17,32,.86);border-bottom:1px solid var(--bordo);}
+  .bar .wrap{display:flex;align-items:center;gap:16px;height:60px;}
+  .logo{font-weight:800;letter-spacing:.5px;font-size:17px;white-space:nowrap;} .logo b{color:var(--acc);}
+  .bar nav{margin-left:auto;display:flex;gap:18px;align-items:center;font-size:14px;} .bar nav a{color:var(--muted);}
+  .lang{display:flex;gap:4px;border:1px solid var(--bordo);border-radius:999px;padding:2px;}
+  .lang button{background:none;border:0;color:var(--muted);font:inherit;font-size:12px;font-weight:700;
+    padding:3px 9px;border-radius:999px;cursor:pointer;}
+  .lang button.on{background:var(--acc);color:#04101f;}
+
+  h1{font-size:clamp(27px,4vw,38px);margin:46px 0 8px;letter-spacing:-.6px;}
+  .sotto{color:var(--muted);margin:0 0 34px;max-width:640px;}
+  .cerca{width:100%;max-width:420px;padding:11px 15px;border-radius:11px;font:inherit;font-size:14.5px;
+    background:var(--card);border:1px solid var(--bordo);color:var(--txt);margin-bottom:34px;}
+  .cerca::placeholder{color:#61748f;}
+
+  .impaginato{display:grid;grid-template-columns:210px 1fr;gap:38px;align-items:start;}
+  @media(max-width:820px){ .impaginato{grid-template-columns:1fr;gap:20px;} .menu{position:static !important;} }
+  .menu{position:sticky;top:80px;border:1px solid var(--bordo);border-radius:13px;background:var(--card);padding:12px;}
+  .menu a{display:block;padding:7px 10px;border-radius:8px;color:var(--muted);font-size:14px;}
+  .menu a:hover{background:rgba(255,255,255,.05);color:var(--txt);text-decoration:none;}
+
+  .cap{border:1px solid var(--bordo);border-radius:14px;background:var(--card);padding:22px 24px;margin-bottom:16px;}
+  .cap h2{margin:0 0 4px;font-size:19px;display:flex;align-items:center;gap:9px;}
+  .cap .occhio{color:var(--muted);font-size:13.5px;margin:0 0 14px;}
+  .dom{border-top:1px solid var(--bordo);padding:13px 0;}
+  .dom:first-of-type{border-top:0;}
+  .dom summary{cursor:pointer;font-weight:700;list-style:none;font-size:15px;}
+  .dom summary::-webkit-details-marker{display:none;}
+  .dom summary::before{content:'+';color:var(--acc);font-weight:800;display:inline-block;width:19px;}
+  .dom[open] summary::before{content:'–';}
+  .dom p{margin:10px 0 0 19px;color:var(--muted);font-size:14.5px;}
+  .dom p + p{margin-top:9px;}
+  .nascosto{display:none !important;}
+
+  footer{border-top:1px solid var(--bordo);margin-top:44px;padding:28px 0 54px;color:var(--muted);font-size:13.5px;}
+  footer .wrap{display:flex;gap:18px;flex-wrap:wrap;}
+  footer nav{margin-left:auto;display:flex;gap:18px;flex-wrap:wrap;}
+  [data-en]{display:none;}
+  body.en [data-it]{display:none;}
+  body.en [data-en]{display:initial;}
+  body.en p[data-en],body.en div[data-en],body.en h1[data-en],body.en h2[data-en]{display:block;}
+</style>
+</head>
+<body>
+
+<div class="bar"><div class="wrap">
+  <span class="logo">VDM <b>Basketball Coach</b></span>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="assistenza.html" data-it>Assistenza</a><a href="assistenza.html" data-en>Support</a>
+    <span class="lang"><button id="bIt" class="on" onclick="lingua('it')">IT</button><button id="bEn" onclick="lingua('en')">EN</button></span>
+  </nav>
+</div></div>
+
+<div class="wrap">
+  <h1 data-it>Istruzioni</h1><h1 data-en>Guide</h1>
+  <p class="sotto" data-it>Le stesse che trovi dentro al programma, alla voce Istruzioni. Scritte per chi allena: prima a cosa serve, poi come si fa.</p>
+  <p class="sotto" data-en>The same ones inside the program, under Instructions. Written for coaches: first what it's for, then how to do it.</p>
+
+  <input class="cerca" id="cerca" type="search" oninput="filtra(this.value)"
+         placeholder="Cerca una parola: tag, montaggio, chiave, stampa…">
+
+  <div class="impaginato">
+    <div class="menu" id="menu"></div>
+    <div id="capitoli">
+
+      <div class="cap" id="c-video"><h2>🎥 <span data-it>Video e tag</span><span data-en>Film and tagging</span></h2>
+        <p class="occhio" data-it>Importare una partita e ritagliarla mentre la guardi.</p>
+        <p class="occhio" data-en>Import a game and cut it up as you watch.</p>
+        <details class="dom"><summary><span data-it>Come importo una partita?</span><span data-en>How do I import a game?</span></summary>
+          <p data-it>Nella scheda <b>Video</b> premi <b>Importa Video</b> e scegli il file, oppure trascinalo dentro. Il filmato resta dov'è sul tuo disco: VDM se ne ricorda il percorso, non ne fa una copia.</p>
+          <p data-en>In the <b>Video</b> tab press <b>Import Video</b> and pick the file, or drag it in. The film stays where it is on your disk: VDM remembers the path, it does not copy it.</p></details>
+        <details class="dom"><summary><span data-it>Come si tagga una giocata?</span><span data-en>How do I tag a play?</span></summary>
+          <p data-it>Metti il video sul punto giusto e premi il tasto della giocata nelle colonne Attacco o Difesa. Il pezzo si crea intorno a quel momento e lo puoi accorciare con <b>Inizio</b> e <b>Fine</b>.</p>
+          <p data-en>Move the video to the right spot and press the play button in the Offence or Defence column. The clip is created around that moment and you can trim it with <b>Start</b> and <b>End</b>.</p></details>
+        <details class="dom"><summary><span data-it>I tag rapidi a cosa servono?</span><span data-en>What are quick tags for?</span></summary>
+          <p data-it>Prendono gli <b>ultimi tre secondi</b>: servono quando la giocata è già successa e non vuoi tornare indietro a cercarla.</p>
+          <p data-en>They grab the <b>last three seconds</b>: for when the play has already happened and you don't want to rewind.</p></details>
+        <details class="dom"><summary><span data-it>Il filmato non si apre più, dice che non è al suo posto</span><span data-en>The film won't open, it says it's not where it was</span></summary>
+          <p data-it>L'hai spostato o rinominato. Premi <b>Ritrova il file</b> e indicalo, oppure <b>Indica la cartella delle partite</b> e li ritrova tutti in un colpo. I tag e i ritagli non si perdono: sono attaccati alla clip, non al file.</p>
+          <p data-en>You moved or renamed it. Press <b>Find the file</b> and point to it, or <b>Set the games folder</b> and it finds them all at once. Tags and cuts are not lost: they belong to the clip, not the file.</p></details>
+      </div>
+
+      <div class="cap" id="c-montaggi"><h2>🎬 <span data-it>Montaggi</span><span data-en>Reels</span></h2>
+        <p class="occhio" data-it>Dalle clip a un filmato solo, pronto per lo spogliatoio.</p>
+        <p class="occhio" data-en>From clips to one film, ready for the locker room.</p>
+        <details class="dom"><summary><span data-it>Premo Monta e non esce niente</span><span data-en>I press Build and nothing comes out</span></summary>
+          <p data-it>Il montaggio prende <b>solo quello che è flaggato</b>, e i cancelli sono due: la bandierina sul <b>gioco</b> nella lista, e la bandierina su <b>ogni clip</b> dentro la sua scheda (o il tasto «Flagga tutti»). Se manca uno dei due non c'è niente da mettere in fila. Il motivo te lo scrive in giallo, in basso a destra.</p>
+          <p data-en>The reel takes <b>only what is flagged</b>, and there are two gates: the flag on the <b>play</b> in the list, and the flag on <b>each clip</b> inside its card (or the «Flag all» button). If either is missing there is nothing to line up. The reason appears in yellow, bottom right.</p></details>
+        <details class="dom"><summary><span data-it>Posso fare il filmato di un singolo giocatore?</span><span data-en>Can I build one player's reel?</span></summary>
+          <p data-it>Sì. Metti il flag 🎬 sul giocatore nel roster e flagga le sue clip: esce un filmato con la sua scheda in apertura — foto, numero, caratteristiche — e i suoi pezzi uno dopo l'altro.</p>
+          <p data-en>Yes. Put the 🎬 flag on the player in the roster and flag their clips: you get a film with their card up front — photo, number, traits — and their clips one after another.</p></details>
+      </div>
+
+      <div class="cap" id="c-playbook"><h2>📋 <span data-it>Playbook</span><span data-en>Playbook</span></h2>
+        <p class="occhio" data-it>Disegnare i giochi come sulla lavagna, ma in quattro momenti.</p>
+        <p class="occhio" data-en>Draw plays as on a whiteboard, but in four moments.</p>
+        <details class="dom"><summary><span data-it>Perché ci sono quattro campi per gioco?</span><span data-en>Why four courts per play?</span></summary>
+          <p data-it>Sono quattro momenti della stessa azione. Disegni il primo e i successivi <b>ereditano da soli</b> quello che c'era prima: non ridisegni cinque volte gli stessi cinque giocatori.</p>
+          <p data-en>They are four moments of one action. Draw the first and the rest <b>inherit</b> what came before: you don't redraw the same five players five times.</p></details>
+        <details class="dom"><summary><span data-it>La palla si sposta da sola?</span><span data-en>Does the ball move by itself?</span></summary>
+          <p data-it>Segue la logica del gioco: se nel campo 2 disegni un passaggio da 1 a 4, nel campo 3 la palla è già in mano alla 4. Se la sposti a mano, quella scelta resta e non viene più sovrascritta.</p>
+          <p data-en>It follows the logic: draw a pass from 1 to 4 in court 2 and in court 3 the ball is already in 4's hands. Move it by hand and your choice stays.</p></details>
+      </div>
+
+      <div class="cap" id="c-fogli"><h2>🖨️ <span data-it>Scouting, Personnel e stampe</span><span data-en>Scouting, Personnel and printing</span></h2>
+        <p class="occhio" data-it>I fogli che porti in riunione tecnica e in panchina.</p>
+        <p class="occhio" data-en>The sheets you take to the staff meeting and the bench.</p>
+        <details class="dom"><summary><span data-it>Come salvo un foglio in PDF?</span><span data-en>How do I save a sheet as PDF?</span></summary>
+          <p data-it>Apri l'anteprima di stampa e premi <b>📄 Salva PDF</b>. Vale per tutti i fogli: scouting report, personnel, playbook, piani di allenamento e schede di tiro.</p>
+          <p data-en>Open the print preview and press <b>📄 Save PDF</b>. It works for every sheet: scouting report, personnel, playbook, practice plans and shooting cards.</p></details>
+        <details class="dom"><summary><span data-it>Ho scritto troppo e il testo non ci sta</span><span data-en>I wrote too much and the text doesn't fit</span></summary>
+          <p data-it>Il testo si rimpicciolisce da solo per restare dentro alla casella. Se proprio non ci sta nemmeno così, compare un <b>⋯</b> rosso: quello è il segnale che qualcosa resta fuori e conviene accorciare.</p>
+          <p data-en>The text shrinks itself to stay inside the box. If it still doesn't fit, a red <b>⋯</b> appears: that's the sign something is being left out and you should shorten it.</p></details>
+        <details class="dom"><summary><span data-it>Posso rimettere mano a un foglio di un mese fa?</span><span data-en>Can I go back to a sheet from a month ago?</span></summary>
+          <p data-it>Sì, se l'hai salvato in <b>archivio</b>. Scouting report, personnel e playbook hanno ognuno il proprio: li riapri, li modifichi, li riporti sul foglio di lavoro o li copi su un'altra squadra.</p>
+          <p data-en>Yes, if you saved it to the <b>archive</b>. Scouting reports, personnel and playbooks each have one: reopen, edit, put back on the working sheet or copy to another team.</p></details>
+      </div>
+
+      <div class="cap" id="c-comune"><h2>🤝 <span data-it>Lavoro in comune</span><span data-en>Shared work</span></h2>
+        <p class="occhio" data-it>Più allenatori sulla stessa squadra, senza passarsi file a mano.</p>
+        <p class="occhio" data-en>Several coaches on one team, without passing files by hand.</p>
+        <details class="dom"><summary><span data-it>Cosa serve per iniziare?</span><span data-en>What do I need to start?</span></summary>
+          <p data-it>Una cartella che vediate tutti: una cartella di rete, un disco condiviso, o una cartella sincronizzata. Ognuno apre VDM, sceglie <b>la stessa</b> cartella e scrive <b>il proprio nome</b>. Il nome è importante: se restate tutti «Coach» le presenze si sovrascrivono.</p>
+          <p data-en>A folder you all see: a network folder, a shared disk, or a synced folder. Each opens VDM, picks <b>the same</b> folder and writes <b>their own name</b>. The name matters: if you all stay «Coach» the presences overwrite each other.</p></details>
+        <details class="dom"><summary><span data-it>Dipende dalla connessione?</span><span data-en>Does it depend on the connection?</span></summary>
+          <p data-it>Sì. Su una rete locale il passaggio è immediato e l'automatico ogni dieci secondi va benissimo. Su una cartella sincronizzata (Drive, iCloud, Dropbox) ci mettono da qualche secondo a qualche minuto: lì conviene spegnere l'automatico e usare i due tasti a mano. Se la rete cade non si perde niente, ma non arriva niente finché non torna.</p>
+          <p data-en>Yes. On a local network the handover is instant and the ten-second automatic is fine. In a synced folder (Drive, iCloud, Dropbox) it takes seconds to minutes: there it's better to turn the automatic off and use the two manual buttons. If the network drops nothing is lost, but nothing arrives until it returns.</p></details>
+        <details class="dom"><summary><span data-it>Ci passiamo anche le partite intere?</span><span data-en>Do we share whole games too?</span></summary>
+          <p data-it>Meglio di no. Scambiatevi <b>tag, clip ritagliate e montaggi</b>: pesano poco e viaggiano subito. Una partita intera è qualche gigabyte, intasa la cartella e blocca tutti per mezz'ora. Il filmato grosso mettilo in comune solo quando serve davvero a qualcuno.</p>
+          <p data-en>Better not. Exchange <b>tags, cut clips and reels</b>: they weigh little and travel at once. A whole game is several gigabytes, it clogs the folder and holds everyone up. Share the big film only when someone really needs it.</p></details>
+        <details class="dom"><summary><span data-it>E se due tocchiamo la stessa squadra?</span><span data-en>What if two of us touch the same team?</span></summary>
+          <p data-it>Le squadre che stai guardando in quel momento restano tue e nessuno te le sovrascrive. Una casella vuota che arriva non cancella mai una casella piena, e se due mettono squadre diverse nella stessa casella restano tutte e due. L'ultimo aggiornamento ricevuto si annulla con un clic.</p>
+          <p data-en>The teams you are looking at stay yours and nobody overwrites them. An empty slot arriving never deletes a full one, and if two of you put different teams in the same slot, both are kept. The last update received can be undone with one click.</p></details>
+      </div>
+
+      <div class="cap" id="c-licenza"><h2>🔑 <span data-it>Licenza e installazione</span><span data-en>Licence and install</span></h2>
+        <p class="occhio" data-it>Una chiave, un computer.</p>
+        <p class="occhio" data-en>One key, one computer.</p>
+        <details class="dom"><summary><span data-it>Come attivo la licenza?</span><span data-en>How do I activate my licence?</span></summary>
+          <p data-it>Apri VDM, premi il tasto con la <b>chiave 🔑</b> in alto e leggi il tuo <b>codice macchina</b>. Mandamelo per e-mail: ti rispondo con la chiave, che incolli nello stesso riquadro e attivi.</p>
+          <p data-en>Open VDM, press the <b>key 🔑</b> button at the top and read your <b>machine code</b>. E-mail it to me: I'll reply with the key, which you paste into the same box and activate.</p></details>
+        <details class="dom"><summary><span data-it>Il Mac dice che l'app non può essere aperta</span><span data-en>My Mac says the app can't be opened</span></summary>
+          <p data-it>Se l'icona diventa un cerchio sbarrato hai preso il pacchetto sbagliato per il tuo processore. Controlla da  → <i>Informazioni su questo Mac</i> se hai un chip Apple o Intel, e scrivimi: ti mando quello giusto.</p>
+          <p data-en>If the icon becomes a crossed circle you took the wrong package for your processor. Check under  → <i>About This Mac</i> whether you have an Apple chip or Intel, and write to me: I'll send the right one.</p></details>
+        <details class="dom"><summary><span data-it>Come non perdo il lavoro?</span><span data-en>How do I avoid losing my work?</span></summary>
+          <p data-it>Esporta ogni tanto tutto il lavoro in un file e tienilo su un disco esterno o in una cartella sincronizzata. Lo stesso file serve per portare il lavoro su un altro computer.</p>
+          <p data-en>Export all your work to a file now and then and keep it on an external disk or a synced folder. The same file moves your work to another computer.</p></details>
+      </div>
+
+    </div>
+  </div>
+  <p class="sotto" style="margin-top:30px;" data-it>Non hai trovato quello che cercavi? Scrivimi: <a href="mailto:viarkdimeglio@gmail.com">viarkdimeglio@gmail.com</a></p>
+  <p class="sotto" style="margin-top:30px;" data-en>Didn't find what you were looking for? Write to me: <a href="mailto:viarkdimeglio@gmail.com">viarkdimeglio@gmail.com</a></p>
+</div>
+
+<footer><div class="wrap">
+  <span>© 2026 VDM DATA</span>
+  <nav><a href="index.html">Home</a><a href="privacy.html">Privacy</a>
+    <a href="assistenza.html" data-it>Assistenza</a><a href="assistenza.html" data-en>Support</a></nav>
+</div></footer>
+
+<script>
+function lingua(l){
+  document.body.classList.toggle('en', l === 'en');
+  document.documentElement.lang = l;
+  document.getElementById('bIt').classList.toggle('on', l === 'it');
+  document.getElementById('bEn').classList.toggle('on', l === 'en');
+  document.getElementById('cerca').placeholder = l === 'en'
+    ? 'Search a word: tag, reel, key, print…' : 'Cerca una parola: tag, montaggio, chiave, stampa…';
+  costruisciMenu();
+  try { localStorage.setItem('vdm_sito_lingua', l); } catch(e){}
+}
+/* Il menu si scrive da solo dai titoli dei capitoli: aggiungendone uno non
+   c'è un elenco da aggiornare a mano, e non può restare indietro. */
+function costruisciMenu(){
+  var menu = document.getElementById('menu');
+  var en = document.body.classList.contains('en');
+  menu.innerHTML = Array.prototype.map.call(
+    document.querySelectorAll('#capitoli .cap'), function(c){
+      var h = c.querySelector('h2');
+      var sp = h.querySelector(en ? '[data-en]' : '[data-it]');
+      var icona = h.firstChild && h.firstChild.textContent ? h.firstChild.textContent.trim() : '';
+      return '<a href="#' + c.id + '">' + icona + ' ' + (sp ? sp.textContent : '') + '</a>';
+    }).join('');
+}
+/* La ricerca guarda dentro alle domande e alle risposte, non solo ai titoli:
+   chi cerca "flagga" deve trovare il capitolo dei montaggi anche se quella
+   parola nel titolo non c'è. */
+function filtra(q){
+  q = (q || '').trim().toLowerCase();
+  document.querySelectorAll('#capitoli .cap').forEach(function(cap){
+    var qualcosa = false;
+    cap.querySelectorAll('details').forEach(function(d){
+      var dentro = !q || d.textContent.toLowerCase().indexOf(q) >= 0;
+      d.classList.toggle('nascosto', !dentro);
+      if (dentro) qualcosa = true;
+      if (q && dentro) d.open = true;
+      if (!q) d.open = false;
+    });
+    var titolo = cap.querySelector('h2').textContent.toLowerCase().indexOf(q) >= 0;
+    cap.classList.toggle('nascosto', !(qualcosa || (q && titolo)));
+  });
+}
+(function(){
+  var l = null;
+  try { l = localStorage.getItem('vdm_sito_lingua'); } catch(e){}
+  if (!l) l = (navigator.language || 'it').toLowerCase().indexOf('it') === 0 ? 'it' : 'en';
+  lingua(l);
+})();
+</script>
+</body>
+</html>

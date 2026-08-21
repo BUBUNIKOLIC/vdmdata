@@ -1,0 +1,24 @@
+LE SCHERMATE CI SONO GIA'.
+
+Sono state girate con dati inventati (Lega Dimostrativa, Squadra A/B/C...,
+Giocatore 1...12, foto sostituite da una sagoma): non c'e' dentro nessuna
+squadra vera e nessun nome vero. Il filmato che si vede nella scheda Video
+e nel Montaggio e' un campo disegnato, non una partita.
+
+  img/f-video.png       Video e tag           img/en/f-video.png
+  img/f-montaggi.png    Montaggi              img/en/f-montaggi.png
+  img/f-playbook.png    Playbook              img/en/f-playbook.png
+  img/f-scouting.png    Scouting Report       img/en/f-scouting.png
+  img/f-personnel.png   Personnel             img/en/f-personnel.png
+  img/f-practice.png    Allenamenti           img/en/f-practice.png
+  img/f-tiro.png        Registro del tiro     img/en/f-tiro.png
+
+La cartella img/en contiene le stesse sette schermate con l'app in inglese:
+il sito le mostra da solo quando il visitatore mette la lingua su English.
+Se una manca in img/en il sito ripiega su quella italiana; se manca anche
+quella, al suo posto resta un riquadro che dice quale file cerca.
+
+SE UN GIORNO LE RIFAI TU:
+togli prima i nomi veri. Queste immagini le vede chiunque e si possono
+fermare e leggere con calma. Scouting Report e Personnel sono le due
+schermate dove si vedono squadre e giocatori.

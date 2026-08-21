@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>VDM Basketball Coach — Video, scouting e allenamenti per allenatori di pallacanestro</title>
+<meta name="description" content="Il lavoro di una stagione in un posto solo: video taggati, giochi disegnati, scouting dell'avversario, presentazioni alla squadra, allenamenti e registro del tiro. Per Mac e Windows.">
+<meta property="og:title" content="VDM Basketball Coach">
+<meta property="og:description" content="Video, scouting e allenamenti. Tutto per squadra, tutto sul tuo computer.">
+<style>
+  :root{
+    --fondo:#0a1120; --card:rgba(255,255,255,.045); --bordo:rgba(255,255,255,.10);
+    --txt:#e8eef7; --muted:#9fb3cc; --acc:#4c8dff; --acc2:#00e5ff; --oro:#ff9900;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;overflow-x:hidden;}
+  body{margin:0;background:var(--fondo);color:var(--txt);
+    font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;overflow-x:hidden;max-width:100vw;}
+  a{color:var(--acc);text-decoration:none;}
+  a:hover{text-decoration:underline;}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 22px;}
+
+  .bar{position:sticky;top:0;z-index:30;backdrop-filter:blur(14px);
+    background:rgba(10,17,32,.86);border-bottom:1px solid var(--bordo);}
+  .bar .wrap{display:flex;align-items:center;gap:16px;height:60px;}
+  .logo{font-weight:800;letter-spacing:.5px;font-size:17px;white-space:nowrap;}
+  .logo b{color:var(--acc);}
+  .bar nav{margin-left:auto;display:flex;gap:20px;align-items:center;font-size:14px;}
+  .bar nav a{color:var(--muted);}
+  .bar nav a:hover{color:var(--txt);text-decoration:none;}
+  .lang{display:flex;gap:4px;border:1px solid var(--bordo);border-radius:999px;padding:2px;}
+  .lang button{background:none;border:0;color:var(--muted);font:inherit;font-size:12px;font-weight:700;
+    padding:3px 9px;border-radius:999px;cursor:pointer;}
+  .lang button.on{background:var(--acc);color:#04101f;}
+  @media(max-width:720px){ .bar nav a{display:none;} }
+
+  .hero{padding:72px 0 40px;position:relative;}
+  .hero::before{content:'';position:absolute;top:-30%;left:0;right:0;height:90vh;z-index:-1;
+    background:radial-gradient(55% 55% at 25% 0%,rgba(76,141,255,.22),transparent 70%),
+               radial-gradient(45% 45% at 85% 12%,rgba(0,229,255,.11),transparent 70%);}
+  .occhio{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--bordo);
+    background:var(--card);border-radius:999px;padding:5px 13px;font-size:12.5px;color:var(--muted);margin-bottom:20px;}
+  .occhio b{color:var(--acc2);font-weight:700;}
+  h1{font-size:clamp(31px,5.4vw,54px);line-height:1.06;margin:0 0 16px;letter-spacing:-1px;}
+  h1 em{font-style:normal;background:linear-gradient(100deg,var(--acc),var(--acc2));
+    -webkit-background-clip:text;background-clip:text;color:transparent;}
+  p.sub{font-size:clamp(16px,2.1vw,19.5px);color:var(--muted);max-width:640px;margin:0 0 28px;}
+  .cta{display:flex;gap:12px;flex-wrap:wrap;align-items:center;}
+  .btn{display:inline-flex;align-items:center;gap:9px;padding:13px 22px;border-radius:11px;font-weight:700;
+    border:1px solid var(--bordo);background:var(--card);color:var(--txt);cursor:pointer;font-size:15px;}
+  .btn:hover{text-decoration:none;border-color:var(--acc);}
+  .btn.primo{background:linear-gradient(100deg,var(--acc),#2f6fe0);border-color:transparent;color:#04101f;}
+  .btn small{display:block;font-weight:500;font-size:11px;opacity:.75;}
+  .nota{color:var(--muted);font-size:13px;margin-top:16px;}
+
+  /* galleria di schermate */
+  .gal-tasti{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;}
+  .gal-tasti button{border:1px solid var(--bordo);background:var(--card);color:var(--muted);
+    font:inherit;font-size:13.5px;font-weight:700;padding:8px 15px;border-radius:999px;cursor:pointer;}
+  .gal-tasti button:hover{color:var(--txt);border-color:rgba(76,141,255,.5);}
+  .gal-tasti button.on{background:linear-gradient(100deg,var(--acc),#2f6fe0);border-color:transparent;color:#04101f;}
+  /* filmato */
+  .film{margin:40px 0 0;border:1px solid var(--bordo);border-radius:18px;overflow:hidden;
+    background:#060c17;box-shadow:0 40px 90px rgba(0,0,0,.6);position:relative;}
+  .film video,.film img{width:100%;display:block;}
+  .film .manca{aspect-ratio:16/10;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    gap:10px;color:#54688a;font-size:13.5px;text-align:center;padding:26px;
+    background:repeating-linear-gradient(45deg,#0a1526,#0a1526 12px,#0c1a2e 12px,#0c1a2e 24px);}
+  .film .manca .big{font-size:34px;}
+  .didascalia{color:var(--muted);font-size:13px;text-align:center;margin-top:12px;}
+
+  section{padding:60px 0;border-top:1px solid var(--bordo);}
+  h2{font-size:clamp(23px,3.1vw,32px);margin:0 0 10px;letter-spacing:-.4px;}
+  .occhiello{color:var(--acc);font-size:12px;font-weight:800;letter-spacing:.15em;text-transform:uppercase;margin-bottom:10px;}
+  .intro{color:var(--muted);max-width:660px;margin:0 0 32px;}
+
+  /* come funziona */
+  .passi{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px;counter-reset:p;}
+  .passo{border:1px solid var(--bordo);border-radius:14px;padding:22px 20px;background:var(--card);position:relative;}
+  .passo::before{counter-increment:p;content:counter(p);position:absolute;top:-13px;left:20px;
+    width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    background:linear-gradient(140deg,var(--acc),#2f6fe0);color:#04101f;font-weight:800;font-size:13.5px;}
+  .passo h3{margin:8px 0 6px;font-size:16px;}
+  .passo p{margin:0;color:var(--muted);font-size:14.3px;line-height:1.6;}
+
+  .griglia{display:grid;grid-template-columns:repeat(auto-fit,minmax(275px,1fr));gap:16px;}
+  .box{border:1px solid var(--bordo);border-radius:13px;padding:20px;background:var(--card);transition:border-color .15s;}
+  .box:hover{border-color:rgba(76,141,255,.45);}
+  .box h3{margin:0 0 7px;font-size:16.5px;}
+  .box p{margin:0;color:var(--muted);font-size:14.5px;line-height:1.6;}
+  .box .ico{font-size:21px;margin-bottom:9px;display:block;}
+
+  .scarica{display:grid;grid-template-columns:repeat(auto-fit,minmax(255px,1fr));gap:16px;margin-top:26px;}
+  .piatto{border:1px solid var(--bordo);border-radius:13px;padding:22px;background:var(--card);}
+  .piatto h3{margin:0 0 4px;font-size:17px;}
+  .piatto .req{color:var(--muted);font-size:12.5px;margin:0 0 16px;}
+  .piatto .btn{width:100%;justify-content:center;}
+  .prezzo{display:flex;align-items:baseline;gap:10px;margin:6px 0 4px;}
+  .prezzo b{font-size:38px;letter-spacing:-1.4px;}
+  .prezzo span{color:var(--muted);font-size:13px;}
+
+  /* domande */
+  .dom{border-bottom:1px solid var(--bordo);padding:15px 0;}
+  .dom summary{cursor:pointer;font-weight:700;list-style:none;font-size:15.5px;}
+  .dom summary::-webkit-details-marker{display:none;}
+  .dom summary::before{content:'+';color:var(--acc);font-weight:800;display:inline-block;width:20px;}
+  .dom[open] summary::before{content:'–';}
+  .dom p{margin:11px 0 0 20px;color:var(--muted);font-size:14.5px;}
+
+  .bandiere{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px;}
+  .bandiere span{border:1px solid var(--bordo);border-radius:999px;padding:5px 12px;font-size:12.5px;color:var(--muted);}
+
+  footer{border-top:1px solid var(--bordo);padding:30px 0 54px;color:var(--muted);font-size:13.5px;}
+  footer .wrap{display:flex;gap:18px;flex-wrap:wrap;align-items:center;}
+  footer nav{margin-left:auto;display:flex;gap:18px;flex-wrap:wrap;}
+  [data-en]{display:none;}
+  body.en [data-it]{display:none;}
+  body.en [data-en]{display:initial;}
+  body.en p[data-en],body.en div[data-en],body.en h1[data-en],body.en h2[data-en],body.en h3[data-en]{display:block;}
+</style>
+</head>
+<body>
+
+<div class="bar"><div class="wrap">
+  <span class="logo">VDM <b>Basketball Coach</b></span>
+  <nav>
+    <a href="#come" data-it>Come funziona</a><a href="#come" data-en>How it works</a>
+    <a href="#cosa" data-it>Cosa fa</a><a href="#cosa" data-en>Features</a>
+    <a href="istruzioni.html" data-it>Istruzioni</a><a href="istruzioni.html" data-en>Guide</a>
+    <a href="#scarica" data-it>Scarica</a><a href="#scarica" data-en>Download</a>
+    <span class="lang"><button id="bIt" class="on" onclick="lingua('it')">IT</button><button id="bEn" onclick="lingua('en')">EN</button></span>
+  </nav>
+</div></div>
+
+<div class="hero"><div class="wrap">
+  <span class="occhio" data-it>🏀 Scritto da un allenatore, per gli allenatori · <b>12 lingue</b></span>
+  <span class="occhio" data-en>🏀 Written by a coach, for coaches · <b>12 languages</b></span>
+  <h1 data-it>Il lavoro di una stagione<br><em>in un posto solo.</em></h1>
+  <h1 data-en>A whole season<br><em>in one place.</em></h1>
+  <p class="sub" data-it>Video taggati, giochi disegnati, scouting dell'avversario, presentazioni alla squadra, allenamenti e registro del tiro. Tutto per squadra, tutto sul tuo computer.</p>
+  <p class="sub" data-en>Tagged film, drawn plays, opponent scouting, team presentations, practice plans and a shooting log. All by team, all on your own computer.</p>
+  <div class="cta">
+    <a class="btn primo" href="#scarica" data-it>Scarica per Mac e Windows</a>
+    <a class="btn primo" href="#scarica" data-en>Download for Mac and Windows</a>
+    <a class="btn" href="#come" data-it>Guarda come funziona</a>
+    <a class="btn" href="#come" data-en>See how it works</a>
+  </div>
+  <p class="nota" data-it>Si paga una volta. Nessun abbonamento, nessun account, nessun dato che esce dal tuo computer.</p>
+  <p class="nota" data-en>Pay once. No subscription, no account, no data leaving your computer.</p>
+</div></div>
+
+<section id="come"><div class="wrap">
+  <div class="occhiello" data-it>Come funziona</div><div class="occhiello" data-en>How it works</div>
+  <h2 data-it>Dalla partita alla riunione tecnica, senza uscire dal programma</h2>
+  <h2 data-en>From the game to the staff meeting, without leaving the program</h2>
+  <p class="intro" data-it>Una schermata per ogni cosa che fa: si importa la partita, si tagga guardandola, e da lì escono montaggi, fogli e presentazioni.</p>
+  <p class="intro" data-en>One screen for each thing it does: import the game, tag it as you watch, and out come reels, sheets and presentations.</p>
+
+  <div class="gal-tasti" id="galTasti"></div>
+  <div class="film" id="galCornice"></div>
+  <p class="didascalia" id="galDidascalia"></p>
+
+  <div class="passi" style="margin-top:40px;">
+    <div class="passo">
+      <h3 data-it>Importi la partita</h3><h3 data-en>Import the game</h3>
+      <p data-it>Trascini il filmato dentro VDM. La pulsantiera delle giocate si adatta da sola alla squadra che incontri.</p>
+      <p data-en>Drag the film into VDM. The play buttons adapt to the team you are facing.</p></div>
+    <div class="passo">
+      <h3 data-it>Tagghi guardando</h3><h3 data-en>Tag as you watch</h3>
+      <p data-it>Un tasto per ogni giocata. Ogni tag diventa una clip con un nome, che puoi accorciare e assegnare a un giocatore.</p>
+      <p data-en>One button per play. Each tag becomes a named clip you can trim and assign to a player.</p></div>
+    <div class="passo">
+      <h3 data-it>Monti e stampi</h3><h3 data-en>Build and print</h3>
+      <p data-it>Dalle clip esce un filmato solo per lo spogliatoio. Dagli stessi dati escono scouting report, personnel e playbook su A4.</p>
+      <p data-en>The clips become one film for the locker room. The same data prints as scouting report, personnel and playbook on A4.</p></div>
+    <div class="passo">
+      <h3 data-it>Proietti alla squadra</h3><h3 data-en>Present to the team</h3>
+      <p data-it>Metti in fila filmati, schede e diagrammi e proietti, con i capitoli e la barra del tempo.</p>
+      <p data-en>Line up films, cards and diagrams and project them, with chapters and a time bar.</p></div>
+  </div>
+</div></section>
+
+<section id="cosa"><div class="wrap">
+  <div class="occhiello" data-it>Cosa fa</div><div class="occhiello" data-en>What it does</div>
+  <h2 data-it>Quattro lavori che di solito stanno in quattro posti diversi</h2>
+  <h2 data-en>Four jobs that usually live in four different places</h2>
+  <p class="intro" data-it>I video della partita, i giochi disegnati, lo studio dell'avversario e la programmazione degli allenamenti. Nello stesso programma, organizzati per squadra.</p>
+  <p class="intro" data-en>Game film, drawn plays, opponent scouting and practice planning. In one program, organised by team.</p>
+
+  <div class="griglia">
+    <div class="box"><span class="ico">🎥</span><h3 data-it>Video e tag</h3><h3 data-en>Film and tagging</h3>
+      <p data-it>Ogni giocata diventa una clip con un nome, che puoi accorciare, assegnare a un giocatore e disegnarci sopra. I tag rapidi prendono gli ultimi secondi, per quando la giocata è già passata.</p>
+      <p data-en>Every play becomes a named clip you can trim, assign to a player and draw on. Quick tags grab the last few seconds, for when the play has already happened.</p></div>
+    <div class="box"><span class="ico">🎬</span><h3 data-it>Montaggi</h3><h3 data-en>Reels</h3>
+      <p data-it>Dalle clip esce un filmato solo, nell'ordine che decidi tu, con il nome del gioco sopra e una copertina davanti. Un gioco, una situazione difensiva, o il filmato di un singolo giocatore.</p>
+      <p data-en>The clips become a single film, in your order, with the play name on screen and a cover card. One play, a defensive situation, or one player's reel.</p></div>
+    <div class="box"><span class="ico">📋</span><h3 data-it>Playbook</h3><h3 data-en>Playbook</h3>
+      <p data-it>Quattro campi in fila per ogni gioco: disegni il primo e i successivi ereditano da soli. La palla segue la logica: se passi da 1 a 4, nel campo dopo ce l'ha già la 4.</p>
+      <p data-en>Four courts in a row per play: draw the first and the rest inherit it. The ball follows the logic: pass from 1 to 4 and next court the ball is already there.</p></div>
+    <div class="box"><span class="ico">🔎</span><h3 data-it>Scouting Report</h3><h3 data-en>Scouting Report</h3>
+      <p data-it>Una scheda per ogni avversario, con punti di forza, cosa serve per vincere, le scelte tattiche e i giocatori da studiare uno per uno. Esce su A4.</p>
+      <p data-en>One sheet per opponent: strengths, what it takes to win, tactical choices and the players to study one by one. Prints on A4.</p></div>
+    <div class="box"><span class="ico">👥</span><h3 data-it>Personnel</h3><h3 data-en>Personnel</h3>
+      <p data-it>Le schede giocatore con foto, numero, ruolo, altezza, medie e caratteristiche, disposte come vuoi tu sul foglio che porti in panchina.</p>
+      <p data-en>Player cards with photo, number, position, height, averages and traits, laid out your way on the sheet you take to the bench.</p></div>
+    <div class="box"><span class="ico">🎯</span><h3 data-it>Allenamenti e tiro</h3><h3 data-en>Practice and shooting</h3>
+      <p data-it>Piani con fasi, tempi, esercizi e diagrammi. E per tutta la stagione le sedute di tiro, quantità e percentuali, giocatore per giocatore, con l'andamento nel tempo.</p>
+      <p data-en>Plans with phases, timings, drills and diagrams. And across the season, shooting sessions with makes, attempts and percentages, player by player, with the trend.</p></div>
+    <div class="box"><span class="ico">📽️</span><h3 data-it>Presentazioni</h3><h3 data-en>Presentations</h3>
+      <p data-it>Filmati, schede e diagrammi in fila, proiettati alla squadra con capitoli e barra del tempo.</p>
+      <p data-en>Films, cards and diagrams in a row, projected to the team with chapters and a time bar.</p></div>
+    <div class="box"><span class="ico">🤝</span><h3 data-it>Lavoro in comune</h3><h3 data-en>Shared work</h3>
+      <p data-it>Più allenatori sulla stessa squadra, attraverso una cartella condivisa. Ognuno tiene le squadre che sta guardando, il resto si aggiorna col lavoro degli altri.</p>
+      <p data-en>Several coaches on one team, through a shared folder. Each holds the teams they are looking at; the rest updates with the others' work.</p></div>
+    <div class="box"><span class="ico">🗄️</span><h3 data-it>Archivio</h3><h3 data-en>Archive</h3>
+      <p data-it>Scouting report, personnel e playbook si salvano in archivio: li riapri quando vuoi, li modifichi, li riporti sul foglio o li copi su un'altra squadra.</p>
+      <p data-en>Scouting reports, personnel and playbooks save to an archive: reopen, edit, put them back on the sheet or copy them to another team.</p></div>
+  </div>
+
+  <div class="bandiere">
+    <span>Italiano</span><span>English</span><span>Español</span><span>Français</span><span>中文</span>
+    <span>Русский</span><span>Deutsch</span><span>Lietuvių</span><span>Polski</span><span>日本語</span>
+    <span>Português</span><span>한국어</span>
+  </div>
+</div></section>
+
+<section id="scarica"><div class="wrap">
+  <div class="occhiello" data-it>Scarica</div><div class="occhiello" data-en>Download</div>
+  <h2 data-it>Una licenza, il tuo computer, per sempre</h2>
+  <h2 data-en>One licence, your computer, forever</h2>
+  <p class="intro" data-it>Nessun abbonamento e nessun rinnovo: si compra una volta e si usa. Il tuo lavoro resta sul tuo disco.</p>
+  <p class="intro" data-en>No subscription and no renewals: buy once and use it. Your work stays on your own disk.</p>
+
+  <div class="prezzo"><b>59,99 €</b><span data-it>IVA inclusa · pagamento unico</span><span data-en>VAT included · one-time payment</span></div>
+
+  <div class="scarica">
+    <div class="piatto">
+      <h3>macOS</h3>
+      <p class="req" data-it>macOS 11 o successivo · Apple Silicon e Intel</p>
+      <p class="req" data-en>macOS 11 or later · Apple Silicon and Intel</p>
+      <a class="btn primo" href="#" id="dlMac" data-it>Scarica per Mac <small>file .dmg</small></a>
+      <a class="btn primo" href="#" data-en>Download for Mac <small>.dmg file</small></a>
+    </div>
+    <div class="piatto">
+      <h3>Windows</h3>
+      <p class="req" data-it>Windows 10 e 11 · 64 bit</p>
+      <p class="req" data-en>Windows 10 and 11 · 64-bit</p>
+      <a class="btn primo" href="#" id="dlWin" data-it>Scarica per Windows <small>file .exe</small></a>
+      <a class="btn primo" href="#" data-en>Download for Windows <small>.exe file</small></a>
+    </div>
+    <div class="piatto">
+      <h3>Mac App Store</h3>
+      <p class="req" data-it>Aggiornamenti automatici dall'App Store</p>
+      <p class="req" data-en>Automatic updates from the App Store</p>
+      <a class="btn" href="#" id="dlAsc" data-it>Presto disponibile</a>
+      <a class="btn" href="#" data-en>Coming soon</a>
+    </div>
+  </div>
+  <p class="nota" data-it>Dopo l'acquisto ricevi una chiave legata al tuo computer. Se cambi computer, scrivimi e te ne faccio una nuova.</p>
+  <p class="nota" data-en>After purchase you receive a key tied to your computer. If you change computer, write to me and I'll issue a new one.</p>
+</div></section>
+
+<section id="domande"><div class="wrap">
+  <div class="occhiello" data-it>Domande</div><div class="occhiello" data-en>Questions</div>
+  <h2 data-it>Le cose che mi chiedono più spesso</h2>
+  <h2 data-en>What I get asked most</h2>
+  <p class="intro" data-it>Le altre stanno nelle <a href="istruzioni.html">istruzioni complete</a>, divise per argomento.</p>
+  <p class="intro" data-en>The rest are in the <a href="istruzioni.html">full guide</a>, by topic.</p>
+
+  <details class="dom"><summary><span data-it>Il mio lavoro va su internet?</span><span data-en>Does my work go on the internet?</span></summary>
+    <p data-it>No. Roster, video, playbook, scouting e allenamenti restano sul disco del tuo computer. VDM non ha account e non manda niente a nessun server.</p>
+    <p data-en>No. Rosters, film, playbooks, scouting and practices stay on your computer's disk. VDM has no accounts and sends nothing to any server.</p></details>
+  <details class="dom"><summary><span data-it>Serve internet per usarlo?</span><span data-en>Do I need internet to use it?</span></summary>
+    <p data-it>No, si lavora senza rete. Serve solo se usi il lavoro in comune con altri allenatori, e in quel caso dipende dalla cartella che condividete.</p>
+    <p data-en>No, it works offline. You only need it for shared work with other coaches, and there it depends on the folder you share.</p></details>
+  <details class="dom"><summary><span data-it>Posso provarlo prima di comprarlo?</span><span data-en>Can I try it before buying?</span></summary>
+    <p data-it>Sì, c'è una versione di prova a invito, con qualche limite. Scrivimi e te la mando con la sua chiave.</p>
+    <p data-en>Yes, there is an invite-only trial version with a few limits. Write to me and I'll send it with its key.</p></details>
+  <details class="dom"><summary><span data-it>Che formati video legge?</span><span data-en>Which video formats does it read?</span></summary>
+    <p data-it>Quelli che legge il tuo computer: mp4, mov, m4v, webm. Se un filmato non si apre, spesso basta convertirlo in mp4.</p>
+    <p data-en>The ones your computer reads: mp4, mov, m4v, webm. If a film won't open, converting it to mp4 usually solves it.</p></details>
+  <details class="dom"><summary><span data-it>Vale anche per il basket maschile e giovanile?</span><span data-en>Does it work for men's and youth basketball?</span></summary>
+    <p data-it>Sì. Non c'è niente legato a una categoria: giochi, difese e caselle li decidi tu e li rinomini come vuoi.</p>
+    <p data-en>Yes. Nothing is tied to a category: plays, defences and buttons are yours to name and change.</p></details>
+</div></section>
+
+<footer><div class="wrap">
+  <span>© 2026 VDM DATA</span>
+  <nav>
+    <a href="istruzioni.html" data-it>Istruzioni</a><a href="istruzioni.html" data-en>Guide</a>
+    <a href="privacy.html" data-it>Informativa privacy</a><a href="privacy.html" data-en>Privacy policy</a>
+    <a href="assistenza.html" data-it>Assistenza</a><a href="assistenza.html" data-en>Support</a>
+    <a href="mailto:viarkdimeglio@gmail.com">viarkdimeglio@gmail.com</a>
+  </nav>
+</div></footer>
+
+<script>
+/* LE SCHERMATE, UNA PER FUNZIONE.
+ * Niente filmato: le schermate bastano, si aggiornano una alla volta quando
+ * cambia il programma, e soprattutto si scelgono — su un filmato scorrono
+ * anche i nomi delle squadre vere, qui no.
+ * Se un'immagine non c'e' ancora, al suo posto resta un riquadro che dice
+ * quale file manca: il sito non si rompe e si pubblica lo stesso. */
+const GALLERIA = [
+  { f: 'video',        img: 'img/f-video.png',        it: 'Video e tag',   en: 'Film and tagging',
+    dit: 'La partita, le giocate su due colonne e il contatore che sale a ogni tag.',
+    den: 'The game, the plays in two columns and the counter rising with every tag.' },
+  { f: 'montaggi',     img: 'img/f-montaggi.png',     it: 'Montaggi',      en: 'Reels',
+    dit: 'Le clip flaggate diventano un filmato solo, con copertina e nome del gioco.',
+    den: 'Flagged clips become one film, with a cover card and the play name.' },
+  { f: 'playbook',     img: 'img/f-playbook.png',     it: 'Playbook',      en: 'Playbook',
+    dit: 'Quattro campi in fila. Disegni il primo e il successivo eredita da solo quello che c\'era prima: non ridisegni cinque volte gli stessi cinque giocatori.',
+    den: 'Four courts in a row. Draw the first and the next one inherits what came before: you don\'t redraw the same five players five times.' },
+  { f: 'scouting',     img: 'img/f-scouting.png',     it: 'Scouting Report', en: 'Scouting Report',
+    dit: 'Il foglio dell\'avversario su A4, pronto per la riunione tecnica.',
+    den: 'The opponent sheet on A4, ready for the staff meeting.' },
+  { f: 'personnel',    img: 'img/f-personnel.png',    it: 'Personnel',     en: 'Personnel',
+    dit: 'Le schede giocatore con foto, medie e caratteristiche.',
+    den: 'Player cards with photo, averages and traits.' },
+  { f: 'practice',     img: 'img/f-practice.png',     it: 'Allenamenti',   en: 'Practice',
+    dit: 'Il piano di allenamento con fasi, tempi, esercizi e diagrammi di campo, pronto da stampare.',
+    den: 'The practice plan with phases, timings, drills and court diagrams, ready to print.' },
+  { f: 'tiro',         img: 'img/f-tiro.png',         it: 'Registro del tiro', en: 'Shooting log',
+    dit: 'Le sedute di tiro di tutta la stagione, con l\'andamento nel tempo.',
+    den: 'The whole season of shooting sessions, with the trend over time.' },
+];
+let galAttiva = 0;
+function galDisegna(){
+  const en = document.body.classList.contains('en');
+  const g = GALLERIA[galAttiva];
+  document.getElementById('galTasti').innerHTML = GALLERIA.map((x, i) =>
+    '<button class="' + (i === galAttiva ? 'on' : '') + '" onclick="galVai(' + i + ')">' +
+    (en ? x.en : x.it) + '</button>').join('');
+  /* Due serie di schermate: l'app parla dodici lingue e il coach straniero
+   * deve vedere i menu nella sua. In italiano si prende img/f-*.png, in
+   * inglese img/en/f-*.png. Se la versione inglese manca si ricade su
+   * quella italiana invece di lasciare il buco (primo onerror), e solo se
+   * manca anche quella compare il riquadro "manca il file". */
+  const via = en ? g.img.replace('img/', 'img/en/') : g.img;
+  document.getElementById('galCornice').innerHTML =
+    '<img src="' + via + '" alt="' + (en ? g.en : g.it) + '" ' +
+    'data-ripiego="' + g.img + '" ' +
+    'onerror="galRipiego(this, ' + galAttiva + ')">';
+  document.getElementById('galDidascalia').textContent = en ? g.den : g.dit;
+}
+function galRipiego(img, i){
+  const alt = img.getAttribute('data-ripiego');
+  if (alt && img.getAttribute('src') !== alt) { img.removeAttribute('data-ripiego'); img.setAttribute('src', alt); return; }
+  img.outerHTML = galManca(i);
+}
+function galManca(i){
+  const g = GALLERIA[i];
+  return '<div class="manca"><span class="big">🖼️</span>' +
+    '<span>qui va la schermata «' + g.it + '» — ' + g.img + '</span>' +
+    '<span style="font-size:12px;opacity:.7;">falla con SCHERMATE-APPSTORE.command</span></div>';
+}
+function galVai(i){ galAttiva = i; galDisegna(); }
+
+function lingua(l){
+  document.body.classList.toggle('en', l === 'en');
+  document.documentElement.lang = l;
+  document.getElementById('bIt').classList.toggle('on', l === 'it');
+  document.getElementById('bEn').classList.toggle('on', l === 'en');
+  try { localStorage.setItem('vdm_sito_lingua', l); } catch(e){}
+  galDisegna();
+}
+(function(){
+  var l = null;
+  try { l = localStorage.getItem('vdm_sito_lingua'); } catch(e){}
+  if (!l) l = (navigator.language || 'it').toLowerCase().indexOf('it') === 0 ? 'it' : 'en';
+  lingua(l);
+})();
+</script>
+</body>
+</html>
