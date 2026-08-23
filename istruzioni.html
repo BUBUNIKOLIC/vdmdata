@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -19,6 +19,14 @@
   .bar .wrap{display:flex;align-items:center;gap:16px;height:60px;}
   .logo{font-weight:800;letter-spacing:.5px;font-size:17px;white-space:nowrap;} .logo b{color:var(--acc);}
   .bar nav{margin-left:auto;display:flex;gap:18px;align-items:center;font-size:14px;} .bar nav a{color:var(--muted);}
+  /* sul telefono la testata non ci sta su una riga sola: il nome si accorcia
+     e i collegamenti si stringono, invece di spingere fuori la pagina */
+  @media(max-width:520px){
+    .bar .wrap{gap:8px;}
+    .bar .logo b{display:none;}
+    .bar .logo::after{content:' Coach';font-weight:800;color:var(--acc);}
+    .bar nav{gap:10px;font-size:13px;}
+  }
   .lang{display:flex;gap:4px;border:1px solid var(--bordo);border-radius:999px;padding:2px;}
   .lang button{background:none;border:0;color:var(--muted);font:inherit;font-size:12px;font-weight:700;
     padding:3px 9px;border-radius:999px;cursor:pointer;}
@@ -59,13 +67,24 @@
 </style>
 </head>
 <body>
+<script>
+/* La lingua si decide qui, prima che la pagina si disegni, se no si vede un
+   lampo di italiano prima che il resto dello script arrivi in fondo.
+   Di partenza il sito e' in inglese: i biglietti girano a un mondiale e
+   l'app parla 12 lingue. Chi tocca IT se lo ritrova ricordato. */
+(function(){
+  var l = null;
+  try { l = localStorage.getItem('vdm_sito_lingua'); } catch(e){}
+  if (l !== 'it') document.body.className += (document.body.className ? ' ' : '') + 'en';
+})();
+</script>
 
 <div class="bar"><div class="wrap">
   <span class="logo">VDM <b>Basketball Coach</b></span>
   <nav>
     <a href="index.html">Home</a>
     <a href="assistenza.html" data-it>Assistenza</a><a href="assistenza.html" data-en>Support</a>
-    <span class="lang"><button id="bIt" class="on" onclick="lingua('it')">IT</button><button id="bEn" onclick="lingua('en')">EN</button></span>
+    <span class="lang"><button id="bIt" onclick="lingua('it')">IT</button><button id="bEn" class="on" onclick="lingua('en')">EN</button></span>
   </nav>
 </div></div>
 
@@ -222,7 +241,7 @@ function filtra(q){
 (function(){
   var l = null;
   try { l = localStorage.getItem('vdm_sito_lingua'); } catch(e){}
-  if (!l) l = (navigator.language || 'it').toLowerCase().indexOf('it') === 0 ? 'it' : 'en';
+  if (l !== 'it' && l !== 'en') l = 'en';   // di partenza inglese, per tutti
   lingua(l);
 })();
 </script>

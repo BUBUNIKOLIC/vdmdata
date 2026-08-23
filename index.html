@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -282,6 +282,17 @@
 </style>
 </head>
 <body>
+<script>
+/* La lingua si decide qui, prima che la pagina si disegni, se no si vede un
+   lampo di italiano prima che il resto dello script arrivi in fondo.
+   Di partenza il sito e' in inglese: i biglietti girano a un mondiale e
+   l'app parla 12 lingue. Chi tocca IT se lo ritrova ricordato. */
+(function(){
+  var l = null;
+  try { l = localStorage.getItem('vdm_sito_lingua'); } catch(e){}
+  if (l !== 'it') document.body.className += (document.body.className ? ' ' : '') + 'en';
+})();
+</script>
 
 <div class="bar"><div class="wrap">
   <span class="logo">VDM <b>Basketball Coach</b></span>
@@ -292,7 +303,7 @@
     <a href="#cosa" data-it>Cosa fa</a><a href="#cosa" data-en>Features</a>
     <a href="istruzioni.html" data-it>Istruzioni</a><a href="istruzioni.html" data-en>Guide</a>
     <a href="#scarica" data-it>Scarica</a><a href="#scarica" data-en>Download</a>
-    <span class="lang"><button id="bIt" class="on" onclick="lingua('it')">IT</button><button id="bEn" onclick="lingua('en')">EN</button></span>
+    <span class="lang"><button id="bIt" onclick="lingua('it')">IT</button><button id="bEn" class="on" onclick="lingua('en')">EN</button></span>
   </nav>
 </div></div>
 
@@ -534,8 +545,8 @@
     <p data-it>No, si lavora senza rete. Serve solo se usi il lavoro in comune con altri allenatori, e in quel caso dipende dalla cartella che condividete.</p>
     <p data-en>No, it works offline. You only need it for shared work with other coaches, and there it depends on the folder you share.</p></details>
   <details class="dom"><summary><span data-it>Posso provarlo prima di comprarlo?</span><span data-en>Can I try it before buying?</span></summary>
-    <p data-it>Sì, c'è una versione di prova a invito, con qualche limite. Scrivimi e te la mando con la sua chiave.</p>
-    <p data-en>Yes, there is an invite-only trial version with a few limits. Write to me and I'll send it with its key.</p></details>
+    <p data-it>Sì. Quello che scarichi da questo sito è il programma intero e funziona <b>14 giorni</b>, senza registrazione, senza carta di credito e senza limiti sulle funzioni. Passati i 14 giorni serve la licenza, e il lavoro che hai fatto resta dov'è.</p>
+    <p data-en>Yes. What you download from this site is the whole program and it runs for <b>14 days</b> — no sign-up, no credit card, no features held back. After the 14 days you need a licence, and the work you have done stays where it is.</p></details>
   <details class="dom"><summary><span data-it>Che formati video legge?</span><span data-en>Which video formats does it read?</span></summary>
     <p data-it>Quelli che legge il tuo computer: mp4, mov, m4v, webm. Se un filmato non si apre, spesso basta convertirlo in mp4.</p>
     <p data-en>The ones your computer reads: mp4, mov, m4v, webm. If a film won't open, converting it to mp4 usually solves it.</p></details>
@@ -729,7 +740,7 @@ function lingua(l){
 (function(){
   var l = null;
   try { l = localStorage.getItem('vdm_sito_lingua'); } catch(e){}
-  if (!l) l = (navigator.language || 'it').toLowerCase().indexOf('it') === 0 ? 'it' : 'en';
+  if (l !== 'it' && l !== 'en') l = 'en';   // di partenza inglese, per tutti
   lingua(l);
 })();
 </script>

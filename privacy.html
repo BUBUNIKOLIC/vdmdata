@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -21,6 +21,14 @@
   footer{margin-top:44px;padding-top:18px;border-top:1px solid #dde4ec;color:var(--muted);font-size:13px;}
   .lang{margin-top:56px;padding-top:26px;border-top:2px dashed #cbd5e1;}
   a{color:var(--blu);}
+
+  /* interruttore di lingua, coerente con le altre pagine */
+  .swl{position:fixed;top:14px;right:14px;z-index:50;display:flex;border:2px solid rgba(255,255,255,.18);
+       background:rgba(6,10,20,.86);backdrop-filter:blur(6px);}
+  .swl button{background:none;border:0;color:#8f9fbd;font:inherit;font-size:11.5px;font-weight:800;
+       letter-spacing:.06em;padding:6px 11px;cursor:pointer;}
+  .swl button.on{background:linear-gradient(120deg,#00eaff,#4c8dff);color:#04060d;}
+  @media(max-width:640px){.swl{top:8px;right:8px;}}
 </style>
 </head>
 <body>
@@ -87,7 +95,7 @@ questa pagina e la data indicata in alto prima che la modifica entri in vigore.<
 <h2>Contatti</h2>
 <p>VDM DATA — <a href="mailto:info@vdmdata.it">info@vdmdata.it</a></p>
 
-<div class="lang">
+<div class="lang" id="parteEn">
 <h1 style="font-size:22px;">VDM Basketball Coach — Privacy Policy</h1>
 <div class="sub">VDM DATA · last updated: 20 August 2026</div>
 
@@ -146,5 +154,33 @@ shown above before the change takes effect.</p>
 
 <footer>© 2026 VDM DATA · VDM Basketball Coach</footer>
 </div>
+
+<div class="swl"><button id="bIt" onclick="lingua('it')">IT</button><button id="bEn" onclick="lingua('en')">EN</button></div>
+<script>
+/* Le due pagine hanno il testo italiano e sotto quello inglese. Invece di
+   farli scorrere tutti e due, si mostra solo quello della lingua scelta:
+   il sito parte in inglese, chi vuole l'italiano tocca IT e se lo ritrova
+   ricordato anche sulle altre pagine. */
+function lingua(l){
+  var en = (l === 'en');
+  var p = document.getElementById('parteEn');
+  Array.prototype.forEach.call(p.parentNode.children, function(c){
+    if (c !== p) c.style.display = en ? 'none' : '';
+  });
+  p.style.display = en ? 'block' : 'none';
+  p.style.marginTop = en ? '0' : '';
+  p.style.paddingTop = en ? '0' : '';
+  p.style.borderTop = en ? 'none' : '';
+  document.documentElement.lang = l;
+  document.getElementById('bIt').classList.toggle('on', !en);
+  document.getElementById('bEn').classList.toggle('on', en);
+  try { localStorage.setItem('vdm_sito_lingua', l); } catch(e){}
+}
+(function(){
+  var l = null;
+  try { l = localStorage.getItem('vdm_sito_lingua'); } catch(e){}
+  lingua(l === 'it' ? 'it' : 'en');
+})();
+</script>
 </body>
 </html>

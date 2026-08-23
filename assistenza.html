@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -33,6 +33,14 @@
   footer .wrap{display:flex;gap:18px;flex-wrap:wrap;}
   footer nav{margin-left:auto;display:flex;gap:18px;}
   .en{margin-top:56px;padding-top:26px;border-top:2px dashed rgba(255,255,255,.14);}
+
+  /* interruttore di lingua, coerente con le altre pagine */
+  .swl{position:fixed;top:14px;right:14px;z-index:50;display:flex;border:2px solid rgba(255,255,255,.18);
+       background:rgba(6,10,20,.86);backdrop-filter:blur(6px);}
+  .swl button{background:none;border:0;color:#8f9fbd;font:inherit;font-size:11.5px;font-weight:800;
+       letter-spacing:.06em;padding:6px 11px;cursor:pointer;}
+  .swl button.on{background:linear-gradient(120deg,#00eaff,#4c8dff);color:#04060d;}
+  @media(max-width:640px){.swl{top:8px;right:8px;}}
 </style>
 </head>
 <body>
@@ -74,14 +82,35 @@
   <details class="dom"><summary>Posso chiedere una funzione nuova?</summary>
     <p>Sì, e sono le richieste che mi servono di più. VDM è scritto da un allenatore per gli allenatori: buona parte di quello che c'è dentro è nata dalla frase «sarebbe utile se…».</p></details>
 
-  <div class="en">
+  <div class="en" id="parteEn">
     <h1 style="font-size:24px;">Support</h1>
     <p class="sotto">I answer personally. There is no call centre.</p>
     <div class="riq">
       <p><b>Write to me:</b> <a href="mailto:info@vdmdata.it">info@vdmdata.it</a></p>
       <p style="margin:0;color:var(--muted);font-size:14px;">I reply within a couple of working days. If it's an error inside the program, tell me <b>what you were doing</b> when it happened and attach a screenshot — it gets solved much faster.</p>
     </div>
-    <p style="color:var(--muted);font-size:14.5px;">Licences are tied to one computer: open VDM, press the key button in the top bar, send me your machine code and I'll send back your key. Changed computer? Write to me and I'll issue a new one at no cost. Your work never leaves your own disk: VDM has no accounts and no servers.</p>
+    <h2>Frequently asked</h2>
+
+    <details class="dom"><summary>I bought a licence: how do I activate it?</summary>
+      <p>Open VDM, press the <b>key</b> button at the top of the bar and read your <b>machine code</b>. Send it to me by e-mail and I'll reply with your key, which you paste into the same box to activate. The licence is tied to that computer.</p></details>
+
+    <details class="dom"><summary>I changed computer &mdash; does the licence move with me?</summary>
+      <p>Yes. Write to me with the machine code of the new computer and I'll issue a new key, at no cost. The old one stops working.</p></details>
+
+    <details class="dom"><summary>My Mac says the application can't be opened</summary>
+      <p>If the icon turns into a crossed-out circle, you downloaded the wrong package for your processor. Check under  &rarr; <i>About This Mac</i> whether you have an Apple chip or an Intel one, and write to me: I'll send you the right one.</p></details>
+
+    <details class="dom"><summary>Where does my work end up? Does it go online?</summary>
+      <p>No. Rosters, film, playbooks, scouting and practice plans stay on your own computer's disk. VDM has no accounts and sends nothing to any server. If you use shared work, the files pass only through the shared folder you choose yourself.</p></details>
+
+    <details class="dom"><summary>How do I make sure I don't lose my work?</summary>
+      <p>From the program's menu you can export all your work into a single file. Do it every now and then and keep it on an external disk or in a synced folder: it's the simplest way to sleep soundly. The same file is what you use to carry your work to another computer.</p></details>
+
+    <details class="dom"><summary>Can several coaches work on the same team?</summary>
+      <p>Yes, through a shared folder on a network or a common disk. Each coach keeps the teams they are working on, and the rest updates with the others' work. Every send leaves a copy in the history, so you can always go back.</p></details>
+
+    <details class="dom"><summary>Can I ask for a new feature?</summary>
+      <p>Yes, and those are the requests I need most. VDM is written by a coach for coaches: a good part of what is in it was born from the words &laquo;it would be useful if&hellip;&raquo;.</p></details>
   </div>
 </div>
 
@@ -89,5 +118,33 @@
   <span>© 2026 VDM DATA</span>
   <nav><a href="index.html">Home</a><a href="privacy.html">Privacy</a></nav>
 </div></footer>
+
+<div class="swl"><button id="bIt" onclick="lingua('it')">IT</button><button id="bEn" onclick="lingua('en')">EN</button></div>
+<script>
+/* Le due pagine hanno il testo italiano e sotto quello inglese. Invece di
+   farli scorrere tutti e due, si mostra solo quello della lingua scelta:
+   il sito parte in inglese, chi vuole l'italiano tocca IT e se lo ritrova
+   ricordato anche sulle altre pagine. */
+function lingua(l){
+  var en = (l === 'en');
+  var p = document.getElementById('parteEn');
+  Array.prototype.forEach.call(p.parentNode.children, function(c){
+    if (c !== p) c.style.display = en ? 'none' : '';
+  });
+  p.style.display = en ? 'block' : 'none';
+  p.style.marginTop = en ? '0' : '';
+  p.style.paddingTop = en ? '0' : '';
+  p.style.borderTop = en ? 'none' : '';
+  document.documentElement.lang = l;
+  document.getElementById('bIt').classList.toggle('on', !en);
+  document.getElementById('bEn').classList.toggle('on', en);
+  try { localStorage.setItem('vdm_sito_lingua', l); } catch(e){}
+}
+(function(){
+  var l = null;
+  try { l = localStorage.getItem('vdm_sito_lingua'); } catch(e){}
+  lingua(l === 'it' ? 'it' : 'en');
+})();
+</script>
 </body>
 </html>
