@@ -289,7 +289,7 @@
    l'app parla 12 lingue. Chi tocca IT se lo ritrova ricordato. */
 (function(){
   var l = null;
-  try { l = localStorage.getItem('vdm_sito_lingua'); } catch(e){}
+  try { l = localStorage.getItem('vdm_lingua_scelta'); } catch(e){}
   if (l !== 'it') document.body.className += (document.body.className ? ' ' : '') + 'en';
 })();
 </script>
@@ -303,7 +303,7 @@
     <a href="#cosa" data-it>Cosa fa</a><a href="#cosa" data-en>Features</a>
     <a href="istruzioni.html" data-it>Istruzioni</a><a href="istruzioni.html" data-en>Guide</a>
     <a href="#scarica" data-it>Scarica</a><a href="#scarica" data-en>Download</a>
-    <span class="lang"><button id="bIt" onclick="lingua('it')">IT</button><button id="bEn" class="on" onclick="lingua('en')">EN</button></span>
+    <span class="lang"><button id="bIt" onclick="lingua('it', true)">IT</button><button id="bEn" class="on" onclick="lingua('en', true)">EN</button></span>
   </nav>
 </div></div>
 
@@ -728,18 +728,18 @@ function fxAvvia(){
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', fxAvvia);
 else fxAvvia();
 
-function lingua(l){
+function lingua(l, scelta){
   document.body.classList.toggle('en', l === 'en');
   document.documentElement.lang = l;
   document.getElementById('bIt').classList.toggle('on', l === 'it');
   document.getElementById('bEn').classList.toggle('on', l === 'en');
-  try { localStorage.setItem('vdm_sito_lingua', l); } catch(e){}
+  try { if (scelta) localStorage.setItem('vdm_lingua_scelta', l); } catch(e){}
   galDisegna();
   fogliDisegna();
 }
 (function(){
   var l = null;
-  try { l = localStorage.getItem('vdm_sito_lingua'); } catch(e){}
+  try { l = localStorage.getItem('vdm_lingua_scelta'); } catch(e){}
   if (l !== 'it' && l !== 'en') l = 'en';   // di partenza inglese, per tutti
   lingua(l);
 })();

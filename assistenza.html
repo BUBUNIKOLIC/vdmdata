@@ -119,13 +119,13 @@
   <nav><a href="index.html">Home</a><a href="privacy.html">Privacy</a></nav>
 </div></footer>
 
-<div class="swl"><button id="bIt" onclick="lingua('it')">IT</button><button id="bEn" onclick="lingua('en')">EN</button></div>
+<div class="swl"><button id="bIt" onclick="lingua('it', true)">IT</button><button id="bEn" onclick="lingua('en', true)">EN</button></div>
 <script>
 /* Le due pagine hanno il testo italiano e sotto quello inglese. Invece di
    farli scorrere tutti e due, si mostra solo quello della lingua scelta:
    il sito parte in inglese, chi vuole l'italiano tocca IT e se lo ritrova
    ricordato anche sulle altre pagine. */
-function lingua(l){
+function lingua(l, scelta){
   var en = (l === 'en');
   var p = document.getElementById('parteEn');
   Array.prototype.forEach.call(p.parentNode.children, function(c){
@@ -138,11 +138,11 @@ function lingua(l){
   document.documentElement.lang = l;
   document.getElementById('bIt').classList.toggle('on', !en);
   document.getElementById('bEn').classList.toggle('on', en);
-  try { localStorage.setItem('vdm_sito_lingua', l); } catch(e){}
+  try { if (scelta) localStorage.setItem('vdm_lingua_scelta', l); } catch(e){}
 }
 (function(){
   var l = null;
-  try { l = localStorage.getItem('vdm_sito_lingua'); } catch(e){}
+  try { l = localStorage.getItem('vdm_lingua_scelta'); } catch(e){}
   lingua(l === 'it' ? 'it' : 'en');
 })();
 </script>
