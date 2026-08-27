@@ -70,6 +70,24 @@
   .btn.primo:hover{box-shadow:0 16px 44px rgba(0,234,255,.42);}
   .btn small{display:block;font-weight:600;font-size:10.5px;opacity:.8;text-transform:none;letter-spacing:0;}
   .nota{color:var(--muted);font-size:12.5px;margin-top:18px;font-family:var(--mono);}
+  /* Il prezzo di lancio e l'avviso di Windows: due cose che vanno lette PRIMA
+     di cliccare, non dopo. */
+  .prezzo-lancio{color:var(--muted);font-size:13px;margin:2px 0 0;max-width:62ch;}
+  .prezzo-lancio b{color:var(--text,#eaf1ff);}
+  .avviso-win{margin-top:24px;padding:16px 18px;border-radius:14px;
+    background:rgba(30,79,216,.10);border:1px solid rgba(30,79,216,.34);max-width:74ch;}
+  .avviso-win b{font-size:14.5px;margin-bottom:6px;}
+  /* Il titolo dell'avviso e' un <b>, cioe' in linea: senza queste quattro
+     righe in inglese tornerebbe in linea e si attaccherebbe al testo.
+     Stesso schema gia' usato per .fx-scheda. */
+  .avviso-win b[data-it]{display:block;}
+  .avviso-win b[data-en]{display:none;}
+  body.en .avviso-win b[data-it]{display:none;}
+  html.en .avviso-win b[data-it]{display:none;}
+  body.en .avviso-win b[data-en]{display:block;}
+  html.en .avviso-win b[data-en]{display:block;}
+  .avviso-win p{color:var(--muted);font-size:13px;line-height:1.6;margin:0;}
+  .avviso-win p + p{margin-top:8px;}
 
   .gal-tasti{display:flex;gap:0;flex-wrap:wrap;margin-bottom:18px;border:2px solid var(--bordo);width:fit-content;}
   .gal-tasti button{border:0;border-right:2px solid var(--bordo);background:transparent;color:var(--muted);
@@ -211,7 +229,9 @@
   .fx-scheda b[data-it],.fx-scheda span[data-it]{display:block;}
   .fx-scheda b[data-en],.fx-scheda span[data-en]{display:none;}
   body.en .fx-scheda b[data-it],body.en .fx-scheda span[data-it]{display:none;}
+  html.en .fx-scheda b[data-it],html.en .fx-scheda span[data-it]{display:none;}
   body.en .fx-scheda b[data-en],body.en .fx-scheda span[data-en]{display:block;}
+  html.en .fx-scheda b[data-en],html.en .fx-scheda span[data-en]{display:block;}
   @media(max-width:900px){ .fx-schede{grid-template-columns:repeat(2,1fr);} }
   @media(max-width:620px){ .fx-schede{grid-template-columns:1fr;} .fx-seg{font-size:0;padding:0;} }
 
@@ -240,7 +260,9 @@
   .dati span[data-it]{display:block;}
   .dati span[data-en]{display:none;}
   body.en .dati span[data-it]{display:none;}
+  html.en .dati span[data-it]{display:none;}
   body.en .dati span[data-en]{display:block;}
+  html.en .dati span[data-en]{display:block;}
 
   /* separatori di sezione sfumati invece che righe piatte */
   section{border-top:0;position:relative;}
@@ -277,9 +299,27 @@
 
   [data-en]{display:none;}
   body.en [data-it]{display:none;}
+  html.en [data-it]{display:none;}
   body.en [data-en]{display:initial;}
+  html.en [data-en]{display:initial;}
   body.en p[data-en],body.en div[data-en],body.en h1[data-en],body.en h2[data-en],body.en h3[data-en]{display:block;}
+  html.en p[data-en],html.en div[data-en],html.en h1[data-en],html.en h2[data-en],html.en h3[data-en]{display:block;}
 </style>
+<script>
+/* LA LINGUA SI DECIDE QUI, PRIMA CHE LA PAGINA SI VEDA.
+   Prima veniva decisa in fondo alla pagina: il visitatore vedeva mezzo
+   secondo di italiano e poi tutto saltava in inglese — ed e' lo
+   sfarfallio. Adesso la classe si mette sull'elemento <html>, che
+   esiste gia' mentre il resto si sta ancora leggendo, e non salta
+   piu' niente. (27 agosto 2026) */
+(function(){
+  var l = null;
+  try { l = localStorage.getItem('vdm_lingua_scelta'); } catch(e){}
+  if (l !== 'it' && l !== 'en') l = 'en';
+  document.documentElement.classList.toggle('en', l === 'en');
+  document.documentElement.lang = l;
+})();
+</script>
 </head>
 <body>
 <script>
@@ -423,30 +463,30 @@
   <div class="occhiello" data-en>The coaches testing it</div>
   <h2 data-it>Le prime parole di chi la usa in palestra</h2>
   <h2 data-en>First words from the gym</h2>
-  <p class="intro" data-it>VDM è in collaudo presso alcuni allenatori, con partite e squadre vere. Queste sono parole loro, riportate senza il nome.</p>
-  <p class="intro" data-en>VDM is being tested by a handful of coaches, on real games with real teams. These are their words, quoted without the name.</p>
+  <p class="intro" data-it>VDM è in collaudo presso alcuni allenatori, con partite e squadre vere. Queste tre sono le parole di Andrea Ruggieri, assistant coach in Legadue, che ha acconsentito a metterci il nome.</p>
+  <p class="intro" data-en>VDM is being tested by a handful of coaches, on real games with real teams. These three are the words of Andrea Ruggieri, an assistant coach in Legadue &mdash; the Italian second division &mdash; who agreed to put his name to them.</p>
 
   <div class="voci">
     <div class="voce">
       <span class="virg">&ldquo;</span>
       <p data-it>Mi trovo benissimo. Credo che questa app possa risolvere tanti problemi per lo staff: ha tutto integrato ed è semplice da utilizzare.</p>
       <p data-en>I'm getting on really well with it. I think this app can solve a lot of problems for the staff: everything is in one place and it is simple to use.</p>
-      <div class="chi" data-it>Un allenatore in prova · agosto 2026</div>
-      <div class="chi" data-en>A coach testing it · August 2026</div>
+      <div class="chi" data-it>Andrea Ruggieri · assistant coach, Legadue · agosto 2026</div>
+      <div class="chi" data-en>Andrea Ruggieri · assistant coach, Legadue · August 2026</div>
     </div>
     <div class="voce">
       <span class="virg">&ldquo;</span>
       <p data-it>La cosa super dei tag è che hai effettivamente tutto sotto controllo: vedere i tag che hai fatto nelle situazioni di gioco. Anche l'edit è molto intuitivo e semplice.</p>
       <p data-en>The great thing about the tags is that you really have everything under control: seeing the tags you made, situation by situation. The editing is very intuitive too.</p>
-      <div class="chi" data-it>Un allenatore in prova · agosto 2026</div>
-      <div class="chi" data-en>A coach testing it · August 2026</div>
+      <div class="chi" data-it>Andrea Ruggieri · assistant coach, Legadue · agosto 2026</div>
+      <div class="chi" data-en>Andrea Ruggieri · assistant coach, Legadue · August 2026</div>
     </div>
     <div class="voce">
       <span class="virg">&ldquo;</span>
       <p data-it>Anche oggi non mi ha dato nessun problema. Mai crashato.</p>
       <p data-en>Another day without a single problem. It has never crashed.</p>
-      <div class="chi" data-it>Un allenatore in prova · agosto 2026</div>
-      <div class="chi" data-en>A coach testing it · August 2026</div>
+      <div class="chi" data-it>Andrea Ruggieri · assistant coach, Legadue · agosto 2026</div>
+      <div class="chi" data-en>Andrea Ruggieri · assistant coach, Legadue · August 2026</div>
     </div>
   </div>
 </div></section>
@@ -503,6 +543,8 @@
   <p class="intro" data-en>No subscription and no renewals: buy once and use it. Your work stays on your own disk.</p>
 
   <div class="prezzo"><b>59,99 €</b><span data-it>IVA inclusa · pagamento unico</span><span data-en>VAT included · one-time payment</span></div>
+  <p class="prezzo-lancio" data-it><b>Prezzo di lancio fino al 31 dicembre.</b> Dal 1° gennaio il programma costa 79,99 €. Chi compra adesso non paga la differenza: la licenza resta valida com'è.</p>
+  <p class="prezzo-lancio" data-en><b>Launch price until 31 December.</b> From 1 January the program costs €79.99. If you buy now you never pay the difference: your licence stays as it is.</p>
 
   <div class="scarica">
     <div class="piatto">
@@ -516,8 +558,8 @@
       <h3>Windows</h3>
       <p class="req" data-it>Windows 10 e 11 · 64 bit</p>
       <p class="req" data-en>Windows 10 and 11 · 64-bit</p>
-      <a class="btn" href="#scarica" id="dlWin" data-it>In arrivo a settembre <small>file .exe</small></a>
-      <a class="btn" href="#scarica" data-en>Coming in September <small>.exe file</small></a>
+      <a class="btn primo" href="https://github.com/BUBUNIKOLIC/vdmdata/releases/latest/download/VDM-Basketball-Coach-win.exe" id="dlWin" data-it>Scarica per Windows <small>file .exe</small></a>
+      <a class="btn primo" href="https://github.com/BUBUNIKOLIC/vdmdata/releases/latest/download/VDM-Basketball-Coach-win.exe" data-en>Download for Windows <small>.exe file</small></a>
     </div>
     <div class="piatto">
       <h3>Mac App Store</h3>
@@ -526,6 +568,18 @@
       <a class="btn" href="#" id="dlAsc" data-it>Presto disponibile</a>
       <a class="btn" href="#" data-en>Coming soon</a>
     </div>
+  </div>
+  <div class="avviso-win">
+    <b data-it>Su Windows compare un avviso azzurro: è normale.</b>
+    <b data-en>Windows shows a blue warning: that is normal.</b>
+    <p data-it>Windows segnala tutti i programmi di chi non paga un certificato annuale, e io non lo pago:
+      quei soldi preferisco non farteli pagare. Non vuol dire che il file sia pericoloso.
+      Quando compare la finestra <i>Windows ha protetto il PC</i>, clicca su <b>Ulteriori informazioni</b>
+      e poi su <b>Esegui comunque</b>. L'avviso sparisce da solo col passare dei download.</p>
+    <p data-en>Windows flags every program whose author does not pay for a yearly certificate, and I do not pay for one —
+      I would rather not charge you for it. It does not mean the file is unsafe.
+      When the <i>Windows protected your PC</i> window appears, click <b>More info</b>,
+      then <b>Run anyway</b>. The warning fades away as more people download it.</p>
   </div>
   <p class="nota" data-it>Il programma si scarica e si installa: alla prima apertura chiede la chiave. Dopo l'acquisto ricevi una chiave legata al tuo computer. Se cambi computer, scrivimi e te ne faccio una nuova.</p>
   <p class="nota" data-en>Download it and install it: it asks for the key on first launch. After purchase you receive a key tied to your computer. If you change computer, write to me and I'll issue a new one.</p>
@@ -730,6 +784,9 @@ else fxAvvia();
 
 function lingua(l, scelta){
   document.body.classList.toggle('en', l === 'en');
+  // la classe sta anche su <html> (vedi lo script nella testa): se qui non la
+  // si sposta, cliccando ITA meta' pagina resterebbe in inglese
+  document.documentElement.classList.toggle('en', l === 'en');
   document.documentElement.lang = l;
   document.getElementById('bIt').classList.toggle('on', l === 'it');
   document.getElementById('bEn').classList.toggle('on', l === 'en');
