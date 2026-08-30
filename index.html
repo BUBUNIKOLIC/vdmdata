@@ -308,6 +308,26 @@
   html.en [data-en]{display:initial;}
   body.en p[data-en],body.en div[data-en],body.en h1[data-en],body.en h2[data-en],body.en h3[data-en]{display:block;}
   html.en p[data-en],html.en div[data-en],html.en h1[data-en],html.en h2[data-en],html.en h3[data-en]{display:block;}
+
+  /* ============ IL MARCHIO VDM DATA ============
+   * Due pezzi. Il segno piccolo accanto al nome, in alto; e la filigrana
+   * grande dietro al titolo, con un fascio di luce che la attraversa.
+   * IL MOVIMENTO E' LENTO DI PROPOSITO: quattordici secondi in tutto, di
+   * cui cinque e mezzo di passaggio e otto e mezzo di quiete. Nella prima
+   * prova durava sei secondi e tornava troppo spesso: una pagina che si
+   * muove in continuazione stanca e distrae da quello che c'e' scritto.
+   * Cosi' invece si nota appena, e da' vita senza chiedere attenzione. */
+  .vdm-segno{height:26px;width:60px;flex:0 0 auto;margin-right:10px;vertical-align:middle;}
+  .bar .wrap{display:flex;align-items:center;}
+  .vdm-filigrana{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+    width:112%;height:112%;pointer-events:none;z-index:0;}
+  .hero{position:relative;overflow:hidden;}
+  .hero .wrap{position:relative;z-index:1;}
+  .vdm-scia{animation:vdmPassa 14s cubic-bezier(.45,.05,.35,1) infinite;}
+  @keyframes vdmPassa{0%{transform:translateX(0);}40%{transform:translateX(440px);}100%{transform:translateX(440px);}}
+  /* Chi ha chiesto al sistema meno animazioni non ne vede nessuna. */
+  @media (prefers-reduced-motion: reduce){.vdm-scia{animation:none;opacity:0;}}
+  @media(max-width:900px){ .vdm-filigrana{opacity:.6;} .vdm-segno{height:22px;width:50px;} }
 </style>
 <script>
 /* LA LINGUA SI DECIDE QUI, PRIMA CHE LA PAGINA SI VEDA.
@@ -339,7 +359,7 @@
 </script>
 
 <div class="bar"><div class="wrap">
-  <span class="logo">VDM <b>Basketball Coach</b></span>
+  <svg class="vdm-segno" viewBox="0 0 210 90" aria-hidden="true"><g fill="url(#gradSegno)"><polygon points="6,22 15.5,22 26,52.4 36.5,22 46,22 28.8,72 23.2,72"/><circle cx="26" cy="31" r="5"/><polygon points="68.6,14 72.4,14 75,16.6 75,79.4 72.4,82 68.6,82 66,79.4 66,16.6"/><polygon points="60.6,22 105.4,22 108,24.6 108,28.4 105.4,31 60.6,31 58,28.4 58,24.6"/><polygon points="60.6,63 105.4,63 108,65.6 108,69.4 105.4,72 60.6,72 58,69.4 58,65.6"/><polygon points="101.6,22 105.4,22 108,24.6 108,69.4 105.4,72 101.6,72 99,69.4 99,24.6"/><polygon points="126.6,22 193.4,22 196,24.6 196,28.4 193.4,31 126.6,31 124,28.4 124,24.6"/><polygon points="134.6,22 138.4,22 141,24.6 141,79.4 138.4,82 134.6,82 132,79.4 132,24.6"/><polygon points="158.6,22 162.4,22 165,24.6 165,79.4 162.4,82 158.6,82 156,79.4 156,24.6"/><polygon points="182.6,22 186.4,22 189,24.6 189,79.4 186.4,82 182.6,82 180,79.4 180,24.6"/></g><defs><linearGradient id="gradSegno" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#00eaff"/><stop offset="1" stop-color="#4c8dff"/></linearGradient></defs></svg><span class="logo">VDM <b>Basketball Coach</b></span>
   <nav>
     <a href="#come" data-it>Come funziona</a><a href="#come" data-en>How it works</a>
     <a href="#fogli" data-it>Fogli e PDF</a><a href="#fogli" data-en>Sheets &amp; PDF</a>
@@ -351,7 +371,22 @@
   </nav>
 </div></div>
 
-<div class="hero"><div class="wrap">
+<div class="hero"><svg class="vdm-filigrana" viewBox="0 0 300 120" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+  <defs>
+    <mask id="vdmMask" maskUnits="userSpaceOnUse" x="0" y="0" width="300" height="120">
+      <g fill="#fff" transform="translate(45,10)"><polygon points="6,22 15.5,22 26,52.4 36.5,22 46,22 28.8,72 23.2,72"/><circle cx="26" cy="31" r="5"/><polygon points="68.6,14 72.4,14 75,16.6 75,79.4 72.4,82 68.6,82 66,79.4 66,16.6"/><polygon points="60.6,22 105.4,22 108,24.6 108,28.4 105.4,31 60.6,31 58,28.4 58,24.6"/><polygon points="60.6,63 105.4,63 108,65.6 108,69.4 105.4,72 60.6,72 58,69.4 58,65.6"/><polygon points="101.6,22 105.4,22 108,24.6 108,69.4 105.4,72 101.6,72 99,69.4 99,24.6"/><polygon points="126.6,22 193.4,22 196,24.6 196,28.4 193.4,31 126.6,31 124,28.4 124,24.6"/><polygon points="134.6,22 138.4,22 141,24.6 141,79.4 138.4,82 134.6,82 132,79.4 132,24.6"/><polygon points="158.6,22 162.4,22 165,24.6 165,79.4 162.4,82 158.6,82 156,79.4 156,24.6"/><polygon points="182.6,22 186.4,22 189,24.6 189,79.4 186.4,82 182.6,82 180,79.4 180,24.6"/></g>
+    </mask>
+    <linearGradient id="vdmScia" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#dff8ff" stop-opacity="0"/>
+      <stop offset=".5" stop-color="#ffffff" stop-opacity="1"/>
+      <stop offset="1" stop-color="#dff8ff" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <g mask="url(#vdmMask)">
+    <rect width="300" height="120" fill="#4c8dff" opacity=".11"/>
+    <rect class="vdm-scia" x="-140" y="0" width="140" height="120" fill="url(#vdmScia)" opacity=".16"/>
+  </g>
+</svg><div class="wrap">
   <span class="occhio" data-it>🏀 Scritto da un allenatore, per gli allenatori · <b>12 lingue</b></span>
   <span class="occhio" data-en>🏀 Written by a coach, for coaches · <b>12 languages</b></span>
   <h1 data-it>Il lavoro di una stagione<br><em>in un posto solo.</em></h1>
