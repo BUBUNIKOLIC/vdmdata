@@ -414,7 +414,7 @@
 
   <div class="fogli-due">
     <div>
-      <div class="fogli-schermo"><img id="fogliSchermo" src="img/come-si-stampa.png" alt=""></div>
+      <div class="fogli-schermo"><img id="fogliSchermo" src="img/come-si-stampa.webp" alt="" width="1060" height="1013" loading="lazy" decoding="async"></div>
       <p class="didascalia" data-it>Il bottone Stampa apre questa finestra: il foglio è quello vero, non un'anteprima approssimativa.</p>
       <p class="didascalia" data-en>The Print button opens this window: the sheet is the real one, not a rough preview.</p>
     </div>
@@ -635,22 +635,22 @@
  * Se un'immagine non c'e' ancora, al suo posto resta un riquadro che dice
  * quale file manca: il sito non si rompe e si pubblica lo stesso. */
 const GALLERIA = [
-  { f: 'video',        img: 'img/f-video.png',        it: 'Video e tag',   en: 'Film and tagging',
+  { f: 'video',        img: 'img/f-video.webp',        it: 'Video e tag',   en: 'Film and tagging',
     dit: 'La partita, le giocate su due colonne e il contatore che sale a ogni tag.',
     den: 'The game, the plays in two columns and the counter rising with every tag.' },
-  { f: 'montaggi',     img: 'img/f-montaggi.png',     it: 'Montaggi',      en: 'Reels',
+  { f: 'montaggi',     img: 'img/f-montaggi.webp',     it: 'Montaggi',      en: 'Reels',
     dit: 'Le clip flaggate diventano un filmato solo, con copertina e nome del gioco.',
     den: 'Flagged clips become one film, with a cover card and the play name.' },
-  { f: 'scouting',     img: 'img/f-scouting.png',     it: 'Scouting Report', en: 'Scouting Report',
+  { f: 'scouting',     img: 'img/f-scouting.webp',     it: 'Scouting Report', en: 'Scouting Report',
     dit: 'Il foglio dell\'avversario su A4, pronto per la riunione tecnica.',
     den: 'The opponent sheet on A4, ready for the staff meeting.' },
-  { f: 'personnel',    img: 'img/f-personnel.png',    it: 'Personnel',     en: 'Personnel',
+  { f: 'personnel',    img: 'img/f-personnel.webp',    it: 'Personnel',     en: 'Personnel',
     dit: 'Le schede giocatore con foto, medie e caratteristiche.',
     den: 'Player cards with photo, averages and traits.' },
-  { f: 'practice',     img: 'img/f-practice.png',     it: 'Allenamenti',   en: 'Practice',
+  { f: 'practice',     img: 'img/f-practice.webp',     it: 'Allenamenti',   en: 'Practice',
     dit: 'Il piano di allenamento con fasi, tempi, esercizi e diagrammi di campo, pronto da stampare.',
     den: 'The practice plan with phases, timings, drills and court diagrams, ready to print.' },
-  { f: 'tiro',         img: 'img/f-tiro.png',         it: 'Registro del tiro', en: 'Shooting log',
+  { f: 'tiro',         img: 'img/f-tiro.webp',         it: 'Registro del tiro', en: 'Shooting log',
     dit: 'Le sedute di tiro di tutta la stagione, con l\'andamento nel tempo.',
     den: 'The whole season of shooting sessions, with the trend over time.' },
 ];
@@ -669,6 +669,7 @@ function galDisegna(){
   const via = en ? g.img.replace('img/', 'img/en/') : g.img;
   document.getElementById('galCornice').innerHTML =
     '<img src="' + via + '" alt="' + (en ? g.en : g.it) + '" ' +
+    'width="1660" height="1013" decoding="async" fetchpriority="high" ' +
     'data-ripiego="' + g.img + '" ' +
     'onerror="galRipiego(this, ' + galAttiva + ')">';
   document.getElementById('galDidascalia').textContent = en ? g.den : g.dit;
@@ -701,11 +702,12 @@ function fogliDisegna(){
   const g = document.getElementById('fogliGriglia');
   if (!g) return;
   g.innerHTML = FOGLI.map(x =>
-    '<div class="foglio"><img src="img/foglio-' + x.f + (en ? '-en' : '') + '.png" alt="' +
-    (en ? x.en : x.it) + '" onerror="this.src=\'img/foglio-' + x.f + '.png\'">' +
+    '<div class="foglio"><img src="img/foglio-' + x.f + (en ? '-en' : '') + '.webp" alt="' +
+    (en ? x.en : x.it) + '" width="744" height="1053" loading="lazy" decoding="async"' +
+    ' onerror="this.src=\'img/foglio-' + x.f + '.webp\'">' +
     '<div class="et">' + (en ? x.en : x.it) + '</div></div>').join('');
   const sc = document.getElementById('fogliSchermo');
-  if (sc) sc.src = en ? 'img/en/come-si-stampa.png' : 'img/come-si-stampa.png';
+  if (sc) sc.src = en ? 'img/en/come-si-stampa.webp' : 'img/come-si-stampa.webp';
   const a = document.getElementById('fogliPdf');
   if (a) a.setAttribute('href', en ? 'pdf/VDM-sample-sheets.pdf' : 'pdf/VDM-fogli-esempio.pdf');
 }
