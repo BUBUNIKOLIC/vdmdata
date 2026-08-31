@@ -169,7 +169,12 @@
   .scarica{display:grid;grid-template-columns:repeat(auto-fit,minmax(255px,1fr));gap:16px;margin-top:26px;}
   .piatto{background:var(--card);border-top:3px solid var(--acc);padding:24px 22px;}
   .piatto h3{margin:0 0 5px;font-size:17px;text-transform:uppercase;letter-spacing:-.2px;}
-  .piatto .req{color:var(--muted);font-size:12px;margin:0 0 18px;font-family:var(--mono);}
+  /* La riga dei requisiti tiene sempre due righe di spazio, anche quando ne
+     riempie una sola: "Windows 10 e 11 · 64 bit" sta su una riga, "macOS 11 o
+     successivo · Apple Silicon e Intel" su due, e senza questo i tre bottoni
+     Scarica finivano a 19 pixel di altezza diversa uno dall'altro. */
+  .piatto .req{color:var(--muted);font-size:12px;margin:0 0 18px;font-family:var(--mono);
+    min-height:2.9em;}
   .piatto .btn{width:100%;justify-content:center;}
   .prezzo{display:flex;align-items:baseline;gap:10px;margin:6px 0 4px;}
   .prezzo b{font-size:46px;letter-spacing:-2.6px;font-weight:900;
