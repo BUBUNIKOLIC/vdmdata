@@ -3,6 +3,17 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<!-- L'icona del sito: prima non c'era e nella linguetta del navigatore
+     restava il foglio bianco. E' il segno VDM che sta gia' in cima alla
+     pagina. (1 settembre 2026) -->
+<link rel="icon" href="img/vdm-icona.svg" type="image/svg+xml">
+<link rel="icon" href="img/vdm-icona-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="img/vdm-icona-180.png">
+<meta name="theme-color" content="#04060d">
+<link rel="canonical" href="https://vdmdata.it/">
+<meta property="og:url" content="https://vdmdata.it/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="VDM Basketball Coach">
 <title>VDM Basketball Coach — Video, scouting e allenamenti per allenatori di pallacanestro</title>
 <meta name="description" content="Il lavoro di una stagione in un posto solo: video taggati, giochi disegnati, scouting dell'avversario, presentazioni alla squadra, allenamenti e registro del tiro. Per Mac e Windows.">
 <meta property="og:title" content="VDM Basketball Coach">
@@ -52,7 +63,24 @@
   .lang button{background:none;border:0;color:var(--muted);font:inherit;font-size:11.5px;font-weight:800;
     padding:4px 10px;cursor:pointer;letter-spacing:.06em;}
   .lang button.on{background:linear-gradient(120deg,var(--acc),var(--acc2));color:#04060d;}
-  @media(max-width:760px){ .bar nav a{display:none;} }
+  @media(max-width:760px){
+    .bar nav a{display:none;}
+    /* Sul telefono il nome per esteso non ci stava e spingeva i due
+       bottoni IT/EN fuori dallo schermo: a 390 pixel l'inglese era
+       tagliato, a 360 quasi sparito e a 320 non si vedeva piu' nessuno
+       dei due — cioe' da un telefono piccolo non si poteva scegliere la
+       lingua. Nessuno se ne accorgeva perche' la barra taglia quello
+       che esce (overflow nascosto) invece di allargare la pagina.
+       Il segno si stringe e il nome si accorcia. (1 settembre 2026) */
+    .bar .wrap{gap:10px;padding:0 14px;}
+    .bar .vdm-segno{height:20px;width:44px;margin-right:6px;}
+    .bar .logo{font-size:14.5px;}
+  }
+  /* Sotto i 345 pixel (iPhone SE e simili) non ci sta piu' nemmeno il segno. */
+  @media(max-width:345px){
+    .bar .vdm-segno{display:none;}
+    .bar .logo{font-size:13.5px;}
+  }
 
   .hero{padding:80px 0 46px;position:relative;}
   .occhio{display:inline-flex;align-items:center;gap:9px;background:var(--card);
@@ -175,7 +203,22 @@
      Scarica finivano a 19 pixel di altezza diversa uno dall'altro. */
   .piatto .req{color:var(--muted);font-size:12px;margin:0 0 18px;font-family:var(--mono);
     min-height:3.3em;}
-  .piatto .btn{width:100%;justify-content:center;}
+  /* Nella scheda Windows ci sono due bottoni uno sopra l'altro: senza
+     questo margine si toccavano e sembravano un blocco solo. E i fianchi
+     stretti servono a far stare "Disponibile su Microsoft Store" su una
+     riga sola invece che su due. (1 settembre 2026) */
+  .piatto .btn{width:100%;justify-content:center;padding-left:14px;padding-right:14px;}
+  .piatto .btn + .btn{margin-top:10px;}
+  /* Il bottone secondario (Microsoft Store, Presto disponibile) porta una
+     scritta piu' lunga di quella del bottone di scarico: un filo piu'
+     piccolo, e "Disponibile su Microsoft Store" sta su una riga sola. */
+  .piatto .btn:not(.primo){font-size:13px;letter-spacing:.3px;}
+  /* Il bottone del Microsoft Store e' pieno, come quello di scarico, ma di
+     un blu pieno invece della sfumatura azzurra: si vede subito e non fa a
+     gara con "Scarica per Windows". (1 settembre 2026) */
+  .btn.negozio{background:linear-gradient(120deg,var(--acc2),var(--blu) 90%);
+    border-color:transparent;color:#fff;font-weight:900;}
+  .btn.negozio:hover{border-color:transparent;box-shadow:0 14px 38px rgba(76,141,255,.40);}
   .prezzo{display:flex;align-items:baseline;gap:10px;margin:6px 0 4px;}
   .prezzo b{font-size:46px;letter-spacing:-2.6px;font-weight:900;
     background:linear-gradient(100deg,var(--acc),var(--acc2) 80%);
@@ -311,13 +354,19 @@
     .btn.primo::after{display:none;}
   }
 
-  [data-en]{display:none;}
-  body.en [data-it]{display:none;}
+  /* IN INGLESE NON SI TOCCA PIU' IL DISPLAY.
+     Prima, per far ricomparire l'inglese, c'era "display:initial": quella
+     riga vinceva sulle classi e rimetteva ogni cosa in linea. In inglese
+     — che e' la lingua di partenza, quindi quasi tutti vedevano questo —
+     i due bottoni della scheda Windows si sovrapponevano di 50 pixel, i
+     due bottoni in cima perdevano la forma, l'etichetta di ogni sezione e
+     il cartellino sopra il titolo si sfilavano, e sul telefono tornava a
+     comparire il menu che a quella larghezza deve restare nascosto.
+     Adesso si nasconde soltanto la lingua che non serve: chi resta tiene
+     il display che gli da' la sua classe. (1 settembre 2026) */
+  html:not(.en) [data-en]{display:none;}
   html.en [data-it]{display:none;}
-  body.en [data-en]{display:initial;}
-  html.en [data-en]{display:initial;}
-  body.en p[data-en],body.en div[data-en],body.en h1[data-en],body.en h2[data-en],body.en h3[data-en]{display:block;}
-  html.en p[data-en],html.en div[data-en],html.en h1[data-en],html.en h2[data-en],html.en h3[data-en]{display:block;}
+  body.en [data-it]{display:none;}
 
   /* ============ IL MARCHIO VDM DATA ============
    * Due pezzi. Il segno piccolo accanto al nome, in alto; e la filigrana
@@ -650,8 +699,8 @@
       <p class="req" data-en>Windows 10 and 11 · 64-bit</p>
       <a class="btn primo" href="https://github.com/BUBUNIKOLIC/vdmdata/releases/latest/download/VDM-Basketball-Coach-win.exe" id="dlWin" data-it>Scarica per Windows <small>file .exe</small></a>
       <a class="btn primo" href="https://github.com/BUBUNIKOLIC/vdmdata/releases/latest/download/VDM-Basketball-Coach-win.exe" data-en>Download for Windows <small>.exe file</small></a>
-      <a class="btn" href="https://apps.microsoft.com/detail/9NLD6JCZNJ0G" id="dlMs" data-it>Disponibile su Microsoft Store</a>
-      <a class="btn" href="https://apps.microsoft.com/detail/9NLD6JCZNJ0G" data-en>Available on Microsoft Store</a>
+      <a class="btn negozio" href="https://apps.microsoft.com/detail/9NLD6JCZNJ0G" target="_blank" rel="noopener" id="dlMs" data-it>Disponibile su Microsoft Store</a>
+      <a class="btn negozio" href="https://apps.microsoft.com/detail/9NLD6JCZNJ0G" target="_blank" rel="noopener" data-en>Available on Microsoft Store</a>
       <p class="prova" data-it>✓ Prova gratuita di 14 giorni — il programma completo, senza registrarsi</p>
       <p class="prova" data-en>✓ Free 14-day trial — the whole program, no sign-up</p>
     </div>
@@ -659,8 +708,10 @@
       <h3>Mac App Store</h3>
       <p class="req" data-it>Aggiornamenti automatici dall'App Store</p>
       <p class="req" data-en>Automatic updates from the App Store</p>
-      <a class="btn" href="#" id="dlAsc" data-it>Presto disponibile</a>
-      <a class="btn" href="#" data-en>Coming soon</a>
+      <!-- Senza href non e' un collegamento: prima, cliccando "Presto
+           disponibile", la pagina saltava in cima. (1 settembre 2026) -->
+      <a class="btn" id="dlAsc" data-it>Presto disponibile</a>
+      <a class="btn" data-en>Coming soon</a>
     </div>
   </div>
   <div class="avviso-win">
