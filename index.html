@@ -111,6 +111,14 @@
      solo nelle domande in fondo, cioe' dove non lo leggeva nessuno. */
   .prova{margin:10px 0 0;font-size:12px;line-height:1.5;color:#7fe3ff;font-weight:700;}
   .prezzo-lancio b{color:var(--text,#eaf1ff);}
+  /* AVVISO "E' UN PROGRAMMA DA COMPUTER" (3 settembre 2026). Serve perche' chi
+     apre il sito dal telefono - e dopo una mail e' quasi sempre cosi' - tocca il
+     bottone del Mac App Store, arriva su una pagina che sull'iPhone non si puo'
+     installare, e pensa che il sito sia rotto. Sta in alto, prima dei bottoni. */
+  .solo-pc{margin:0 0 22px;padding:14px 16px;border-radius:14px;
+    background:rgba(214,138,0,.12);border:1px solid rgba(214,138,0,.38);max-width:74ch;
+    font-size:15px;line-height:1.5;}
+  .solo-pc b{display:block;margin-bottom:4px;}
   .avviso-win{margin-top:24px;padding:16px 18px;border-radius:14px;
     background:rgba(30,79,216,.10);border:1px solid rgba(30,79,216,.34);max-width:74ch;}
   .avviso-win b{font-size:14.5px;margin-bottom:6px;}
@@ -683,6 +691,14 @@
   <p class="prezzo-lancio" data-it><b>Prezzo di lancio fino al 31 dicembre.</b> Dal 1° gennaio il programma costa 79,99 €. Chi compra adesso non paga la differenza: la licenza resta valida com'è.</p>
   <p class="prezzo-lancio" data-en><b>Launch price until 31 December.</b> From 1 January the program costs €79.99. If you buy now you never pay the difference: your licence stays as it is.</p>
 
+  <div class="solo-pc" data-it>
+    <b>VDM è un programma da computer.</b>
+    Gira su Mac e su Windows. <b style="display:inline">Su iPhone e iPad non si installa</b>: se stai leggendo dal telefono, riapri questa pagina dal computer con cui prepari gli allenamenti.
+  </div>
+  <div class="solo-pc" data-en>
+    <b>VDM is a desktop program.</b>
+    It runs on Mac and on Windows. <b style="display:inline">It does not install on iPhone or iPad</b>: if you are reading this on your phone, open this page again on the computer you work on.
+  </div>
   <div class="scarica">
     <div class="piatto">
       <h3>macOS</h3>

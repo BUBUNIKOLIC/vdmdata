@@ -1,0 +1,516 @@
+<title>Come lavora un mister</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap">
+<style>
+  :root{
+    --carta:#F5F6F2;
+    --superficie:#FFFFFF;
+    --inchiostro:#14201A;
+    --inchiostro-tenue:#5E6B62;
+    --linea:#DCE1D9;
+    --campo:#1F5C3D;
+    --campo-chiaro:#2E7A52;
+    --ammonizione:#D99A28;
+    --ammonizione-testo:#14201A;
+    --ombra:0 1px 0 rgba(20,32,26,.04);
+    --largh:660px;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --carta:#0F1512;
+      --superficie:#161E1A;
+      --inchiostro:#E6EBE5;
+      --inchiostro-tenue:#94A29A;
+      --linea:#26332C;
+      --campo:#7FC79C;
+      --campo-chiaro:#9AD6B1;
+      --ammonizione:#E7B457;
+      --ammonizione-testo:#14201A;
+      --ombra:none;
+    }
+  }
+  :root[data-theme="dark"]{
+    --carta:#0F1512;
+    --superficie:#161E1A;
+    --inchiostro:#E6EBE5;
+    --inchiostro-tenue:#94A29A;
+    --linea:#26332C;
+    --campo:#7FC79C;
+    --campo-chiaro:#9AD6B1;
+    --ammonizione:#E7B457;
+    --ammonizione-testo:#14201A;
+    --ombra:none;
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    background:var(--carta);
+    color:var(--inchiostro);
+    font-family:"Source Serif 4",Georgia,"Times New Roman",serif;
+    font-size:17px;line-height:1.55;
+    padding:0 18px 130px;
+    -webkit-font-smoothing:antialiased;
+  }
+  .foglio{max-width:var(--largh);margin:0 auto;}
+
+  /* ---------- testata: la fascia di una distinta ---------- */
+  header{padding:34px 0 22px;border-bottom:2px solid var(--campo);}
+  .occhiello{
+    font-family:Oswald,"Arial Narrow",sans-serif;font-weight:500;
+    text-transform:uppercase;letter-spacing:.16em;font-size:12px;
+    color:var(--campo);margin:0 0 10px;
+  }
+  h1{
+    font-family:Oswald,"Arial Narrow",sans-serif;font-weight:600;
+    font-size:clamp(30px,7vw,44px);line-height:1.05;margin:0 0 14px;
+    text-transform:uppercase;letter-spacing:.01em;text-wrap:balance;
+  }
+  .sottotitolo{margin:0;color:var(--inchiostro-tenue);font-size:17px;max-width:56ch;}
+
+  /* ---------- il cappello ---------- */
+  .cappello{
+    margin:22px 0 0;padding:18px 20px;background:var(--superficie);
+    border:1px solid var(--linea);border-left:3px solid var(--ammonizione);
+    box-shadow:var(--ombra);
+  }
+  .cappello p{margin:0 0 10px;}
+  .cappello p:last-child{margin-bottom:0;}
+  .cappello strong{font-weight:600;}
+
+  /* ---------- interruttore professionisti ---------- */
+  .scelta{
+    display:flex;align-items:flex-start;gap:11px;margin:26px 0 8px;
+    padding:14px 16px;background:var(--superficie);
+    border:1px solid var(--linea);box-shadow:var(--ombra);
+    font-family:Oswald,"Arial Narrow",sans-serif;text-transform:uppercase;
+    letter-spacing:.05em;font-size:14px;cursor:pointer;
+  }
+  .scelta input{width:19px;height:19px;margin:1px 0 0;accent-color:var(--campo);flex:0 0 auto;cursor:pointer;}
+
+  /* ---------- sezioni ---------- */
+  .fascia{
+    font-family:Oswald,"Arial Narrow",sans-serif;font-weight:500;
+    text-transform:uppercase;letter-spacing:.14em;font-size:12.5px;
+    color:var(--inchiostro-tenue);
+    margin:38px 0 4px;padding-bottom:7px;border-bottom:1px solid var(--linea);
+  }
+
+  /* ---------- domande ---------- */
+  .domanda{display:grid;grid-template-columns:34px 1fr;gap:14px;padding:22px 0;border-bottom:1px solid var(--linea);}
+  .numero{
+    font-family:Oswald,"Arial Narrow",sans-serif;font-weight:600;font-size:15px;
+    width:32px;height:32px;display:flex;align-items:center;justify-content:center;
+    background:var(--ammonizione);color:var(--ammonizione-testo);
+    font-variant-numeric:tabular-nums;
+  }
+  .testo{margin:0 0 10px;font-size:18px;line-height:1.45;text-wrap:pretty;}
+  .aiuto{margin:-4px 0 10px;font-size:14.5px;color:var(--inchiostro-tenue);font-style:italic;}
+  textarea{
+    display:block;width:100%;min-height:78px;resize:vertical;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    font-size:16px;line-height:1.5;color:var(--inchiostro);
+    background:var(--superficie);border:1px solid var(--linea);
+    border-radius:2px;padding:10px 12px;
+  }
+  textarea::placeholder{color:var(--inchiostro-tenue);opacity:.65;}
+  textarea:focus{outline:2px solid var(--campo-chiaro);outline-offset:1px;border-color:transparent;}
+  .pro{display:none;}
+  body.mostra-pro .pro{display:block;}
+  body.mostra-pro .domanda.pro{display:grid;}
+
+  /* ---------- elenco delle sezioni tattiche ---------- */
+  .sezioni{
+    display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+    gap:2px 14px;margin:0 0 14px;
+  }
+  .sezioni label{
+    display:flex;align-items:center;gap:9px;padding:7px 8px;cursor:pointer;
+    font-size:15.5px;border-radius:2px;
+  }
+  .sezioni label:hover{background:var(--superficie);}
+  .sezioni input{width:17px;height:17px;accent-color:var(--campo);flex:0 0 auto;cursor:pointer;}
+
+  /* ---------- barra in fondo ---------- */
+  .barra{
+    position:fixed;left:0;right:0;bottom:0;z-index:5;
+    background:var(--superficie);border-top:1px solid var(--linea);
+    padding:12px 18px;
+  }
+  .barra .dentro{
+    max-width:var(--largh);margin:0 auto;display:flex;align-items:center;
+    gap:14px;justify-content:space-between;flex-wrap:wrap;
+  }
+  .conteggio{
+    font-family:Oswald,"Arial Narrow",sans-serif;text-transform:uppercase;
+    letter-spacing:.08em;font-size:12.5px;color:var(--inchiostro-tenue);
+    font-variant-numeric:tabular-nums;
+  }
+  button{
+    font-family:Oswald,"Arial Narrow",sans-serif;font-weight:500;
+    text-transform:uppercase;letter-spacing:.09em;font-size:14px;
+    background:var(--campo);color:var(--carta);
+    border:none;border-radius:2px;padding:12px 20px;cursor:pointer;
+  }
+  :root[data-theme="dark"] button,
+  :root:not([data-theme="light"]) button{color:#0F1512;}
+  @media (prefers-color-scheme: light){:root:not([data-theme="dark"]) button{color:#F5F6F2;}}
+  button:hover{background:var(--campo-chiaro);}
+  button:focus-visible{outline:2px solid var(--ammonizione);outline-offset:2px;}
+  button.secondaria{background:transparent;color:var(--inchiostro-tenue);border:1px solid var(--linea);}
+  button.secondaria:hover{background:var(--carta);color:var(--inchiostro);}
+
+  /* ---------- ripiego per la copia ---------- */
+  #ripiego{margin:26px 0 0;display:none;}
+  #ripiego.aperto{display:block;}
+  #ripiego p{font-size:15px;color:var(--inchiostro-tenue);margin:0 0 8px;}
+  #ripiego textarea{min-height:220px;font-size:14px;}
+
+  footer{margin:34px 0 0;padding-top:18px;border-top:1px solid var(--linea);
+    font-size:14.5px;color:var(--inchiostro-tenue);}
+  footer a{color:var(--campo);}
+
+  @media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important;}}
+</style>
+
+<div class="foglio">
+  <header>
+    <p class="occhiello">Domande a un allenatore</p>
+    <h1>Come lavora<br>un mister</h1>
+    <p class="sottotitolo">Sedici domande sul lavoro vero della settimana. Si risponde a braccio, in cinque minuti. Non c'è niente da comprare e nessuno ti venderà niente.</p>
+  </header>
+
+  <div class="cappello">
+    <p>Mi chiamo <strong>Vince Di Meglio</strong> e alleno a basket. Sto cercando di capire come lavora davvero un allenatore di calcio durante la settimana: cosa fa dopo la partita, cosa prepara, con cosa, e quanto tempo ci mette.</p>
+    <p>Te lo gira un amico, non un'azienda. <strong>Non c'è niente da comprare, non ti viene chiesto il nome e non ti scriverà nessuno.</strong> Le risposte le leggo solo io.</p>
+    <p>Rispondi solo alle domande che ti dicono qualcosa, salta le altre. Alla fine premi <strong>Copia le risposte</strong> e rimandale a chi ti ha girato questo foglio.</p>
+  </div>
+
+  <label class="scelta">
+    <input type="checkbox" id="proSi">
+    <span>Alleno in una squadra professionistica o in un settore giovanile professionistico</span>
+  </label>
+
+  <div class="fascia">Chi sei</div>
+
+  <div class="domanda">
+    <div class="numero">1</div>
+    <div>
+      <p class="testo">Che squadra alleni — categoria ed età dei giocatori — e da quanti anni alleni?</p>
+      <textarea data-d="1" placeholder="Scrivi qui"></textarea>
+    </div>
+  </div>
+
+  <div class="domanda">
+    <div class="numero">2</div>
+    <div>
+      <p class="testo">In quanti siete nello staff, e chi fa cosa?</p>
+      <textarea data-d="2" placeholder="Scrivi qui"></textarea>
+    </div>
+  </div>
+
+  <div class="fascia">La settimana vera</div>
+
+  <div class="domanda">
+    <div class="numero">3</div>
+    <div>
+      <p class="testo">Pensa all'ultima partita che hai giocato. Dal fischio finale fino all'allenamento dopo, cosa hai fatto, nell'ordine?</p>
+      <p class="aiuto">Anche le cose banali: il viaggio in macchina, i messaggi, il quaderno. È la domanda che conta di più.</p>
+      <textarea data-d="3" placeholder="Scrivi qui" style="min-height:130px;"></textarea>
+    </div>
+  </div>
+
+  <div class="domanda">
+    <div class="numero">4</div>
+    <div>
+      <p class="testo">La partita la riprendete? Con cosa — telecamera della società, telefono, quella del campo? E poi quel video chi lo guarda, e quando?</p>
+      <textarea data-d="4" placeholder="Scrivi qui"></textarea>
+    </div>
+  </div>
+
+  <div class="domanda">
+    <div class="numero">5</div>
+    <div>
+      <p class="testo">Se devi far vedere una cosa a un giocatore, come gliela fai vedere?</p>
+      <p class="aiuto">Video sul telefono, riunione, un disegno, a voce sul campo.</p>
+      <textarea data-d="5" placeholder="Scrivi qui"></textarea>
+    </div>
+  </div>
+
+  <div class="domanda">
+    <div class="numero">6</div>
+    <div>
+      <p class="testo">In una settimana normale, quanto tempo passi alla scrivania invece che sul campo?</p>
+      <p class="aiuto">Video, relazioni, preparare l'allenamento, messaggi alla squadra.</p>
+      <textarea data-d="6" placeholder="Scrivi qui"></textarea>
+    </div>
+  </div>
+
+  <div class="fascia">Cosa prepari, e come lo consegni</div>
+
+  <div class="domanda">
+    <div class="numero">7</div>
+    <div>
+      <p class="testo">Prima di una partita, cosa prepari sull'avversario? E come arriva ai giocatori — un foglio, una riunione, un messaggio in chat, niente?</p>
+      <textarea data-d="7" placeholder="Scrivi qui" style="min-height:110px;"></textarea>
+    </div>
+  </div>
+
+  <div class="domanda">
+    <div class="numero">8</div>
+    <div>
+      <p class="testo">Le esercitazioni e gli schemi come li disegni? Lavagna, carta, un'app, PowerPoint?</p>
+      <textarea data-d="8" placeholder="Scrivi qui"></textarea>
+    </div>
+  </div>
+
+  <div class="domanda">
+    <div class="numero">9</div>
+    <div>
+      <p class="testo">Tieni traccia di qualcosa nel tempo — presenze, minuti giocati, valutazioni, infortuni? E dove: quaderno, Excel, testa?</p>
+      <textarea data-d="9" placeholder="Scrivi qui"></textarea>
+    </div>
+  </div>
+
+  <div class="fascia">Programmi e soldi</div>
+
+  <div class="domanda">
+    <div class="numero">10</div>
+    <div>
+      <p class="testo">Che programmi o app usi oggi per allenare? Chi li paga, tu o la società?</p>
+      <textarea data-d="10" placeholder="Scrivi qui"></textarea>
+    </div>
+  </div>
+
+  <div class="domanda">
+    <div class="numero">11</div>
+    <div>
+      <p class="testo">Hai mai tirato fuori soldi tuoi per un'app o un programma legato all'allenare? Quanto, e ti è servito?</p>
+      <textarea data-d="11" placeholder="Scrivi qui"></textarea>
+    </div>
+  </div>
+
+  <div class="fascia">Le due che contano</div>
+
+  <div class="domanda">
+    <div class="numero">12</div>
+    <div>
+      <p class="testo">Qual è la cosa che ti porta via più tempo di tutte, e che se sparisse domani ti cambierebbe la settimana?</p>
+      <textarea data-d="12" placeholder="Scrivi qui" style="min-height:110px;"></textarea>
+    </div>
+  </div>
+
+  <div class="domanda">
+    <div class="numero">13</div>
+    <div>
+      <p class="testo">C'è qualcosa che tutti i programmi ti mettono davanti e che a te non serve assolutamente a niente?</p>
+      <textarea data-d="13" placeholder="Scrivi qui"></textarea>
+    </div>
+  </div>
+
+  <div class="fascia">Il lavoro tattico</div>
+
+  <div class="domanda">
+    <div class="numero">14</div>
+    <div>
+      <p class="testo">Come suddividi tatticamente il lavoro?</p>
+      <p class="aiuto">Per fasi (possesso, non possesso, transizioni), per reparti, per situazioni, per principi: dimmi come lo dividi tu in testa.</p>
+      <textarea data-d="14" placeholder="Scrivi qui" style="min-height:130px;"></textarea>
+    </div>
+  </div>
+
+  <div class="domanda">
+    <div class="numero">15</div>
+    <div>
+      <p class="testo">Quali di queste sezioni vorresti trovare dentro un'app fatta per te?</p>
+      <p class="aiuto">Segna quelle che useresti davvero, non quelle che "fanno curriculum".</p>
+      <div class="sezioni">
+        <label><input type="checkbox" data-sez="Fase di possesso"><span>Fase di possesso</span></label>
+        <label><input type="checkbox" data-sez="Fase di non possesso"><span>Fase di non possesso</span></label>
+        <label><input type="checkbox" data-sez="Costruzione dal basso"><span>Costruzione dal basso</span></label>
+        <label><input type="checkbox" data-sez="Schemi offensivi"><span>Schemi offensivi</span></label>
+        <label><input type="checkbox" data-sez="Pressing"><span>Pressing</span></label>
+        <label><input type="checkbox" data-sez="Transizione offensiva"><span>Transizione offensiva</span></label>
+        <label><input type="checkbox" data-sez="Transizione difensiva"><span>Transizione difensiva</span></label>
+        <label><input type="checkbox" data-sez="Difesa: linea e reparto"><span>Difesa: linea e reparto</span></label>
+        <label><input type="checkbox" data-sez="Calci d'angolo a favore"><span>Calci d'angolo a favore</span></label>
+        <label><input type="checkbox" data-sez="Calci d'angolo contro"><span>Calci d'angolo contro</span></label>
+        <label><input type="checkbox" data-sez="Punizioni laterali e dal limite"><span>Punizioni laterali e dal limite</span></label>
+        <label><input type="checkbox" data-sez="Rimesse laterali"><span>Rimesse laterali</span></label>
+        <label><input type="checkbox" data-sez="Rigori"><span>Rigori</span></label>
+        <label><input type="checkbox" data-sez="Preparazione dell'avversario"><span>Preparazione dell'avversario</span></label>
+        <label><input type="checkbox" data-sez="Portiere"><span>Portiere</span></label>
+        <label><input type="checkbox" data-sez="Individuale sul singolo giocatore"><span>Individuale sul singolo giocatore</span></label>
+      </div>
+      <textarea data-d="15" placeholder="Cosa manca in questo elenco? Scrivilo qui" style="min-height:90px;"></textarea>
+    </div>
+  </div>
+
+  <div class="fascia">L'ultima, a ruota libera</div>
+
+  <div class="domanda">
+    <div class="numero">16</div>
+    <div>
+      <p class="testo">Se potessi chiedere qualsiasi cosa a un programma che ti facilita il lavoro, cosa gli chiederesti?</p>
+      <p class="aiuto">Anche una cosa sola, anche impossibile. Dillo come viene.</p>
+      <textarea data-d="16" placeholder="Scrivi qui" style="min-height:130px;"></textarea>
+    </div>
+  </div>
+
+  <div class="fascia pro">Solo per chi è nei professionisti</div>
+
+  <div class="domanda pro">
+    <div class="numero">17</div>
+    <div>
+      <p class="testo">Nello staff c'è un match analyst, o qualcuno che fa solo video? Che strumenti usa?</p>
+      <textarea data-d="17" placeholder="Scrivi qui"></textarea>
+    </div>
+  </div>
+
+  <div class="domanda pro">
+    <div class="numero">18</div>
+    <div>
+      <p class="testo">Che programmi ha comprato la società? Li usi tu direttamente, o ti arriva il lavoro già fatto?</p>
+      <textarea data-d="18" placeholder="Scrivi qui"></textarea>
+    </div>
+  </div>
+
+  <div class="domanda pro">
+    <div class="numero">19</div>
+    <div>
+      <p class="testo">Chi decide gli acquisti di questo tipo — tu, il direttore sportivo, la società?</p>
+      <textarea data-d="19" placeholder="Scrivi qui"></textarea>
+    </div>
+  </div>
+
+  <div class="domanda pro">
+    <div class="numero">20</div>
+    <div>
+      <p class="testo">C'è qualcosa che ti fai ancora a mano, nonostante tutti i programmi che avete?</p>
+      <textarea data-d="20" placeholder="Scrivi qui"></textarea>
+    </div>
+  </div>
+
+  <div id="ripiego">
+    <p>Il telefono non mi ha lasciato copiare da solo. Tieni premuto qui sotto, <strong>Seleziona tutto</strong>, poi <strong>Copia</strong>.</p>
+    <textarea id="tuttoTesto" readonly></textarea>
+  </div>
+
+  <footer>
+    Grazie del tempo. Ogni risposta serve, anche corta.<br>Vince
+  </footer>
+</div>
+
+<div class="barra">
+  <div class="dentro">
+    <span class="conteggio" id="conteggio">0 risposte su 13</span>
+    <span style="display:flex;gap:10px;">
+      <button class="secondaria" id="pulisci" type="button">Cancella tutto</button>
+      <button id="copia" type="button">Copia le risposte</button>
+    </span>
+  </div>
+</div>
+
+<script>
+(function(){
+  var CHIAVE = 'vdm-questionario-calcio';
+  var aree = Array.prototype.slice.call(document.querySelectorAll('textarea[data-d]'));
+  var pro = document.getElementById('proSi');
+  var conteggio = document.getElementById('conteggio');
+
+  function domande(){
+    return aree.filter(function(a){
+      return pro.checked || !a.closest('.domanda').classList.contains('pro');
+    });
+  }
+  var caselle = Array.prototype.slice.call(document.querySelectorAll('input[data-sez]'));
+  function sezioniScelte(){
+    return caselle.filter(function(c){ return c.checked; }).map(function(c){ return c.dataset.sez; });
+  }
+  function aggiornaConteggio(){
+    var d = domande();
+    var fatte = d.filter(function(a){
+      if (a.dataset.d === '15') return a.value.trim() || sezioniScelte().length;
+      return a.value.trim();
+    }).length;
+    conteggio.textContent = fatte + (fatte === 1 ? ' risposta su ' : ' risposte su ') + d.length;
+  }
+  function salva(){
+    var o = {pro: pro.checked, sez: sezioniScelte()};
+    aree.forEach(function(a){ o[a.dataset.d] = a.value; });
+    try { localStorage.setItem(CHIAVE, JSON.stringify(o)); } catch(e){}
+  }
+  function carica(){
+    var o = null;
+    try { o = JSON.parse(localStorage.getItem(CHIAVE) || 'null'); } catch(e){}
+    if (!o) return;
+    pro.checked = !!o.pro;
+    aree.forEach(function(a){ if (typeof o[a.dataset.d] === 'string') a.value = o[a.dataset.d]; });
+    if (Array.isArray(o.sez)) caselle.forEach(function(c){ c.checked = o.sez.indexOf(c.dataset.sez) >= 0; });
+  }
+  function mostraPro(){
+    document.body.classList.toggle('mostra-pro', pro.checked);
+    aggiornaConteggio();
+  }
+  function cresci(a){ a.style.height = 'auto'; a.style.height = Math.max(a.scrollHeight + 2, 78) + 'px'; }
+
+  aree.forEach(function(a){
+    a.addEventListener('input', function(){ cresci(a); aggiornaConteggio(); salva(); });
+  });
+  pro.addEventListener('change', function(){ mostraPro(); salva(); });
+  caselle.forEach(function(c){ c.addEventListener('change', function(){ aggiornaConteggio(); salva(); }); });
+
+  function testoRisposte(){
+    var righe = ['RISPOSTE — Come lavora un mister', ''];
+    domande().forEach(function(a){
+      var q = a.closest('.domanda').querySelector('.testo').textContent.trim();
+      righe.push(a.dataset.d + '. ' + q);
+      if (a.dataset.d === '15') {
+        var scelte = sezioniScelte();
+        righe.push(scelte.length ? '- ' + scelte.join('\n- ') : '(nessuna sezione segnata)');
+        if (a.value.trim()) righe.push('Manca: ' + a.value.trim());
+      } else {
+        righe.push((a.value.trim() || '(nessuna risposta)'));
+      }
+      righe.push('');
+    });
+    return righe.join('\n');
+  }
+
+  document.getElementById('copia').addEventListener('click', function(){
+    var testo = testoRisposte();
+    var fatto = function(){
+      var b = document.getElementById('copia');
+      var prima = b.textContent;
+      b.textContent = 'Copiate';
+      setTimeout(function(){ b.textContent = prima; }, 1800);
+    };
+    var ripiego = function(){
+      var r = document.getElementById('ripiego');
+      var t = document.getElementById('tuttoTesto');
+      t.value = testo;
+      r.classList.add('aperto');
+      r.scrollIntoView({block:'center'});
+      t.focus(); t.select();
+    };
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(testo).then(fatto, ripiego);
+      } else { ripiego(); }
+    } catch(e) { ripiego(); }
+  });
+
+  document.getElementById('pulisci').addEventListener('click', function(){
+    aree.forEach(function(a){ a.value = ''; cresci(a); });
+    caselle.forEach(function(c){ c.checked = false; });
+    try { localStorage.removeItem(CHIAVE); } catch(e){}
+    document.getElementById('ripiego').classList.remove('aperto');
+    aggiornaConteggio();
+  });
+
+  carica();
+  mostraPro();
+  aree.forEach(cresci);
+  aggiornaConteggio();
+})();
+</script>
