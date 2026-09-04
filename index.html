@@ -102,6 +102,12 @@
     box-shadow:0 12px 34px rgba(0,234,255,.28);}
   .btn.primo:hover{box-shadow:0 16px 44px rgba(0,234,255,.42);}
   .btn small{display:block;font-weight:600;font-size:10.5px;opacity:.8;text-transform:none;letter-spacing:0;}
+  /* 5 settembre 2026: il bottone grande della prima schermata diceva solo
+     "Scarica". Chi arriva dalla mail non sa ancora se deve pagare per farlo, e
+     nella prima schermata la parola "gratis" non compariva da nessuna parte.
+     Ora il bottone dice la prova, e sotto in piccolo su cosa gira. Due righe,
+     quindi serve la colonna: il .btn normale mette i figli in fila. */
+  .btn.due-righe{flex-direction:column;align-items:flex-start;gap:3px;padding:13px 24px;}
   .nota{color:var(--muted);font-size:12.5px;margin-top:18px;font-family:var(--mono);}
   /* Il prezzo di lancio e l'avviso di Windows: due cose che vanno lette PRIMA
      di cliccare, non dopo. */
@@ -109,7 +115,25 @@
   /* Chi arriva sul sito deve capire PRIMA di cliccare che sta scaricando la
      prova, non una demo mutilata e non il programma comprato. Stava scritto
      solo nelle domande in fondo, cioe' dove non lo leggeva nessuno. */
-  .prova{margin:10px 0 0;font-size:12px;line-height:1.5;color:#7fe3ff;font-weight:700;}
+  .prova{margin:10px 0 0;font-size:14px;line-height:1.5;color:#7fe3ff;font-weight:700;}
+  /* LA PROVA GRATUITA IN CIMA (4 settembre 2026). Prima la prima cosa che si
+     leggeva scendendo era il PREZZO, e la prova stava sotto i bottoni in
+     dodici pixel. Chi arriva da una mail non ha ancora deciso di comprare:
+     ha deciso al massimo di guardare. Quindi la prima riga di questa sezione
+     dice che si prova gratis, e il prezzo viene dopo. */
+  .prova-grande{margin:0 0 22px;padding:16px 18px;border-radius:14px;
+    background:rgba(127,227,255,.10);border:1px solid rgba(127,227,255,.40);
+    max-width:74ch;font-size:16px;line-height:1.55;}
+  /* 5 settembre 2026: il titolo va IN GRANDE. La riga che deve fermare l'occhio
+     e' "Provala gratis per 14 giorni", non la spiegazione sotto. Il clamp serve
+     perche' meta' delle visite arrivano dal telefono: 24px sul telefono, 34px
+     sul computer, senza due regole diverse. Sotto, in seconda riga, la frase
+     che toglie il dubbio del prezzo: prima provi, poi semmai paghi. */
+  .prova-grande b{display:block;margin-bottom:2px;font-size:clamp(24px,5.2vw,34px);
+    line-height:1.15;letter-spacing:-.4px;color:#7fe3ff;}
+  .prova-sotto{display:block;margin-bottom:11px;font-weight:600;
+    font-size:clamp(16px,2.8vw,19px);line-height:1.3;color:var(--text,#eaf1ff);}
+  .prova-grande{color:var(--muted,#a8b6cf);}
   .prezzo-lancio b{color:var(--text,#eaf1ff);}
   /* AVVISO "E' UN PROGRAMMA DA COMPUTER" (3 settembre 2026). Serve perche' chi
      apre il sito dal telefono - e dopo una mail e' quasi sempre cosi' - tocca il
@@ -228,7 +252,11 @@
     border-color:transparent;color:#fff;font-weight:900;}
   .btn.negozio:hover{border-color:transparent;box-shadow:0 14px 38px rgba(76,141,255,.40);}
   .prezzo{display:flex;align-items:baseline;gap:10px;margin:6px 0 4px;}
-  .prezzo b{font-size:46px;letter-spacing:-2.6px;font-weight:900;
+  /* 5 settembre 2026: il prezzo era 46px e faceva piu' rumore della prova
+     gratuita. Non e' il prezzo che deve fermare chi non ti conosce: prima
+     legge che puo' provarla, poi vede quanto costa. Sceso a 30px e con il
+     bagliore dimezzato, cosi' resta chiaro senza gridare. */
+  .prezzo b{font-size:30px;letter-spacing:-1.4px;font-weight:900;
     background:linear-gradient(100deg,var(--acc),var(--acc2) 80%);
     -webkit-background-clip:text;background-clip:text;color:transparent;}
   .prezzo span{color:var(--muted);font-size:12px;font-family:var(--mono);}
@@ -355,7 +383,7 @@
     box-shadow:inset 0 0 0 1px rgba(255,255,255,.05);}
 
   /* il prezzo respira di piu' */
-  .prezzo b{filter:drop-shadow(0 0 26px rgba(0,234,255,.22));}
+  .prezzo b{filter:drop-shadow(0 0 14px rgba(0,234,255,.13));}
 
   @media (prefers-reduced-motion:reduce){
     .passo:hover,.box:hover,.piatto:hover,.voce:hover{transform:none;}
@@ -500,8 +528,8 @@
   <p class="sub" data-it>Video taggati, giochi disegnati, scouting dell'avversario, presentazioni alla squadra, allenamenti e registro del tiro. Tutto per squadra, tutto sul tuo computer.</p>
   <p class="sub" data-en>Tagged film, drawn plays, opponent scouting, team presentations, practice plans and a shooting log. All by team, all on your own computer.</p>
   <div class="cta">
-    <a class="btn primo" href="#scarica" data-it>Scarica per Mac e Windows</a>
-    <a class="btn primo" href="#scarica" data-en>Download for Mac and Windows</a>
+    <a class="btn primo due-righe" href="#scarica" data-it>Provala gratis 14 giorni<small>Mac e Windows · nessuna carta di credito</small></a>
+    <a class="btn primo due-righe" href="#scarica" data-en>Try it free for 14 days<small>Mac and Windows · no credit card</small></a>
     <a class="btn" href="#come" data-it>Guarda come funziona</a>
     <a class="btn" href="#come" data-en>See how it works</a>
   </div>
@@ -687,6 +715,16 @@
   <p class="intro" data-it>Nessun abbonamento e nessun rinnovo: si compra una volta e si usa. Il tuo lavoro resta sul tuo disco.</p>
   <p class="intro" data-en>No subscription and no renewals: buy once and use it. Your work stays on your own disk.</p>
 
+  <div class="prova-grande" data-it>
+    <b>Provala gratis per 14 giorni.</b>
+    <span class="prova-sotto">Poi, se ti piace, la compri.</span>
+    Scarichi il programma intero: tutte le funzioni, nessuna registrazione, nessuna carta di credito. Se dopo due settimane non fa per te, non hai dato niente a nessuno.
+  </div>
+  <div class="prova-grande" data-en>
+    <b>Try it free for 14 days.</b>
+    <span class="prova-sotto">Then, if you like it, you buy it.</span>
+    You download the whole program: every feature, no sign-up, no credit card. If after two weeks it is not for you, you have given nothing to anyone.
+  </div>
   <div class="prezzo"><b>59,99 €</b><span data-it>IVA inclusa · pagamento unico</span><span data-en>VAT included · one-time payment</span></div>
   <p class="prezzo-lancio" data-it><b>Prezzo di lancio fino al 31 dicembre.</b> Dal 1° gennaio il programma costa 79,99 €. Chi compra adesso non paga la differenza: la licenza resta valida com'è.</p>
   <p class="prezzo-lancio" data-en><b>Launch price until 31 December.</b> From 1 January the program costs €79.99. If you buy now you never pay the difference: your licence stays as it is.</p>
