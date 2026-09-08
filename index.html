@@ -184,6 +184,7 @@
   .film::before{content:'';position:absolute;top:0;left:0;right:0;height:5px;z-index:2;
     background:repeating-linear-gradient(45deg,var(--acc) 0 10px,#04060d 10px 20px);}
   .film video,.film img{width:100%;height:auto;display:block;}
+  .video-come{margin:26px 0 0;}
   .film .manca{aspect-ratio:16/10;display:flex;flex-direction:column;align-items:center;justify-content:center;
     gap:10px;color:var(--muted);font-size:13px;text-align:center;padding:26px;font-family:var(--mono);
     background:repeating-linear-gradient(45deg,#070c18,#070c18 12px,#0b1428 12px,#0b1428 24px);}
@@ -483,7 +484,7 @@
    * uno schermo grande restavano piccole in mezzo a due fasce nere.
    * Quindi escono dalla colonna — solo loro, e solo dove c'e' spazio. */
   @media(min-width:1240px){
-    #galCornice, .gal-tasti, #galDidascalia, .fogli-schermo{
+    #galCornice, .video-come, .gal-tasti, #galDidascalia, .fogli-schermo{
       width:min(1560px, 94vw);
       margin-left:calc(50% - min(780px, 47vw));
       margin-right:0;
@@ -587,6 +588,22 @@
   <h2 data-en>From the game to the staff meeting, without leaving the program</h2><h2 data-es>Del partido a la reunión del cuerpo técnico, sin salir del programa</h2>
   <p class="intro" data-it>Una schermata per ogni cosa che fa: si importa la partita, si tagga guardandola, e da lì escono montaggi, fogli e presentazioni.</p>
   <p class="intro" data-en>One screen for each thing it does: import the game, tag it as you watch, and out come reels, sheets and presentations.</p><p class="intro" data-es>Una pantalla para cada cosa: importas el partido, lo etiquetas mientras lo ves, y salen vídeos, hojas y presentaciones.</p>
+
+  <!-- 9 settembre 2026: trenta secondi girati DENTRO il programma, su una
+       partita vera, con le scritte in inglese perche' nove visitatori su
+       dieci arrivano da fuori. Parte da solo e muto: meta' della gente lo
+       guarda dal telefono senza audio, e un video che chiede di premere
+       play non lo preme nessuno. I comandi restano per chi vuole rivederlo.
+       Pesa 2,5 MB: sotto quella soglia parte subito anche col telefono in
+       palestra. Sta qui e non nella testata perche' chi arriva deve prima
+       capire cos'e', e perche' il tasto "Guarda come funziona" porta qui. -->
+  <div class="film video-come">
+    <video src="video/vdm-30-secondi.mp4" poster="img/video-poster.jpg"
+           width="1920" height="1080"
+           autoplay muted loop playsinline preload="metadata" controls></video>
+  </div>
+  <p class="didascalia" data-it>Trenta secondi dentro il programma, su una partita vera.</p>
+  <p class="didascalia" data-en>Thirty seconds inside the program, on a real game.</p><p class="didascalia" data-es>Treinta segundos dentro del programa, en un partido real.</p>
 
   <div class="gal-tasti" id="galTasti"></div>
   <div class="film" id="galCornice"></div>
