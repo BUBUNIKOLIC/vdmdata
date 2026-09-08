@@ -191,6 +191,10 @@
   @media (max-width:820px){ .fogli-due{grid-template-columns:1fr;} }
 
   .voci{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;}
+  /* 8 settembre 2026: la recensione di Mosso e' lunga il triplo delle altre.
+     Se la lascio in una colonna sola diventa una striscia di testo alta e
+     stretta e non la legge nessuno. Sul computer si prende due colonne. */
+  @media(min-width:760px){ .voce.lunga{grid-column:span 2;} }
   .voce{background:var(--card);border-left:4px solid var(--acc);padding:24px 22px;transition:background .16s;}
   .voce:hover{background:var(--card2);}
   .voce p{margin:0;font-size:15.5px;line-height:1.6;}
@@ -659,10 +663,17 @@
   <div class="occhiello" data-en>The coaches testing it</div><div class="occhiello" data-es>Los entrenadores que lo están probando</div>
   <h2 data-it>Le prime parole di chi la usa in palestra</h2>
   <h2 data-en>First words from the gym</h2><h2 data-es>Las primeras palabras desde el pabellón</h2>
-  <p class="intro" data-it>VDM è in collaudo presso alcuni allenatori, con partite e squadre vere. Queste tre sono le parole di Andrea Ruggieri, assistant coach in Legadue, che ha acconsentito a metterci il nome.</p>
-  <p class="intro" data-en>VDM is being tested by a handful of coaches, on real games with real teams. These three are the words of Andrea Ruggieri, an assistant coach in Legadue &mdash; the Italian second division &mdash; who agreed to put his name to them.</p><p class="intro" data-es>VDM lo está probando un puñado de entrenadores, en partidos de verdad con equipos de verdad. Estas tres son las palabras de Andrea Ruggieri, entrenador ayudante en Legadue &mdash; la segunda división italiana &mdash; que aceptó firmarlas con su nombre.</p>
+  <p class="intro" data-it>VDM è in collaudo presso alcuni allenatori, con partite e squadre vere. Queste sono le parole di Andrea Ruggieri, assistant coach in Legadue, e di Matteo Mosso della GYM Academy: hanno acconsentito a metterci il nome.</p>
+  <p class="intro" data-en>VDM is being tested by a handful of coaches, on real games with real teams. These are the words of Andrea Ruggieri, an assistant coach in Legadue &mdash; the Italian second division &mdash; and of Matteo Mosso of GYM Academy: both agreed to put their names to them.</p><p class="intro" data-es>VDM lo está probando un puñado de entrenadores, en partidos de verdad con equipos de verdad. Estas son las palabras de Andrea Ruggieri, entrenador ayudante en Legadue &mdash; la segunda división italiana &mdash; y de Matteo Mosso, de la GYM Academy: los dos aceptaron firmarlas con su nombre.</p>
 
   <div class="voci">
+    <div class="voce lunga">
+      <span class="virg">&ldquo;</span>
+      <p data-it>Per noi che ci affidiamo molto alla video analisi per il miglioramento del giocatore, VDM Basketball Coach è diventato uno strumento fondamentale. Integra perfettamente tagging, lavagna tattica e reportistica in un'unica piattaforma intuitiva, facendo risparmiare tantissimo tempo allo staff e rendendo i feedback con i giocatori immediati ed efficaci. Per completezza e rapporto qualità/prezzo, è una risorsa imprescindibile per chiunque voglia alzare il livello del proprio lavoro sul campo. Consigliatissimo!</p>
+      <p data-en>For us, video analysis is at the centre of how we develop players, and VDM Basketball Coach has become an essential tool. It brings tagging, the tactical board and the reports together in one intuitive program, it saves the staff a great deal of time, and it makes feedback with the players immediate and effective. For everything it covers and for what it costs, it is a must for anyone who wants to raise the level of their work on the court. Highly recommended!</p><p data-es>Para nosotros, que nos apoyamos mucho en el análisis de vídeo para la mejora del jugador, VDM Basketball Coach se ha convertido en una herramienta fundamental. Integra a la perfección el etiquetado, la pizarra táctica y los informes en un solo programa intuitivo, ahorra muchísimo tiempo al cuerpo técnico y hace que el feedback con los jugadores sea inmediato y eficaz. Por todo lo que abarca y por su relación calidad/precio, es un recurso imprescindible para quien quiera subir el nivel de su trabajo en la pista. ¡Muy recomendable!</p>
+      <div class="chi" data-it>Matteo Mosso · GYM Academy · settembre 2026</div>
+      <div class="chi" data-en>Matteo Mosso · GYM Academy · September 2026</div><div class="chi" data-es>Matteo Mosso · GYM Academy · septiembre 2026</div>
+    </div>
     <div class="voce">
       <span class="virg">&ldquo;</span>
       <p data-it>Mi trovo benissimo. Credo che questa app possa risolvere tanti problemi per lo staff: ha tutto integrato ed è semplice da utilizzare.</p>
