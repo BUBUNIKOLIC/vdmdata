@@ -244,6 +244,9 @@
   .box p{margin:0;color:var(--muted);font-size:14.4px;line-height:1.62;}
   .box .ico{font-size:21px;margin-bottom:10px;display:block;}
 
+  .scrivimi{margin:22px auto 0;max-width:560px;text-align:center;font-size:15.5px;line-height:1.6;
+    padding:14px 18px;border:1px solid rgba(0,234,255,.35);border-radius:12px;background:rgba(0,234,255,.06);}
+  .scrivimi a{font-weight:600;}
   .scarica{display:grid;grid-template-columns:repeat(auto-fit,minmax(255px,1fr));gap:16px;margin-top:26px;}
   .piatto{background:var(--card);border-top:3px solid var(--acc);padding:24px 22px;}
   .piatto h3{margin:0 0 5px;font-size:17px;text-transform:uppercase;letter-spacing:-.2px;}
@@ -597,8 +600,13 @@
        Pesa 2,5 MB: sotto quella soglia parte subito anche col telefono in
        palestra. Sta qui e non nella testata perche' chi arriva deve prima
        capire cos'e', e perche' il tasto "Guarda come funziona" porta qui. -->
+  <!-- 9 settembre, sera: due montaggi dello stesso filmato, uno con le
+       scritte in inglese e uno in italiano. Chi arriva in italiano vede
+       quello italiano; tutti gli altri, spagnoli compresi, vedono l'inglese,
+       che nel basket lo leggono ovunque. Lo scambio lo fa galDisegna(),
+       che gia' gira a ogni cambio di lingua. -->
   <div class="film video-come">
-    <video src="video/vdm-30-secondi.mp4" poster="img/video-poster.jpg"
+    <video id="videoCome" src="video/vdm-30-secondi.mp4" poster="img/video-poster.jpg"
            width="1920" height="1080"
            autoplay muted loop playsinline preload="metadata" controls></video>
   </div>
@@ -846,6 +854,12 @@
       then <b>Run anyway</b>. The warning fades away as more people download it.</p><p data-es>Windows avisa de todos los programas cuyo autor no paga un certificado anual, y yo no lo pago — prefiero no cobrártelo a ti. No significa que el archivo sea peligroso. Cuando aparezca la ventana <i>Windows protegió su PC</i>, pulsa <b>Más información</b> y luego <b>Ejecutar de todas formas</b>. El aviso desaparece a medida que más gente lo descarga.</p>
   </div>
   <p class="nota" data-it>Il programma si scarica e si installa: alla prima apertura chiede la chiave. Dopo l'acquisto ricevi una chiave legata al tuo computer. Se cambi computer, scrivimi e te ne faccio una nuova.</p>
+  <!-- 10 settembre 2026, sera. Il link Windows e' rimasto rotto due giorni e nessuno
+       se n'e' accorto finche' un allenatore non ha cercato l'indirizzo nel piede di
+       pagina per segnalarlo. Chi trova un intoppo se ne va: non scrive. Quindi
+       l'indirizzo va messo QUI, dove l'intoppo succede, non solo la' sotto. -->
+  <p class="scrivimi" data-it>Qualcosa non funziona, o il file non si scarica? <b>Scrivimi:</b> <a href="mailto:info@vdmdata.it">info@vdmdata.it</a> &mdash; rispondo io, di solito in giornata.</p>
+  <p class="scrivimi" data-en>Something not working, or the file won't download? <b>Write to me:</b> <a href="mailto:info@vdmdata.it">info@vdmdata.it</a> &mdash; it's me who answers, usually the same day.</p><p class="scrivimi" data-es>&iquest;Algo no funciona, o el archivo no se descarga? <b>Escr&iacute;beme:</b> <a href="mailto:info@vdmdata.it">info@vdmdata.it</a> &mdash; contesto yo, normalmente el mismo d&iacute;a.</p>
   <p class="nota" data-en>Download it and install it: it asks for the key on first launch. After purchase you receive a key tied to your computer. If you change computer, write to me and I'll issue a new one.</p><p class="nota" data-es>Descárgalo e instálalo: al abrirlo por primera vez pide la clave. Después de la compra recibes una clave ligada a tu ordenador. Si cambias de ordenador, escríbeme y te hago una nueva.</p>
 </div></section>
 
@@ -980,6 +994,18 @@ function fogliDisegna(){
     '<div class="et">' + (L==='es' ? x.es : L==='en' ? x.en : x.it) + '</div></div>').join('');
   const sc = document.getElementById('fogliSchermo');
   if (sc) sc.src = en ? 'img/en/come-si-stampa.webp' : 'img/come-si-stampa.webp';
+  /* il filmato segue la lingua: italiano per chi arriva in italiano,
+     inglese per tutti gli altri. Cambio la sorgente solo se serve
+     davvero, se no il video riparte da capo a ogni clic sulla lingua. */
+  var vc = document.getElementById('videoCome');
+  if (vc) {
+    var vsrc = (L === 'it') ? 'video/vdm-30-secondi-it.mp4' : 'video/vdm-30-secondi.mp4';
+    if (vc.getAttribute('src') !== vsrc) {
+      vc.setAttribute('src', vsrc);
+      vc.load();
+      var p = vc.play(); if (p && p.catch) p.catch(function(){});
+    }
+  }
   const a = document.getElementById('fogliPdf');
   if (a) a.setAttribute('href', en ? 'pdf/VDM-sample-sheets.pdf' : 'pdf/VDM-fogli-esempio.pdf');
 }
