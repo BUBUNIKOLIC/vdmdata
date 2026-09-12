@@ -605,13 +605,19 @@
        quello italiano; tutti gli altri, spagnoli compresi, vedono l'inglese,
        che nel basket lo leggono ovunque. Lo scambio lo fa galDisegna(),
        che gia' gira a ogni cambio di lingua. -->
+  <!-- 12 settembre 2026. Sostituito il filmato da 30 secondi con quello da 41.
+       Motivo: il vecchio faceva "wooow" ma non spiegava, e ce l'hanno detto in
+       due (l'agenzia e noi guardando le reazioni raccolte). Il nuovo mostra il
+       tag che si adatta alla squadra e il diagramma che si muove come lo
+       disegni - le due cose che non fa nessun altro - con le scritte sopra,
+       perche' meta' della gente guarda senza audio. -->
   <div class="film video-come">
-    <video id="videoCome" src="video/vdm-30-secondi.mp4" poster="img/video-poster.jpg"
-           width="1920" height="1080"
+    <video id="videoCome" src="video/vdm-41-secondi-en.mp4" poster="img/video-poster.jpg"
+           width="1512" height="982"
            autoplay muted loop playsinline preload="metadata" controls></video>
   </div>
-  <p class="didascalia" data-it>Trenta secondi dentro il programma, su una partita vera.</p>
-  <p class="didascalia" data-en>Thirty seconds inside the program, on a real game.</p><p class="didascalia" data-es>Treinta segundos dentro del programa, en un partido real.</p>
+  <p class="didascalia" data-it>Quaranta secondi dentro il programma, su una partita vera.</p>
+  <p class="didascalia" data-en>Forty seconds inside the program, on a real game.</p><p class="didascalia" data-es>Cuarenta segundos dentro del programa, en un partido real.</p>
 
   <div class="gal-tasti" id="galTasti"></div>
   <div class="film" id="galCornice"></div>
@@ -999,7 +1005,7 @@ function fogliDisegna(){
      davvero, se no il video riparte da capo a ogni clic sulla lingua. */
   var vc = document.getElementById('videoCome');
   if (vc) {
-    var vsrc = (L === 'it') ? 'video/vdm-30-secondi-it.mp4' : 'video/vdm-30-secondi.mp4';
+    var vsrc = (L === 'it') ? 'video/vdm-41-secondi-it.mp4' : 'video/vdm-41-secondi-en.mp4';
     if (vc.getAttribute('src') !== vsrc) {
       vc.setAttribute('src', vsrc);
       vc.load();
