@@ -151,6 +151,17 @@
      apre il sito dal telefono - e dopo una mail e' quasi sempre cosi' - tocca il
      bottone del Mac App Store, arriva su una pagina che sull'iPhone non si puo'
      installare, e pensa che il sito sia rotto. Sta in alto, prima dei bottoni. */
+  /* 12 settembre 2026. Ora i tasti che scaricano stanno anche in cima, e in
+     cima ci arriva anche chi legge dal telefono: di 80 visite in un giorno,
+     28 erano da telefono. Su iPhone un file .dmg non serve a niente, quindi
+     sotto i tasti compare una riga che si vede SOLO da schermo stretto.
+     L'avviso grande piu' in basso (.solo-pc) resta dov'e'. */
+  .solo-telefono{display:none;}
+  @media (max-width:720px){
+    .solo-telefono{display:block;margin:14px 0 0;padding:12px 14px;border-radius:12px;
+      background:rgba(214,138,0,.12);border:1px solid rgba(214,138,0,.38);
+      font-size:14px;line-height:1.45;max-width:74ch;}
+  }
   .solo-pc{margin:0 0 22px;padding:14px 16px;border-radius:14px;
     background:rgba(214,138,0,.12);border:1px solid rgba(214,138,0,.38);max-width:74ch;
     font-size:15px;line-height:1.5;}
@@ -570,12 +581,24 @@
   <h1 data-en>A whole season<br><em>in one place.</em></h1><h1 data-es>Toda una temporada<br><em>en un solo sitio.</em></h1>
   <p class="sub" data-it>Video taggati, giochi disegnati, scouting dell'avversario, presentazioni alla squadra, allenamenti e registro del tiro. Tutto per squadra, tutto sul tuo computer.</p>
   <p class="sub" data-en>Tagged film, drawn plays, opponent scouting, team presentations, practice plans and a shooting log. All by team, all on your own computer.</p><p class="sub" data-es>Vídeo etiquetado, jugadas dibujadas, scouting del rival, presentaciones al equipo, planes de entrenamiento y registro de tiro. Todo por equipo, todo en tu ordenador.</p>
+  <!-- 12 settembre 2026, sera. Il tasto in alto diceva "Provala gratis 14 giorni"
+       ma non scaricava: portava in fondo alla pagina, dove bisognava scegliere
+       Mac o Windows e cliccare una seconda volta. Due clic e un salto di 9.000
+       pixel per fare una cosa sola.
+       Quel giorno le analitiche dicevano: 26 visite dagli Stati Uniti arrivate
+       dalle mail, zero scaricamenti. Ora i due tasti veri stanno qui, dove la
+       gente atterra: si clicca una volta e il file parte.
+       Quelli in fondo restano dove sono, per chi legge tutta la pagina. -->
   <div class="cta">
-    <a class="btn primo due-righe" href="#scarica" data-it>Provala gratis 14 giorni<small>Mac e Windows · nessuna carta di credito</small></a>
-    <a class="btn primo due-righe" href="#scarica" data-en>Try it free for 14 days<small>Mac and Windows · no credit card</small></a><a class="btn primo due-righe" href="#scarica" data-es>Pruébalo gratis 14 días<small>Mac y Windows · sin tarjeta de crédito</small></a>
+    <a class="btn primo due-righe" href="https://github.com/BUBUNIKOLIC/vdmdata/releases/latest/download/VDM-Basketball-Coach-mac.dmg" data-it>Scarica gratis per Mac<small>file .dmg · 14 giorni, senza carta di credito</small></a>
+    <a class="btn primo due-righe" href="https://github.com/BUBUNIKOLIC/vdmdata/releases/latest/download/VDM-Basketball-Coach-mac.dmg" data-en>Download free for Mac<small>.dmg file · 14 days, no credit card</small></a><a class="btn primo due-righe" href="https://github.com/BUBUNIKOLIC/vdmdata/releases/latest/download/VDM-Basketball-Coach-mac.dmg" data-es>Descarga gratis para Mac<small>archivo .dmg · 14 días, sin tarjeta</small></a>
+    <a class="btn primo due-righe" href="https://github.com/BUBUNIKOLIC/vdmdata/releases/latest/download/VDM-Basketball-Coach-win.exe" data-it>Scarica gratis per Windows<small>file .exe · 14 giorni, senza carta di credito</small></a>
+    <a class="btn primo due-righe" href="https://github.com/BUBUNIKOLIC/vdmdata/releases/latest/download/VDM-Basketball-Coach-win.exe" data-en>Download free for Windows<small>.exe file · 14 days, no credit card</small></a><a class="btn primo due-righe" href="https://github.com/BUBUNIKOLIC/vdmdata/releases/latest/download/VDM-Basketball-Coach-win.exe" data-es>Descarga gratis para Windows<small>archivo .exe · 14 días, sin tarjeta</small></a>
     <a class="btn" href="#come" data-it>Guarda come funziona</a>
     <a class="btn" href="#come" data-en>See how it works</a><a class="btn" href="#come" data-es>Mira cómo funciona</a>
   </div>
+  <p class="solo-telefono" data-it>Stai leggendo dal telefono: VDM è un programma per Mac e Windows, sul telefono non si installa. Riapri questa pagina dal computer con cui prepari gli allenamenti.</p>
+  <p class="solo-telefono" data-en>You are reading this on a phone: VDM is a program for Mac and Windows, it does not install on a phone. Open this page again on the computer you work on.</p><p class="solo-telefono" data-es>Estás leyendo desde el móvil: VDM es un programa para Mac y Windows, en el móvil no se instala. Vuelve a abrir esta página en el ordenador con el que trabajas.</p>
   <p class="nota" data-it>Si paga una volta. Nessun abbonamento, nessun account, nessun dato che esce dal tuo computer.</p>
   <p class="nota" data-en>Pay once. No subscription, no account, no data leaving your computer.</p><p class="nota" data-es>Se paga una vez. Sin suscripción, sin cuenta, sin datos que salgan de tu ordenador.</p>
   <div class="dati">
