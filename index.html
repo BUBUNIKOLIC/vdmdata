@@ -612,7 +612,7 @@
        disegni - le due cose che non fa nessun altro - con le scritte sopra,
        perche' meta' della gente guarda senza audio. -->
   <div class="film video-come">
-    <video id="videoCome" src="video/vdm-41-secondi-en.mp4" poster="img/video-poster.jpg"
+    <video id="videoCome" src="vdm-41-secondi-en.mp4" poster="img/video-poster.jpg"
            width="1512" height="982"
            autoplay muted loop playsinline preload="metadata" controls></video>
   </div>
@@ -1005,7 +1005,7 @@ function fogliDisegna(){
      davvero, se no il video riparte da capo a ogni clic sulla lingua. */
   var vc = document.getElementById('videoCome');
   if (vc) {
-    var vsrc = (L === 'it') ? 'video/vdm-41-secondi-it.mp4' : 'video/vdm-41-secondi-en.mp4';
+    var vsrc = (L === 'it') ? 'vdm-41-secondi-it.mp4' : 'vdm-41-secondi-en.mp4';
     if (vc.getAttribute('src') !== vsrc) {
       vc.setAttribute('src', vsrc);
       vc.load();
