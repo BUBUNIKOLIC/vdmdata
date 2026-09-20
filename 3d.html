@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!-- Pagina di atterraggio per chi arriva dagli annunci Google (20 settembre 2026).
+     Una cosa sola: il Playbook animato 3D, il video, due pulsanti per scaricare.
+     Il sito normale (index.html) resta com'e' per tutti gli altri. -->
+<link rel="icon" href="img/vdm-icona.svg" type="image/svg+xml">
+<link rel="icon" href="img/vdm-icona-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="img/vdm-icona-180.png">
+<meta name="theme-color" content="#04060d">
+<link rel="canonical" href="https://vdmdata.it/3d">
+<title>Draw the play. Watch it run in 3D. &mdash; VDM Basketball Coach</title>
+<meta name="description" content="Draw a basketball play the way you always do and watch it run on a 3D court, in the right order. Rotate the court, export a video for your players. Mac and Windows, free for 14 days.">
+<meta property="og:title" content="Draw the play. Watch it run in 3D.">
+<meta property="og:description" content="The Animated 3D Playbook in VDM Basketball Coach. Free for 14 days, no sign-up.">
+<meta property="og:image" content="https://vdmdata.it/img/video-poster-3d.jpg">
+<meta property="og:url" content="https://vdmdata.it/3d">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+  :root{
+    --fondo:#04060d; --fondo2:#0a1226;
+    --card:linear-gradient(160deg,#0d1730,#070c18);
+    --bordo:#1b2a4d; --txt:#f0f6ff; --muted:#8aa0c4;
+    --acc:#00eaff; --acc2:#4c8dff; --blu:#1e4fd8;
+    --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box;}
+  html{overflow-x:hidden;}
+  body{margin:0;background:var(--fondo);color:var(--txt);overflow-x:hidden;
+    font:16px/1.62 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;}
+  body::after{content:'';position:fixed;inset:0;z-index:-3;pointer-events:none;background-repeat:no-repeat;
+    background:
+      radial-gradient(75% 42% at 12% 0%,rgba(0,234,255,.13),transparent 68%),
+      radial-gradient(55% 38% at 92% 4%,rgba(30,79,216,.20),transparent 70%),
+      linear-gradient(180deg,var(--fondo2),var(--fondo) 42%);}
+  a{color:var(--acc);text-decoration:none;} a:hover{text-decoration:underline;}
+  .wrap{max-width:980px;margin:0 auto;padding:0 20px;}
+  .bar{display:flex;align-items:center;justify-content:space-between;gap:16px;
+    padding:16px 0;border-bottom:1px solid var(--bordo);}
+  .logo{font-weight:900;letter-spacing:.14em;font-size:13px;text-transform:uppercase;color:var(--txt);}
+  .logo b{background:linear-gradient(100deg,var(--acc),var(--acc2));
+    -webkit-background-clip:text;background-clip:text;color:transparent;}
+  .bar a.altro{color:var(--muted);font-size:13px;}
+  .nuovo{display:inline-flex;align-items:center;gap:9px;background:var(--card);
+    border-left:3px solid var(--acc);padding:7px 14px;font-size:12px;color:var(--muted);
+    font-family:var(--mono);letter-spacing:.06em;text-transform:uppercase;margin:34px 0 18px;}
+  .nuovo b{color:var(--acc);font-weight:800;}
+  h1{font-size:clamp(32px,6vw,58px);line-height:1.04;margin:0 0 16px;letter-spacing:-.02em;font-weight:900;}
+  h1 em{font-style:normal;background:linear-gradient(100deg,var(--acc) 10%,var(--acc2) 75%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;}
+  p.sub{font-size:clamp(16px,2.1vw,19px);color:var(--muted);max-width:660px;margin:0 0 26px;}
+  .bottoni{display:flex;flex-wrap:wrap;gap:12px;margin:0 0 14px;}
+  .btn{display:inline-flex;flex-direction:column;align-items:flex-start;gap:3px;
+    padding:14px 24px;border:2px solid var(--bordo);background:var(--card);color:var(--txt);
+    font-size:14.5px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;
+    transition:transform .15s,border-color .15s,box-shadow .15s;}
+  .btn:hover{text-decoration:none;border-color:var(--acc);transform:translateY(-1px);}
+  .btn.primo{background:linear-gradient(120deg,var(--acc),var(--blu) 85%);border-color:transparent;color:#03121a;
+    box-shadow:0 12px 34px rgba(0,234,255,.28);}
+  .btn.primo:hover{box-shadow:0 16px 44px rgba(0,234,255,.42);}
+  .btn small{font-weight:600;font-size:10.5px;opacity:.85;text-transform:none;letter-spacing:0;}
+  .nota{color:var(--muted);font-size:12.5px;font-family:var(--mono);margin:0 0 34px;}
+  video{width:100%;height:auto;display:block;border:1px solid var(--bordo);background:#000;}
+  .passi{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));margin:34px 0 8px;}
+  .passo{background:var(--card);border:1px solid var(--bordo);border-top:3px solid var(--acc);padding:18px 18px 20px;}
+  .passo h3{margin:0 0 6px;font-size:15px;letter-spacing:.04em;text-transform:uppercase;}
+  .passo p{margin:0;color:var(--muted);font-size:14.5px;}
+  .passo span{font-family:var(--mono);font-size:11px;color:var(--acc);display:block;margin-bottom:8px;}
+  .resto{border-top:1px solid var(--bordo);margin-top:46px;padding:28px 0 10px;color:var(--muted);font-size:14.5px;}
+  .resto h2{color:var(--txt);font-size:17px;letter-spacing:.04em;text-transform:uppercase;margin:0 0 10px;}
+  .resto ul{margin:0 0 18px;padding-left:18px;}
+  .resto li{margin:4px 0;}
+  footer{border-top:1px solid var(--bordo);margin-top:26px;padding:18px 0 40px;color:var(--muted);font-size:12.5px;
+    display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="bar">
+    <div class="logo">VDM <b>Basketball Coach</b></div>
+    <a class="altro" href="/">Everything the app does &rarr;</a>
+  </div>
+
+  <div class="nuovo"><b>NEW</b> &middot; Animated 3D Playbook</div>
+
+  <h1>Draw the play.<br><em>Watch it run in 3D.</em></h1>
+  <p class="sub">You draw it the way you always do &mdash; the circled number with the ball, cuts, screens, dribbles and passes. Press &ldquo;Animate in 3D&rdquo; and the play runs on a 3D court in the right order: first the screen, then the player using it, then the pass.</p>
+
+  <div class="bottoni">
+    <a class="btn primo" href="https://github.com/BUBUNIKOLIC/vdmdata/releases/latest/download/VDM-Basketball-Coach-mac.dmg">Download free for Mac<small>.dmg file &middot; 14 days, no credit card</small></a>
+    <a class="btn primo" href="https://github.com/BUBUNIKOLIC/vdmdata/releases/latest/download/VDM-Basketball-Coach-win.exe">Download free for Windows<small>.exe file &middot; 14 days, no credit card</small></a>
+  </div>
+  <p class="nota">14-day free trial &middot; no sign-up, no account, no credit card &middot; one-time licence, no subscription</p>
+
+  <video src="vdm-33-secondi-en.mp4" poster="img/video-poster-3d.jpg" controls playsinline preload="none"></video>
+
+  <div class="passi">
+    <div class="passo"><span>01</span><h3>Draw it once</h3><p>Cuts, screens, dribbles and passes, step by step &mdash; the same diagram you already keep in your playbook.</p></div>
+    <div class="passo"><span>02</span><h3>Watch it move</h3><p>3D players and basket, everything in the right order. Watch from above like your playbook, or rotate the court and look from any side.</p></div>
+    <div class="passo"><span>03</span><h3>Send it to your players</h3><p>Export the play as a short video. Your Playbook and its printouts stay exactly as they are.</p></div>
+  </div>
+
+  <div class="resto">
+    <h2>And the rest of the season, in the same app</h2>
+    <ul>
+      <li>Tag your game film as you watch it &mdash; every tag becomes a clip, by player and by situation</li>
+      <li>Scouting report on the next opponent, printed on one page</li>
+      <li>Personnel sheets, practice plans and the shooting log</li>
+      <li>Mac &amp; Windows &middot; 12 languages &middot; works offline, your film stays on your own computer</li>
+    </ul>
+    <p>Also on the <a href="https://apps.apple.com/app/id6804416013">Mac App Store</a> and the <a href="https://apps.microsoft.com/detail/9NLD6JCZNJ0G">Microsoft Store</a>.</p>
+  </div>
+
+  <footer>
+    <div>Built by a basketball coach &middot; <a href="/">vdmdata.it</a></div>
+    <div><a href="https://youtu.be/G82Fp5sfyYk">Watch on YouTube</a></div>
+  </footer>
+
+</div>
+</body>
+</html>
