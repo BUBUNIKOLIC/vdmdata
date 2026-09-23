@@ -713,7 +713,7 @@
       <span class="fx-tempo" id="fxTempo">00:00</span>
     </div>
     <div class="fx-schermo">
-      <video id="fxVideo" poster="video/effetti.jpg" autoplay loop muted playsinline preload="auto">
+      <video id="fxVideo" poster="video/effetti.jpg" loop muted playsinline preload="none">
         <source src="video/effetti.webm" type="video/webm">
         <source src="video/effetti.mp4" type="video/mp4">
       </video>
@@ -1149,6 +1149,20 @@ function fxAvvia(){
   fxCostruisci();
   const v = document.getElementById('fxVideo');
   if (!v) return;
+  // 23 settembre 2026: il video pesa 1,2 MB e sta a meta' pagina. Con autoplay e
+  // preload="auto" partiva subito e si mangiava la banda mentre la pagina di sopra
+  // doveva ancora finire di aprirsi: da lontano (Stati Uniti) il campo in 3D ci
+  // metteva sei secondi. Ora si carica e parte solo quando lo si sta per vedere.
+  if ('IntersectionObserver' in window) {
+    const occhio = new IntersectionObserver(function(voci){
+      voci.forEach(function(x){
+        if (x.isIntersecting) { try { v.play(); } catch(e){} occhio.disconnect(); }
+      });
+    }, { rootMargin: '300px' });
+    occhio.observe(v);
+  } else {
+    try { v.play(); } catch(e){}
+  }
   let ultimo = -1;
   v.addEventListener('timeupdate', function(){
     const t = v.currentTime;
