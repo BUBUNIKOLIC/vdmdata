@@ -162,6 +162,15 @@
       background:rgba(214,138,0,.12);border:1px solid rgba(214,138,0,.38);
       font-size:14px;line-height:1.45;max-width:74ch;}
   }
+  /* 24 settembre 2026: la riga qui sopra dice "riaprila dal computer", ma chi la
+     legge in palestra poi se lo dimentica. Questo bottone gli manda il link dove
+     vuole lui: se il telefono ha la condivisione si apre quella (WhatsApp, note,
+     posta), altrimenti si apre la mail gia' scritta. Si vede solo da telefono. */
+  .ricorda-telefono{display:none;}
+  @media (max-width:720px){
+    .ricorda-telefono{display:block;margin:10px 0 0;}
+    .ricorda-telefono .btn{font-size:14px;padding:10px 14px;}
+  }
   .solo-pc{margin:0 0 22px;padding:14px 16px;border-radius:14px;
     background:rgba(214,138,0,.12);border:1px solid rgba(214,138,0,.38);max-width:74ch;
     font-size:15px;line-height:1.5;}
@@ -599,6 +608,11 @@
   </div>
   <p class="solo-telefono" data-it>Stai leggendo dal telefono: VDM è un programma per Mac e Windows, sul telefono non si installa. Riapri questa pagina dal computer con cui prepari gli allenamenti.</p>
   <p class="solo-telefono" data-en>You are reading this on a phone: VDM is a program for Mac and Windows, it does not install on a phone. Open this page again on the computer you work on.</p><p class="solo-telefono" data-es>Estás leyendo desde el móvil: VDM es un programa para Mac y Windows, en el móvil no se instala. Vuelve a abrir esta página en el ordenador con el que trabajas.</p>
+  <div class="ricorda-telefono">
+    <button type="button" class="btn ricordamelo" data-it data-ogg="VDM Basketball Coach" data-corpo="Aprilo dal computer: https://vdmdata.it">&#9993;&#65039; Mandami il link</button>
+    <button type="button" class="btn ricordamelo" data-en data-ogg="VDM Basketball Coach" data-corpo="Open it on your computer: https://vdmdata.it">&#9993;&#65039; Send me the link</button>
+    <button type="button" class="btn ricordamelo" data-es data-ogg="VDM Basketball Coach" data-corpo="&Aacute;brelo desde el ordenador: https://vdmdata.it">&#9993;&#65039; Env&iacute;ame el enlace</button>
+  </div>
   <p class="nota" data-it>Si paga una volta. Nessun abbonamento, nessun account, nessun dato che esce dal tuo computer.</p>
   <p class="nota" data-en>Pay once. No subscription, no account, no data leaving your computer.</p><p class="nota" data-es>Se paga una vez. Sin suscripción, sin cuenta, sin datos que salgan de tu ordenador.</p>
   <div class="dati">
@@ -1214,5 +1228,19 @@ function lingua(l, scelta){
 <!-- Cloudflare Web Analytics -->
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "b2cf278a022948df8fe261df7165aa48"}'></script>
 <!-- Fine Cloudflare Web Analytics -->
+<script>
+/* il bottone "mandami il link" della riga per i telefoni (24 settembre 2026) */
+document.querySelectorAll('.ricordamelo').forEach(function(b){
+  b.addEventListener('click', function(){
+    var titolo = b.getAttribute('data-ogg') || 'VDM Basketball Coach';
+    var testo  = b.getAttribute('data-corpo') || 'https://vdmdata.it';
+    if (navigator.share){
+      navigator.share({title: titolo, text: testo, url: 'https://vdmdata.it'}).catch(function(){});
+    } else {
+      location.href = 'mailto:?subject=' + encodeURIComponent(titolo) + '&body=' + encodeURIComponent(testo);
+    }
+  });
+});
+</script>
 </body>
 </html>

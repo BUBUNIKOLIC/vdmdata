@@ -76,6 +76,18 @@
   .resto li{margin:4px 0;}
   footer{border-top:1px solid var(--bordo);margin-top:26px;padding:18px 0 40px;color:var(--muted);font-size:12.5px;
     display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;}
+  /* 24 settembre 2026: chi arriva qui dal telefono non puo' farci niente con un
+     .dmg o un .exe. Stessa riga della pagina principale, piu' il bottone che gli
+     manda il link dove se lo ritrova la sera. Solo da schermo stretto. */
+  .solo-telefono{display:none;}
+  .ricorda-telefono{display:none;}
+  @media (max-width:720px){
+    .solo-telefono{display:block;margin:14px auto 0;padding:12px 14px;border-radius:12px;
+      background:rgba(214,138,0,.12);border:1px solid rgba(214,138,0,.38);
+      font-size:14px;line-height:1.45;max-width:74ch;text-align:left;}
+    .ricorda-telefono{display:block;margin:10px 0 0;}
+    .ricorda-telefono .btn{font-size:14px;padding:10px 14px;}
+  }
 </style>
 </head>
 <body>
@@ -94,6 +106,10 @@
   <div class="bottoni">
     <a class="btn primo" href="https://github.com/BUBUNIKOLIC/vdmdata/releases/latest/download/VDM-Basketball-Coach-mac.dmg">Download for Mac<small>.dmg file &middot; 14-day trial, then a one-time licence</small></a>
     <a class="btn primo" href="https://github.com/BUBUNIKOLIC/vdmdata/releases/latest/download/VDM-Basketball-Coach-win.exe">Download for Windows<small>.exe file &middot; 14-day trial, then a one-time licence</small></a>
+  </div>
+  <p class="solo-telefono">You are reading this on a phone: VDM is a program for Mac and Windows, it does not install on a phone. Open this page again on the computer you work on.</p>
+  <div class="ricorda-telefono">
+    <button type="button" class="btn ricordamelo" data-ogg="VDM Basketball Coach" data-corpo="Open it on your computer: https://vdmdata.it/3d">&#9993;&#65039; Send me the link</button>
   </div>
   <p class="nota">14-day trial &middot; no sign-up, no account &middot; one-time licence, no subscription</p>
 
@@ -124,6 +140,20 @@
 </div>
 <!-- Cloudflare Web Analytics: lo stesso contatore della pagina principale,
      cosi' nel pannello si vedono separate le visite a / e a /3d -->
+<script>
+/* il bottone "mandami il link" per chi arriva dal telefono (24 settembre 2026) */
+document.querySelectorAll('.ricordamelo').forEach(function(b){
+  b.addEventListener('click', function(){
+    var titolo = b.getAttribute('data-ogg') || 'VDM Basketball Coach';
+    var testo  = b.getAttribute('data-corpo') || 'https://vdmdata.it/3d';
+    if (navigator.share){
+      navigator.share({title: titolo, text: testo, url: 'https://vdmdata.it/3d'}).catch(function(){});
+    } else {
+      location.href = 'mailto:?subject=' + encodeURIComponent(titolo) + '&body=' + encodeURIComponent(testo);
+    }
+  });
+});
+</script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "b2cf278a022948df8fe261df7165aa48"}'></script>
 </body>
 </html>
