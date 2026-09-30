@@ -99,6 +99,10 @@
     border-left:3px solid var(--acc);padding:7px 14px;font-size:12px;color:var(--muted);
     margin-bottom:24px;font-weight:600;}
   .occhio b{color:var(--acc);font-weight:800;}
+  /* 30/09 sera: display:inline-flex spezzava la riga in colonne storte sul
+     telefono (ogni pezzo diventava una casella per conto suo). Sotto i 700px
+     torna testo normale e va a capo come una frase qualunque. */
+  @media(max-width:700px){ .occhio{display:block;line-height:1.55;padding:9px 13px;} }
   h1{font-size:clamp(34px,6.4vw,68px);line-height:.98;margin:0 0 20px;letter-spacing:-2.4px;
     font-weight:900;text-transform:uppercase;}
   h1 em{font-style:normal;background:linear-gradient(100deg,var(--acc) 10%,var(--acc2) 75%);
@@ -629,8 +633,8 @@
   </g>
 </svg><div class="wrap hero-due">
 <div class="hero-testo-alto">
-  <span class="occhio" data-it>🏀 Scritto da un allenatore, per gli allenatori · <b>12 lingue</b> · <b>ottimizzato per IA</b></span>
-  <span class="occhio" data-en>🏀 Written by a coach, for coaches · <b>12 languages</b> · <b>optimised for AI</b></span><span class="occhio" data-es>🏀 Escrito por un entrenador, para entrenadores · <b>12 idiomas</b> · <b>optimizado para IA</b></span>
+  <span class="occhio" data-it>🏀 Scritto da un allenatore, per gli allenatori · <b>ottimizzato per IA</b></span>
+  <span class="occhio" data-en>🏀 Written by a coach, for coaches · <b>optimised for AI</b></span><span class="occhio" data-es>🏀 Escrito por un entrenador, para entrenadores · <b>optimizado para IA</b></span>
   <h1 data-it>Il lavoro di una stagione<br><em>in un posto solo.</em></h1>
   <h1 data-en>A whole season<br><em>in one place.</em></h1><h1 data-es>Toda una temporada<br><em>en un solo sitio.</em></h1>
   <p class="sub" data-it>Video taggati, giochi disegnati, scouting dell'avversario, presentazioni alla squadra, allenamenti e registro del tiro. Tutto per squadra, tutto sul tuo computer.</p>
@@ -677,7 +681,6 @@
   <p class="nota" data-en>Pay once. No subscription, no account, no data leaving your computer.</p><p class="nota" data-es>Se paga una vez. Sin suscripción, sin cuenta, sin datos que salgan de tu ordenador.</p>
   <div class="dati">
     <div><b>12</b><span data-it>lingue</span><span data-en>languages</span><span data-es>idiomas</span></div>
-    <div><b>20</b><span data-it>schermate</span><span data-en>screens</span><span data-es>pantallas</span></div>
     <div><b>0</b><span data-it>abbonamenti</span><span data-en>subscriptions</span><span data-es>suscripciones</span></div>
   </div>
 </div>
