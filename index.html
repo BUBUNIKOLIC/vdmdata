@@ -512,6 +512,35 @@
   .hero .wrap{position:relative;z-index:1;}
   @media(max-width:900px){ .hero .campo-fondo{opacity:.30;} }
 
+  /* ============ LA GIOCATA SI VEDE SUBITO ============
+     30 settembre 2026, sera. Cloudflare: 49 visite in 24 ore, 39 si fermano
+     qui e se ne vanno; solo 4 arrivano a una pagina di scaricamento e 2
+     scaricano. Nella prima schermata non si vedeva il programma: chi arriva
+     da una mail con un gioco animato in 3D trovava un muro di parole.
+     Qui la giocata gira da sola, muta, in ciclo. Il file e' quello che gia'
+     usiamo nelle mail (405 KB), quindi non pesa niente. */
+  .hero-clip{margin:30px 0 0;max-width:560px;border-radius:14px;overflow:hidden;
+    border:1px solid rgba(120,190,255,.20);box-shadow:0 20px 54px rgba(0,0,0,.48);}
+  .hero-clip video{display:block;width:100%;height:auto;background:#0b1220;}
+  .hero-clip figcaption{padding:11px 16px 13px;font-size:14px;line-height:1.5;
+    color:#9fb4cc;background:rgba(10,20,38,.72);
+    border-top:1px solid rgba(120,190,255,.12);}
+  /* Sul telefono si legge in fila: titolo, clip, tasti. La clip sta in mezzo
+     perche' in fondo alla pagina non la guarda nessuno, e i tasti restano
+     comunque sopra la piega. Sul computer diventano due colonne. */
+  @media(min-width:1000px){
+    .hero .wrap.hero-due{display:grid;gap:12px 44px;align-items:start;
+      grid-template-columns:minmax(0,1fr) minmax(0,38%);
+      grid-template-areas:"alto clip" "basso clip";}
+    .hero-testo-alto{grid-area:alto;}
+    .hero-testo-basso{grid-area:basso;}
+    .hero-clip{grid-area:clip;align-self:center;margin:0;max-width:none;}
+    /* la colonna e' piu' stretta della pagina intera: il titolo deve
+       rimpicciolirsi, se no va a quattro righe e spinge USAP sotto la piega */
+    .hero .wrap.hero-due h1{font-size:clamp(34px,3.7vw,54px);letter-spacing:-1.8px;}
+    .hero .wrap.hero-due .sub{font-size:16.5px;}
+  }
+
   /* ============ LE SCHERMATE RESPIRANO ============
    * La colonna del sito e' larga 1120px, ed e' giusto cosi' PER IL TESTO:
    * righe piu' lunghe di una novantina di caratteri si leggono male, e'
@@ -598,13 +627,23 @@
     <rect width="300" height="120" fill="#4c8dff" opacity=".11"/>
     <rect class="vdm-scia" x="-140" y="0" width="140" height="120" fill="url(#vdmScia)" opacity=".16"/>
   </g>
-</svg><div class="wrap">
+</svg><div class="wrap hero-due">
+<div class="hero-testo-alto">
   <span class="occhio" data-it>🏀 Scritto da un allenatore, per gli allenatori · <b>12 lingue</b> · <b>ottimizzato per IA</b></span>
   <span class="occhio" data-en>🏀 Written by a coach, for coaches · <b>12 languages</b> · <b>optimised for AI</b></span><span class="occhio" data-es>🏀 Escrito por un entrenador, para entrenadores · <b>12 idiomas</b> · <b>optimizado para IA</b></span>
   <h1 data-it>Il lavoro di una stagione<br><em>in un posto solo.</em></h1>
   <h1 data-en>A whole season<br><em>in one place.</em></h1><h1 data-es>Toda una temporada<br><em>en un solo sitio.</em></h1>
   <p class="sub" data-it>Video taggati, giochi disegnati, scouting dell'avversario, presentazioni alla squadra, allenamenti e registro del tiro. Tutto per squadra, tutto sul tuo computer.</p>
   <p class="sub" data-en>Tagged film, drawn plays, opponent scouting, team presentations, practice plans and a shooting log. All by team, all on your own computer.</p><p class="sub" data-es>Vídeo etiquetado, jugadas dibujadas, scouting del rival, presentaciones al equipo, planes de entrenamiento y registro de tiro. Todo por equipo, todo en tu ordenador.</p>
+</div>
+  <figure class="hero-clip">
+    <video src="/clip/top-pick-3d.mp4" poster="/clip/top-pick-3d-fermo.png"
+           autoplay muted loop playsinline preload="metadata"></video>
+    <figcaption data-it>Disegni la giocata sulla lavagna. La guardi correre in 3D.</figcaption>
+    <figcaption data-en>Draw the play on the board. Watch it run in 3D.</figcaption>
+    <figcaption data-es>Dibujas la jugada en la pizarra. La ves correr en 3D.</figcaption>
+  </figure>
+<div class="hero-testo-basso">
   <!-- 12 settembre 2026, sera. Il tasto in alto diceva "Provala gratis 14 giorni"
        ma non scaricava: portava in fondo alla pagina, dove bisognava scegliere
        Mac o Windows e cliccare una seconda volta. Due clic e un salto di 9.000
@@ -641,6 +680,7 @@
     <div><b>20</b><span data-it>schermate</span><span data-en>screens</span><span data-es>pantallas</span></div>
     <div><b>0</b><span data-it>abbonamenti</span><span data-en>subscriptions</span><span data-es>suscripciones</span></div>
   </div>
+</div>
 </div></div>
 
 <section id="come"><div class="wrap">
