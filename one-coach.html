@@ -98,6 +98,15 @@
   table.conf th{color:var(--muted);font-size:11.5px;letter-spacing:.09em;text-transform:uppercase;font-weight:800;}
   table.conf td:first-child{color:var(--muted);width:36%;}
   table.conf td.noi{color:var(--txt);font-weight:700;}
+  .due{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));margin:30px 0 26px;}
+  .col{background:var(--card);border:1px solid var(--bordo);padding:22px 22px 24px;}
+  .col.oggi{border-top:3px solid var(--acc);}
+  .col.ieri{opacity:.82;}
+  .col h3{margin:0 0 4px;font-size:16px;letter-spacing:.03em;}
+  .col .eti{font-family:var(--mono);font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:10px;}
+  .col.oggi .eti{color:var(--acc);}
+  .col p{margin:8px 0 0;color:var(--muted);font-size:14.5px;line-height:1.55;}
+  .col.oggi p{color:var(--txt);}
   .onesto{background:var(--card);border:1px solid var(--bordo);border-left:3px solid var(--muted);
     padding:18px 20px;margin:30px 0;color:var(--muted);font-size:14.5px;}
   .onesto b{color:var(--txt);}
@@ -111,19 +120,33 @@
     <a class="altro" href="/">Everything it does &rarr;</a>
   </div>
 
-  <div class="nuovo"><b>The playbook</b> that does not sit still</div>
+  <div class="nuovo"><b>A new way</b> to make a playbook</div>
 
-  <h1>For a hundred years a play<br><em>has been arrows on paper.</em></h1>
+  <h1>Two ways to draw<br><em>the same play.</em></h1>
 
-  <p class="sub">You draw it, you explain it, and then the player has to run the film in his own
-  head &mdash; who moves first, who waits, where the ball is when the screen arrives. Some can.
-  Plenty cannot, and you find out on Sunday.</p>
+  <p class="sub">One of them has been around for a hundred years. The other one moves.</p>
 
-  <p class="sub" style="color:var(--txt);"><b>Here the play runs.</b> In 2D on your board and in 3D
-  for your players, in the order it happens on the floor: the screen, then the player using it, then
-  the pass. I am a coach, not a company &mdash; assistant with the Italian women&rsquo;s national
-  team; at the World Cup in Berlin I prepared USA, China, Czechia and Australia. Take the fourteen
-  days and tell me I am wrong.</p>
+  <div class="due">
+    <div class="col ieri">
+      <span class="eti">The traditional playbook</span>
+      <h3>Arrows on a sheet</h3>
+      <p>You draw it, you explain it, and then the player has to run the film in his own head &mdash;
+      who moves first, who waits, where the ball is when the screen arrives. Some can do that.
+      Plenty cannot, and you find out on Sunday.</p>
+    </div>
+    <div class="col oggi">
+      <span class="eti">The modern one</span>
+      <h3>The play runs</h3>
+      <p>In 2D on your board and in 3D for your players, in the order it happens on the floor:
+      the screen, then the player using it, then the pass. Nobody has to imagine the timing,
+      because they can see it. Your players read it on their phone in three seconds.</p>
+    </div>
+  </div>
+
+  <p class="sub" style="color:var(--txt);">I am a coach, not a company &mdash; assistant with the
+  Italian women&rsquo;s national team; at the World Cup in Berlin I prepared USA, China, Czechia and
+  Australia. <b>I think this is the most modern playbook a coach can get.</b> Take the fourteen days
+  and tell me I am wrong.</p>
 
   <div class="bottoni">
     <a class="btn primo" href="/scarica-mac.html">Download free for Mac<small>.dmg file &middot; 14 days, no credit card</small></a>
