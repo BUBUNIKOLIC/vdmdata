@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en" class="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!-- 30 settembre 2026. Per l'allenatore che si e' ritrovato il suo
+     programma per disegnare i giochi dietro a un preventivo aziendale.
+     NESSUN CONCORRENTE E' NOMINATO, e non e' timidezza: nominarlo sarebbe
+     legale (quello che diremmo e' vero e verificabile) ma basta una lettera
+     di un ufficio legale per farci perdere settimane su una cosa gia' vinta.
+     Chi ha quel problema si riconosce lo stesso, senza bisogno del nome. -->
+<link rel="icon" href="img/vdm-icona.svg" type="image/svg+xml">
+<link rel="icon" href="img/vdm-icona-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="img/vdm-icona-180.png">
+<meta name="theme-color" content="#04060d">
+<link rel="canonical" href="https://vdmdata.it/one-coach">
+<title>Playbook software for one coach &mdash; one-time licence, no subscription</title>
+<meta name="description" content="Basketball playbook software for a single coach: one-time licence, no subscription, no sales quote. Draw your plays and watch them run in 2D and 3D. Mac and Windows, 12 languages, 14-day trial.">
+<meta property="og:title" content="Playbook software for one coach">
+<meta property="og:description" content="One-time licence. Plays that run in 2D and 3D. Mac and Windows, 12 languages.">
+<meta property="og:image" content="https://vdmdata.it/img/video-poster-3d.jpg">
+<meta property="og:url" content="https://vdmdata.it/one-coach">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+  :root{
+    --fondo:#04060d; --fondo2:#0a1226;
+    --card:linear-gradient(160deg,#0d1730,#070c18);
+    --bordo:#1b2a4d; --txt:#f0f6ff; --muted:#8aa0c4;
+    --acc:#00eaff; --acc2:#4c8dff; --blu:#1e4fd8;
+    --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box;}
+  html{overflow-x:hidden;}
+  body{margin:0;background:var(--fondo);color:var(--txt);overflow-x:hidden;
+    font:16px/1.62 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;}
+  body::after{content:'';position:fixed;inset:0;z-index:-3;pointer-events:none;background-repeat:no-repeat;
+    background:
+      radial-gradient(75% 42% at 12% 0%,rgba(0,234,255,.13),transparent 68%),
+      radial-gradient(55% 38% at 92% 4%,rgba(30,79,216,.20),transparent 70%),
+      linear-gradient(180deg,var(--fondo2),var(--fondo) 42%);}
+  a{color:var(--acc);text-decoration:none;} a:hover{text-decoration:underline;}
+  .wrap{max-width:980px;margin:0 auto;padding:0 20px;}
+  .bar{display:flex;align-items:center;justify-content:space-between;gap:16px;
+    padding:16px 0;border-bottom:1px solid var(--bordo);}
+  .logo{font-weight:900;letter-spacing:.14em;font-size:13px;text-transform:uppercase;color:var(--txt);}
+  .logo b{background:linear-gradient(100deg,var(--acc),var(--acc2));
+    -webkit-background-clip:text;background-clip:text;color:transparent;}
+  .bar a.altro{color:var(--muted);font-size:13px;}
+  .nuovo{display:inline-flex;align-items:center;gap:9px;background:var(--card);
+    border-left:3px solid var(--acc);padding:7px 14px;font-size:12px;color:var(--muted);
+    font-family:var(--mono);letter-spacing:.06em;text-transform:uppercase;margin:34px 0 18px;}
+  .nuovo b{color:var(--acc);font-weight:800;}
+  h1{font-size:clamp(32px,6vw,58px);line-height:1.04;margin:0 0 16px;letter-spacing:-.02em;font-weight:900;}
+  h1 em{font-style:normal;background:linear-gradient(100deg,var(--acc) 10%,var(--acc2) 75%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;}
+  p.sub{font-size:clamp(16px,2.1vw,19px);color:var(--muted);max-width:660px;margin:0 0 26px;}
+  .bottoni{display:flex;flex-wrap:wrap;gap:12px;margin:0 0 14px;}
+  .btn{display:inline-flex;flex-direction:column;align-items:flex-start;gap:3px;
+    padding:14px 24px;border:2px solid var(--bordo);background:var(--card);color:var(--txt);
+    font-size:14.5px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;
+    transition:transform .15s,border-color .15s,box-shadow .15s;}
+  .btn:hover{text-decoration:none;border-color:var(--acc);transform:translateY(-1px);}
+  .btn.primo{background:linear-gradient(120deg,var(--acc),var(--blu) 85%);border-color:transparent;color:#03121a;
+    box-shadow:0 12px 34px rgba(0,234,255,.28);}
+  .btn.primo:hover{box-shadow:0 16px 44px rgba(0,234,255,.42);}
+  .btn small{font-weight:600;font-size:10.5px;opacity:.85;text-transform:none;letter-spacing:0;}
+  .nota{color:var(--muted);font-size:12.5px;font-family:var(--mono);margin:0 0 34px;}
+  video{width:100%;height:auto;display:block;border:1px solid var(--bordo);background:#000;}
+  .passi{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));margin:34px 0 8px;}
+  .passo{background:var(--card);border:1px solid var(--bordo);border-top:3px solid var(--acc);padding:18px 18px 20px;}
+  .passo h3{margin:0 0 6px;font-size:15px;letter-spacing:.04em;text-transform:uppercase;}
+  .passo p{margin:0;color:var(--muted);font-size:14.5px;}
+  .passo span{font-family:var(--mono);font-size:11px;color:var(--acc);display:block;margin-bottom:8px;}
+  .resto{border-top:1px solid var(--bordo);margin-top:46px;padding:28px 0 10px;color:var(--muted);font-size:14.5px;}
+  .resto h2{color:var(--txt);font-size:17px;letter-spacing:.04em;text-transform:uppercase;margin:0 0 10px;}
+  .resto ul{margin:0 0 18px;padding-left:18px;}
+  .resto li{margin:4px 0;}
+  footer{border-top:1px solid var(--bordo);margin-top:26px;padding:18px 0 40px;color:var(--muted);font-size:12.5px;
+    display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;}
+  /* 24 settembre 2026: chi arriva qui dal telefono non puo' farci niente con un
+     .dmg o un .exe. Stessa riga della pagina principale, piu' il bottone che gli
+     manda il link dove se lo ritrova la sera. Solo da schermo stretto. */
+  .solo-telefono{display:none;}
+  .ricorda-telefono{display:none;}
+  @media (max-width:720px){
+    .solo-telefono{display:block;margin:14px auto 0;padding:12px 14px;border-radius:12px;
+      background:rgba(214,138,0,.12);border:1px solid rgba(214,138,0,.38);
+      font-size:14px;line-height:1.45;max-width:74ch;text-align:left;}
+    .ricorda-telefono{display:block;margin:10px 0 0;}
+    .ricorda-telefono .btn{font-size:14px;padding:10px 14px;}
+  }
+</style>
+<style>
+  table.conf{width:100%;border-collapse:collapse;margin:26px 0 10px;font-size:15px;}
+  table.conf th,table.conf td{padding:13px 12px;border-bottom:1px solid var(--bordo);text-align:left;vertical-align:top;}
+  table.conf th{color:var(--muted);font-size:11.5px;letter-spacing:.09em;text-transform:uppercase;font-weight:800;}
+  table.conf td:first-child{color:var(--muted);width:36%;}
+  table.conf td.noi{color:var(--txt);font-weight:700;}
+  .onesto{background:var(--card);border:1px solid var(--bordo);border-left:3px solid var(--muted);
+    padding:18px 20px;margin:30px 0;color:var(--muted);font-size:14.5px;}
+  .onesto b{color:var(--txt);}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="bar">
+    <div class="logo">VDM <b>BASKETBALL COACH</b></div>
+    <a class="altro" href="/">Everything it does &rarr;</a>
+  </div>
+
+  <div class="nuovo"><b>The playbook</b> that does not sit still</div>
+
+  <h1>For a hundred years a play<br><em>has been arrows on paper.</em></h1>
+
+  <p class="sub">You draw it. You explain it. And then the player has to run the film in his own head
+  &mdash; who moves first, who waits, where the ball is when the screen arrives. Some of them can do
+  that. Plenty cannot, and you find out on Sunday.</p>
+
+  <p class="sub">Here the play runs. In 2D on your board and in 3D for your players, in the order it
+  happens on the floor: the screen, then the player using it, then the pass. Nobody has to imagine
+  the timing, because they can see it.</p>
+
+  <p class="sub">So here is what I use. I am a basketball coach, not a company &mdash; assistant with
+  the Italian women&rsquo;s national team. At the World Cup in Berlin I prepared the opponents:
+  USA, China, Czechia, Australia. The program is &euro;59.99, once, and it is yours.</p>
+
+  <p class="sub" style="color:var(--txt);"><b>I think it is the best animated playbook a coach can
+  get</b>, and I have no way to prove that to you except one: take the fourteen days and tell me I
+  am wrong. It costs &euro;59.99, once, and then it is yours &mdash; no subscription, no seats, no
+  form to fill in before someone tells you the price.</p>
+
+  <div class="bottoni">
+    <a class="btn primo" href="/scarica-mac.html">Download free for Mac<small>.dmg file &middot; 14 days, no credit card</small></a>
+    <a class="btn primo" href="/scarica-win.html">Download free for Windows<small>.exe file &middot; 14 days, no credit card</small></a>
+  </div>
+  <p class="nota">One-time licence &middot; no subscription &middot; no account &middot; nothing leaves your computer</p>
+
+  <p class="solo-telefono">You are reading this on a phone: VDM is a program for Mac and Windows, it does not install on a phone. Open this page again on the computer you work on.</p>
+  <div class="ricorda-telefono">
+    <button type="button" class="btn ricordamelo" data-ogg="VDM Basketball Coach" data-corpo="Open it on your computer: https://vdmdata.it/one-coach">&#9993;&#65039; Send me the link</button>
+  </div>
+
+  <table class="conf">
+    <tr><th></th><th>What you get</th></tr>
+    <tr><td>Price</td><td class="noi">&euro;59.99, once. No subscription, no seats, no quote.</td></tr>
+    <tr><td>Who it is for</td><td class="noi">One coach, one team. That is who it was built for.</td></tr>
+    <tr><td>Plays</td><td class="noi">Drawn the way you always draw them, then they run &mdash; in 2D for the board and in 3D for the players, in the right order: the screen, then the player using it, then the pass.</td></tr>
+    <tr><td>Languages</td><td class="noi">Twelve. Italian, English, Spanish, French, Portuguese, German, Lithuanian, Polish, Russian, Chinese, Japanese, Korean.</td></tr>
+    <tr><td>Your files</td><td class="noi">On your computer. Works offline. No account to create.</td></tr>
+    <tr><td>Also included</td><td class="noi">Game film tagging, clips by player, scouting reports, practice plans.</td></tr>
+  </table>
+
+  <div class="onesto">
+    <b>What this is not.</b> It is not a platform for an athletic department, and I am not going to
+    pretend it is. There is no shared library of thousands of plays from other coaches, no seats for
+    twelve assistants, no integration with whatever your school already pays for. If your whole staff
+    works inside one system, switching costs you something real and you should think about it.
+    I built this for the coach who is on his own on a Tuesday night, preparing Sunday&rsquo;s opponent.
+  </div>
+
+  <div class="passi">
+    <div class="passo"><span>01</span><h3>Draw it</h3><p>The way you always do: screens, cuts, passes, numbers on the court.</p></div>
+    <div class="passo"><span>02</span><h3>Watch it run</h3><p>In 2D for the board, in 3D for the players. Rotate the court, export a video.</p></div>
+    <div class="passo"><span>03</span><h3>Hand it over</h3><p>Print the playbook, or send the clip. Your players read the 3D in three seconds.</p></div>
+  </div>
+
+  <div class="resto">
+    <h2>One more thing</h2>
+    <p>The program has no AI inside it and no API key. Preparing an opponent means hunting down
+    a roster, jersey numbers, photos, statistics and play types across four websites &mdash; an
+    evening&rsquo;s work, every week. So instead of embedding a model and charging you for it, the
+    app writes the request and you paste it into the AI you already pay for. Your AI does the
+    searching and saves one file; the app picks it up and fills in rosters, photos, statistics and
+    play types by itself. No second subscription, no vendor lock-in.</p>
+    <p><a href="/">See everything it does &rarr;</a></p>
+  </div>
+
+<footer>
+    <div>Built by a basketball coach &middot; <a href="/">vdmdata.it</a></div>
+    <div><a href="https://youtu.be/G82Fp5sfyYk">Watch on YouTube</a></div>
+  </footer>
+
+</div>
+<!-- Cloudflare Web Analytics: lo stesso contatore della pagina principale,
+     cosi' nel pannello si vedono separate le visite a / e a /3d -->
+<script>
+/* il bottone "mandami il link" per chi arriva dal telefono (24 settembre 2026) */
+document.querySelectorAll('.ricordamelo').forEach(function(b){
+  b.addEventListener('click', function(){
+    var titolo = b.getAttribute('data-ogg') || 'VDM Basketball Coach';
+    var testo  = b.getAttribute('data-corpo') || 'https://vdmdata.it/3d';
+    if (navigator.share){
+      navigator.share({title: titolo, text: testo, url: 'https://vdmdata.it/3d'}).catch(function(){});
+    } else {
+      location.href = 'mailto:?subject=' + encodeURIComponent(titolo) + '&body=' + encodeURIComponent(testo);
+    }
+  });
+});
+</script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "b2cf278a022948df8fe261df7165aa48"}'></script>
+<script defer src="vdm-misura.js"></script>
+</body>
+</html>
