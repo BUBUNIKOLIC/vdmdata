@@ -121,6 +121,17 @@
      quindi serve la colonna: il .btn normale mette i figli in fila. */
   .btn.due-righe{flex-direction:column;align-items:flex-start;gap:3px;padding:13px 24px;}
   .nota{color:var(--muted);font-size:12.5px;margin-top:18px;font-family:var(--mono);}
+  /* 30 settembre 2026 — LA CONVENZIONE USAP. Era una nota piccola come le altre,
+     ma non e' una nota: e' l'unica firma di qualcun altro su questa pagina, e un
+     allenatore che arriva dal nulla si fida piu' di quella che di dieci aggettivi
+     scritti da me. Quindi ha un riquadro suo e si legge. */
+  .usap{display:flex;align-items:center;gap:14px;margin:22px 0 4px;padding:15px 20px;
+    border:1px solid var(--bordo,#22314f);border-left:4px solid var(--acc,#00eaff);
+    border-radius:10px;background:rgba(0,234,255,.045);max-width:620px;}
+  .usap .segno{font-size:26px;line-height:1;flex:0 0 auto;}
+  .usap span.t{font-size:16.5px;line-height:1.45;}
+  .usap b{font-size:18px;display:block;margin-bottom:1px;}
+  @media(max-width:560px){.usap{padding:13px 15px;gap:11px}.usap b{font-size:16.5px}.usap span.t{font-size:14.5px}}
   /* Il prezzo di lancio e l'avviso di Windows: due cose che vanno lette PRIMA
      di cliccare, non dopo. */
   .prezzo-lancio{color:var(--muted);font-size:13px;margin:2px 0 0;max-width:62ch;}
@@ -621,8 +632,8 @@
        pagina c'era solo quello che dico io di me stesso. USAP e' il sindacato
        degli allenatori professionisti: una riga come questa vale piu' di dieci
        aggettivi, e va messa in alto, dove la gente atterra. -->
-  <p class="nota" data-it>🤝 <b>Convenzionato con USAP</b> — Unione Sindacale Allenatori Professionisti: condizioni riservate agli iscritti.</p>
-  <p class="nota" data-en>🤝 <b>Partner of USAP</b> — the Italian professional basketball coaches' union: special terms for its members.</p><p class="nota" data-es>🤝 <b>Convenio con USAP</b> — el sindicato italiano de entrenadores profesionales: condiciones reservadas a sus socios.</p>
+  <div class="usap" data-it><span class="segno">🤝</span><span class="t"><b>Convenzionato con USAP</b>Unione Sindacale Allenatori Professionisti &mdash; condizioni riservate agli iscritti.</span></div>
+  <div class="usap" data-en><span class="segno">🤝</span><span class="t"><b>Partner of USAP</b>The Italian professional basketball coaches&rsquo; union &mdash; special terms for its members.</span></div><div class="usap" data-es><span class="segno">🤝</span><span class="t"><b>Convenio con USAP</b>El sindicato italiano de entrenadores profesionales &mdash; condiciones reservadas a sus socios.</span></div>
   <p class="nota" data-it>Si paga una volta. Nessun abbonamento, nessun account, nessun dato che esce dal tuo computer.</p>
   <p class="nota" data-en>Pay once. No subscription, no account, no data leaving your computer.</p><p class="nota" data-es>Se paga una vez. Sin suscripción, sin cuenta, sin datos que salgan de tu ordenador.</p>
   <div class="dati">
