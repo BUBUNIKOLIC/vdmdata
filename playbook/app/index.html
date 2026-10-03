@@ -4979,7 +4979,7 @@ if ('serviceWorker' in navigator) { window.addEventListener('load', function () 
 <script>/* prova tablet: edizione Playbook nel browser */
 window.VDM = { nativo: false, tablet: true, edizioneSubito: function(){ return "playbook"; }, playbookSubito: function(){ return true; } };
 </script>
-<script src="mp4-muxer.js?v=27"></script>
+<script src="mp4-muxer.js?v=28"></script>
 <script>
 /* ============================ SALVA IL LAVORO DENTRO AL FILE ============================
  * Il salvataggio automatico vive nella memoria del browser: è comodo ma è
@@ -5523,6 +5523,7 @@ it: {
 "dyn.removeFase":"✕ Rimuovi fase",
 "dyn.drawBtn":"✏️ Disegna",
 "dyn.clearCourt":"🧹 Canc. tutto",
+"dyn.flipCourt":"Gira il campo di 180°",
 "dyn.undoLast":"↩ Annulla ultimo",
 "dyn.finishPath":"✔ Fine tratto",
 "tool.select":"↖ Seleziona",
@@ -6725,6 +6726,7 @@ en: {
 "dyn.removeFase":"✕ Remove phase",
 "dyn.drawBtn":"✏️ Draw",
 "dyn.clearCourt":"🧹 Clear all",
+"dyn.flipCourt":"Turn the court 180°",
 "dyn.undoLast":"↩ Undo last",
 "dyn.finishPath":"✔ End line",
 "tool.select":"↖ Select",
@@ -7927,6 +7929,7 @@ es: {
 "dyn.removeFase":"✕ Eliminar fase",
 "dyn.drawBtn":"✏️ Dibujar",
 "dyn.clearCourt":"🧹 Borrar todo",
+"dyn.flipCourt":"Girar la cancha 180°",
 "dyn.undoLast":"↩ Deshacer último",
 "dyn.finishPath":"✔ Fin del trazo",
 "tool.select":"↖ Seleccionar",
@@ -36407,6 +36410,7 @@ function renderDiagramToolbar(state) {
   // Blocco spezzato o curvo, a scelta: stesso strumento, due rese possibili
   // ("anche il blocco può essere sia una linea spezzata sia una curva").
   + `<button class="diagram-tool-btn diagram-tool-screenmode${state.screenCurved ? ' active' : ''}" onclick="toggleDiagramScreenCurved(${state.ref})">${escapeHtml(etichettaCorta(t(state.screenCurved ? 'dyn.screenCurved' : 'dyn.screenBent')))}</button>`
+  + `<button class="diagram-tool-btn${state.ruotato ? ' active' : ''}" onclick="giraDiagramma(${state.ref})" title="${escapeHtml(t('dyn.flipCourt'))}">\u27F3 180\u00b0</button>`
   + `<button class="diagram-tool-btn" onclick="removeSelectedDiagramElement(${state.ref})" title="${escapeHtml(t('dyn.removeSelected'))} \u2014 ${tastoCanc()}">${escapeHtml(etichettaCorta(t('dyn.removeSelected')))}</button>`
   + `<button class="diagram-tool-btn" onclick="undoLastDiagramElement(${state.ref})" title="${escapeHtml(t('dyn.undoLast'))} \u2014 ${tastoAnnulla()}">${escapeHtml(etichettaCorta(t('dyn.undoLast')))}</button>`
   + `<button class="diagram-tool-btn" onclick="clearDiagram(${state.ref})">${t('dyn.clearCourt')}</button>`
@@ -36416,6 +36420,19 @@ function renderDiagramToolbar(state) {
      tutti e tre; le targhette dentro ai bottoni costavano una riga intera. */
   + `<div class="diagram-tasti">${tastoCanc()} ${escapeHtml(t('dyn.removeSelected').replace(/^\S+\s/, ''))} \u00b7 ${tastoAnnulla()} ${escapeHtml(t('dyn.undoLast').replace(/^\S+\s/, ''))} \u00b7 \u23CE ${escapeHtml(t('dyn.finishPath').replace(/^\S+\s/, ''))}</div>`
   + `</div>`;
+}
+
+/* IL CAMPO GIRATO DI 180 GRADI (03/10/2026, chiesto da Vince).
+ * Serve quando si disegna il gioco "dall'altra parte": si gira la lavagna
+ * invece di ridisegnare tutto al contrario. Gira il campo E quello che c'e'
+ * sopra, tutto insieme, e i click seguono: quello che vedi sotto il dito e'
+ * quello che tocchi.
+ * E' un modo di GUARDARE, non si salva nel gioco: riaprendo il foglio il
+ * campo torna com'e' sempre stato, e la stampa non cambia. */
+function giraDiagramma(state) {
+  state.ruotato = !state.ruotato;
+  renderDiagramToolbar(state);
+  redrawDiagram(state);
 }
 
 function removeSelectedDiagramElement(state) {
@@ -36513,7 +36530,10 @@ function diagramPointFromEvent(state, e) {
   const rect = canvas.getBoundingClientRect();
   const px = (e.clientX - rect.left) * (canvas.width / rect.width);
   const py = (e.clientY - rect.top) * (canvas.height / rect.height);
-  return { fx: px / canvas.width, fy: py / canvas.height };
+  let fx = px / canvas.width, fy = py / canvas.height;
+  /* col campo girato, quello che vedi sotto il dito e' il punto opposto */
+  if (state && state.ruotato) { fx = 1 - fx; fy = 1 - fy; }
+  return { fx: fx, fy: fy };
 }
 
 // Distanza in PIXEL reali del canvas, non nelle coordinate frazionarie (0-1)
@@ -36774,6 +36794,7 @@ function redrawDiagram(state, previewEnd) {
      cambia monitor. Qui il canvas si riadatta da solo se serve davvero —
      niente ricorsione, si tocca solo la risoluzione. */
   ctx.setTransform(1, 0, 0, 1, 0, 0);
+  if (state.ruotato) { ctx.translate(W, H); ctx.rotate(Math.PI); }
   drawCourt(ctx, W, H, state.mode);
   drawDiagramMagnets(ctx, state, W, H);
   state.elements.forEach((el, i) => drawDiagramElement(ctx, W, H, el, i === state.selectedIndex));
@@ -41455,14 +41476,14 @@ document.addEventListener('change', scheduleAutosave, true);
 document.addEventListener('click', scheduleAutosave, true);
 window.addEventListener('beforeunload', autosaveNow);
 </script>
-<script src="vdm-motore.js?v=27"></script>
+<script src="vdm-motore.js?v=28"></script>
 <!-- Edizione "playbook" (VDM Basketball Playbook): nell'app completa non fa nulla. -->
-<script src="ponte-web.js?v=27"></script>
-<script src="prova-web.js?v=27"></script>
-<script src="edizione-playbook.js?v=27"></script>
+<script src="ponte-web.js?v=28"></script>
+<script src="prova-web.js?v=28"></script>
+<script src="edizione-playbook.js?v=28"></script>
 <!-- Importa le statistiche da un file scaricato dal fornitore di dati
      (Hudl InStat). Tutto quello che fa si accende solo premendo i due
      pulsanti: chi non li usa non se ne accorge. (28 settembre 2026) -->
-<script src="importa-statistiche.js?v=27"></script>
+<script src="importa-statistiche.js?v=28"></script>
 </body>
 </html>
