@@ -4979,7 +4979,7 @@ if ('serviceWorker' in navigator) { window.addEventListener('load', function () 
 <script>/* prova tablet: edizione Playbook nel browser */
 window.VDM = { nativo: false, tablet: true, edizioneSubito: function(){ return "playbook"; }, playbookSubito: function(){ return true; } };
 </script>
-<script src="mp4-muxer.js?v=25"></script>
+<script src="mp4-muxer.js?v=26"></script>
 <script>
 /* ============================ SALVA IL LAVORO DENTRO AL FILE ============================
  * Il salvataggio automatico vive nella memoria del browser: è comodo ma è
@@ -5522,7 +5522,7 @@ it: {
 "dyn.removeSession":"🗑 Rimuovi seduta",
 "dyn.removeFase":"✕ Rimuovi fase",
 "dyn.drawBtn":"✏️ Disegna",
-"dyn.clearCourt":"🧹 Pulisci campo",
+"dyn.clearCourt":"🧹 Canc. tutto",
 "dyn.undoLast":"↩ Annulla ultimo",
 "dyn.finishPath":"✔ Fine tratto",
 "tool.select":"↖ Seleziona",
@@ -6724,7 +6724,7 @@ en: {
 "dyn.removeSession":"🗑 Remove session",
 "dyn.removeFase":"✕ Remove phase",
 "dyn.drawBtn":"✏️ Draw",
-"dyn.clearCourt":"🧹 Clear court",
+"dyn.clearCourt":"🧹 Clear all",
 "dyn.undoLast":"↩ Undo last",
 "dyn.finishPath":"✔ End line",
 "tool.select":"↖ Select",
@@ -7926,7 +7926,7 @@ es: {
 "dyn.removeSession":"🗑 Eliminar sesión",
 "dyn.removeFase":"✕ Eliminar fase",
 "dyn.drawBtn":"✏️ Dibujar",
-"dyn.clearCourt":"🧹 Limpiar cancha",
+"dyn.clearCourt":"🧹 Borrar todo",
 "dyn.undoLast":"↩ Deshacer último",
 "dyn.finishPath":"✔ Fin del trazo",
 "tool.select":"↖ Seleccionar",
@@ -36357,6 +36357,7 @@ function etichettaCorta(testo) {
   const m = String(testo || '').match(/^(\S+)\s+(.+)$/);
   if (!m) return testo;
   const simbolo = m[1];
+  if (/\./.test(m[2])) return testo;   // gia' abbreviata a mano: si lascia
   const parola = m[2].split(/[\s\/(,:]/)[0];
   if (!parola) return testo;
   return simbolo + ' ' + (parola.length > 7 ? parola.slice(0, 5) + '.' : parola);
@@ -41454,14 +41455,14 @@ document.addEventListener('change', scheduleAutosave, true);
 document.addEventListener('click', scheduleAutosave, true);
 window.addEventListener('beforeunload', autosaveNow);
 </script>
-<script src="vdm-motore.js?v=25"></script>
+<script src="vdm-motore.js?v=26"></script>
 <!-- Edizione "playbook" (VDM Basketball Playbook): nell'app completa non fa nulla. -->
-<script src="ponte-web.js?v=25"></script>
-<script src="prova-web.js?v=25"></script>
-<script src="edizione-playbook.js?v=25"></script>
+<script src="ponte-web.js?v=26"></script>
+<script src="prova-web.js?v=26"></script>
+<script src="edizione-playbook.js?v=26"></script>
 <!-- Importa le statistiche da un file scaricato dal fornitore di dati
      (Hudl InStat). Tutto quello che fa si accende solo premendo i due
      pulsanti: chi non li usa non se ne accorge. (28 settembre 2026) -->
-<script src="importa-statistiche.js?v=25"></script>
+<script src="importa-statistiche.js?v=26"></script>
 </body>
 </html>
