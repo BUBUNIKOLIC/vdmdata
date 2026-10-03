@@ -1324,6 +1324,27 @@
   }
   .diagram-canvas-shell canvas{display:block;width:100%;height:auto;border-radius:6px;cursor:crosshair;touch-action:none;}
   .diagram-toolbar{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px;}
+  /* GLI STRUMENTI SULLA STESSA LINEA DEL CAMPO (03/10/2026).
+   * Vince: «tenere sulla stessa linea tutto» — di fianco al campo, non
+   * sotto. La colonna a destra c'e' gia' (.diagram-form-col, con la Nota e
+   * l'aiuto): si fa diventare .diagram-wrap una griglia a due colonne e
+   * .diagram-canvas-col sparisce come contenitore, cosi' campo e strumenti
+   * si mettono da soli al loro posto. Gli strumenti in alto, accanto al
+   * campo, perche' mentre disegni la mano sta li'; la nota sotto, che la
+   * scrivi una volta alla fine.
+   * Funziona adesso perche' le etichette sono corte: con quelle lunghe la
+   * colonna stretta impilava i bottoni e diventava piu' alta del campo. */
+  @media (min-width: 860px){
+    .diagram-wrap{
+      display:grid;grid-template-columns:auto minmax(290px, 330px);
+      grid-template-areas:"campo strumenti" "campo nota";
+      align-items:start;justify-content:start;
+    }
+    .diagram-canvas-col{display:contents;}
+    .diagram-canvas-shell{grid-area:campo;justify-self:start;}
+    .diagram-toolbar{grid-area:strumenti;align-content:flex-start;}
+    .diagram-form-col{grid-area:nota;}
+  }
   .diagram-tool-row{display:contents;}
   .diagram-tool-btn{
     background:var(--panel2);border:1px solid var(--border);color:var(--text);border-radius:7px;
@@ -2133,6 +2154,16 @@
      Ora le 4 miniature restano sempre a vista qui sopra, si passa da una
      all'altra con un click diretto, senza mai dover chiudere l'editor. */
   .pb-editor-variants{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:10px;}
+  /* LE QUATTRO VARIANTI PIU' PICCOLE (03/10/2026). Vince: «le schede
+   * rispetto alla parte scritta sono sempre troppo grandi». A tutta
+   * larghezza si prendono quasi quattrocento punti di altezza e spingono
+   * fuori schermo il campo su cui stai disegnando. Restano riconoscibili e
+   * cliccabili, ma smettono di mangiarsi la pagina. */
+  @media (min-width: 860px){
+    .pb-editor-variants{max-width:600px;gap:6px;margin-bottom:8px;}
+    .pb-editor-variant-cell{padding:3px;}
+    .pb-editor-variant-cell span{font-size:8.5px;margin-top:1px;}
+  }
   .pb-editor-variant-cell{padding:3px;}
     .pb-editor-variant-cell span{font-size:8.5px;margin-top:1px;}
   }
