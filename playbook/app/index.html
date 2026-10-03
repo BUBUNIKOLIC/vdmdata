@@ -1325,43 +1325,9 @@
   .diagram-canvas-shell canvas{display:block;width:100%;height:auto;border-radius:6px;cursor:crosshair;touch-action:none;}
   .diagram-toolbar{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px;}
   .diagram-tool-row{display:contents;}
-  /* GLI STRUMENTI NELLA COLONNA CHE C'E' GIA' (03/10/2026, secondo tentativo).
-   * Nunzi: «la schermata e' troppo bassa per il video del pc, tutti gli
-   * strumenti devono stare nella stessa pagina». Il primo tentativo —
-   * inventare una colonna nuova a destra del campo — usciva dalla scheda e
-   * finiva sopra al testo: «e' inguardabile». Guardando la schermata di
-   * Vince si vede che la colonna a destra C'E' GIA' (.diagram-form-col, con
-   * la Nota e l'aiuto) e sotto l'aiuto c'e' spazio vuoto.
-   * Allora gli strumenti vanno li', e non si inventa niente: .diagram-wrap
-   * diventa una griglia a due colonne, .diagram-canvas-col sparisce come
-   * contenitore (display:contents) e i suoi due figli — campo e strumenti —
-   * si mettono da soli nelle caselle giuste. */
-  @media (min-width: 860px){
-    .diagram-wrap{
-      display:grid;grid-template-columns:auto minmax(300px, 340px);
-      grid-template-areas:"campo strumenti" "campo nota";
-      align-items:start;justify-content:start;
-    }
-    .diagram-canvas-col{display:contents;}
-    .diagram-canvas-shell{grid-area:campo;justify-self:start;}
-    .diagram-toolbar{grid-area:strumenti;align-content:flex-start;}
-    /* in colonna fissa la larghezza non cambia mai, quindi questi due
-       possono lasciare la loro misura minima senza tornare a ballare */
-    .diagram-toolbar .diagram-tool-finish,
-    .diagram-toolbar .diagram-tool-screenmode{min-width:0;}
-    .diagram-form-col{grid-area:nota;}
-  }
-  /* GLI STRUMENTI DI FIANCO AL CAMPO: PROVATO E TOLTO (03/10/2026).
-   * Funzionava nel riquadro grande (editor a tutta pagina), ma nel foglio
-   * del Playbook la stessa colonna sta dentro una scheda piu' stretta: la
-   * barra usciva dalla scheda e finiva sopra al testo d'aiuto. Vince:
-   * «e' inguardabile, non si vede niente». Tolto nel giro di un minuto.
-   * Se si riprende, va legato al SOLO riquadro grande (#pbCourtOverlay /
-   * #exerciseDiagramOverlay) e non a .diagram-canvas-col in generale, e
-   * provato dentro al foglio del Playbook prima di pubblicare. */
   .diagram-tool-btn{
-    background:var(--panel2);border:1px solid var(--border);color:var(--text);border-radius:8px;
-    padding:7px 10px;font-size:11.5px;font-weight:600;
+    background:var(--panel2);border:1px solid var(--border);color:var(--text);border-radius:7px;
+    padding:5px 9px;font-size:11px;font-weight:600;
   }
   /* i tasti che fanno la stessa cosa dei bottoni, in una riga sola */
   .diagram-tasti{
@@ -2001,8 +1967,8 @@
      124 e 116, ma in tedesco e lituano le stesse frasi sono piu' lunghe e
      il ballo tornerebbe. Si stringono solo dopo averle misurate in tutte e
      dodici le lingue. */
-  .diagram-tool-btn.diagram-tool-finish{opacity:.55;min-width:168px;text-align:center;}
-  .diagram-tool-btn.diagram-tool-screenmode{min-width:150px;text-align:center;}
+  .diagram-tool-btn.diagram-tool-finish{opacity:.55;min-width:104px;text-align:center;}
+  .diagram-tool-btn.diagram-tool-screenmode{min-width:96px;text-align:center;}
   .diagram-tool-btn.diagram-tool-finish.diagram-tool-finish-active{opacity:1;border-color:#22c55e;color:#22c55e;background:rgba(34,197,94,.12);font-weight:800;animation:diagramFinishPulse 1.1s ease-in-out infinite;}
   @keyframes diagramFinishPulse{0%,100%{box-shadow:0 0 0 0 rgba(34,197,94,.5);}50%{box-shadow:0 0 0 5px rgba(34,197,94,0);}}
   .diagram-tool-btn.diagram-tool-screenmode.active{border-color:#f59e0b;color:#f59e0b;}
@@ -2156,20 +2122,6 @@
   .pb-box-thumb{width:100%;height:auto;display:block;background:#fff;}
   .pb-box-variant{display:block;font-size:9.5px;color:#666;margin-top:4px;font-weight:700;}
   .pb-editor-panel{margin-top:10px;padding-top:10px;border-top:1px dashed #bbb;}
-  /* IL RIQUADRO DELL'EDITOR SI SPORGE SUI LATI (03/10/2026, idea di Vince:
-   * «forse dovresti fare un campo bianco che si sporge sul lato»).
-   * Mentre si disegna serve larghezza: con piu' larghezza il campo resta
-   * grande E gli strumenti stanno di fianco senza stringere niente. Il resto
-   * della pagina non si tocca: si allarga solo questo riquadro, e solo
-   * mentre e' aperto. Mai oltre la finestra meno due dita per lato. */
-  @media (min-width: 860px){
-    .pb-editor-panel{
-      --largo: min(1500px, calc(100vw - 44px));
-      width: var(--largo);
-      margin-left: calc(50% - var(--largo) / 2);
-      margin-right: calc(50% - var(--largo) / 2);
-    }
-  }
   .pb-editor-head{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px;}
   .pb-editor-head input[type=text]{flex:1 1 200px;min-width:0;font-weight:700;}
   .pb-editor-head select{width:auto;}
@@ -2181,16 +2133,7 @@
      Ora le 4 miniature restano sempre a vista qui sopra, si passa da una
      all'altra con un click diretto, senza mai dover chiudere l'editor. */
   .pb-editor-variants{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:10px;}
-  /* LE QUATTRO VARIANTI PIU' PICCOLE MENTRE SI DISEGNA (03/10/2026).
-   * Vince, guardando la sua schermata: «puoi rimpicciolire le schede in
-   * maniera tale che c'entrano». Hanno ragione d'essere — si salta da una
-   * variante all'altra senza chiudere l'editor — ma a tutta larghezza si
-   * prendono quasi quattrocento punti di altezza, e il campo su cui stai
-   * disegnando finisce fuori dallo schermo. Qui restano riconoscibili e
-   * cliccabili, ma smettono di mangiarsi la pagina. */
-  @media (min-width: 860px){
-    .pb-editor-variants{max-width:720px;gap:6px;margin-bottom:8px;}
-    .pb-editor-variant-cell{padding:3px;}
+  .pb-editor-variant-cell{padding:3px;}
     .pb-editor-variant-cell span{font-size:8.5px;margin-top:1px;}
   }
   .pb-editor-variant-cell{border:2px solid #ddd;border-radius:6px;padding:4px;background:#fff;text-align:center;cursor:pointer;transition:border-color .15s;}
@@ -27615,12 +27558,12 @@ function faRenderToolbar() {
     `<button class="fa-swatch ${faState.color === c ? 'active' : ''}" style="background:${c};" title="${c}" onclick="setFaColor('${c}')"></button>`
   ).join('');
   el.innerHTML = FRAME_TOOLS.map(tool =>
-    `<button class="diagram-tool-btn ${faState.tool === tool.id ? 'active' : ''}" onclick="setFaTool('${tool.id}')">${t(tool.labelKey)}</button>`
+    `<button class="diagram-tool-btn ${faState.tool === tool.id ? 'active' : ''}" onclick="setFaTool('${tool.id}')">${escapeHtml(etichettaCorta(t(tool.labelKey)))}</button>`
   ).join('')
   + `<span class="fa-swatch-row">${swatches}</span>`
   + `<button class="diagram-tool-btn" onclick="faUndo()" ${faState.history.length ? '' : 'disabled'}>${t('frame.undoBtn')}</button>`
-  + `<button class="diagram-tool-btn" onclick="faRemoveSelected()">${t('dyn.removeSelected')}</button>`
-  + `<button class="diagram-tool-btn" onclick="faClearAll()">${t('dyn.clearCourt')}</button>`;
+  + `<button class="diagram-tool-btn" onclick="faRemoveSelected()">${escapeHtml(etichettaCorta(t('dyn.removeSelected')))}</button>`
+  + `<button class="diagram-tool-btn" onclick="faClearAll()">${escapeHtml(etichettaCorta(t('dyn.clearCourt')))}</button>`;
 }
 
 function setFaTool(tool) {
@@ -36347,9 +36290,7 @@ function resizeDiagramCanvas(state) {
   const canvas = document.getElementById(state.canvasId);
   if (!canvas) return;
   const size = diagramCanvasSize(state.mode);
-  const f = diagramFattoreNitidezza(state);
-  canvas.width = Math.round(size.w * f);
-  canvas.height = Math.round(size.h * f);
+  canvas.width = size.w; canvas.height = size.h;
 }
 
 function setDiagramCourtMode(state, mode) {
@@ -36435,7 +36376,7 @@ function renderDiagramToolbar(state) {
   + `<button class="diagram-tool-btn diagram-tool-screenmode${state.screenCurved ? ' active' : ''}" onclick="toggleDiagramScreenCurved(${state.ref})">${escapeHtml(etichettaCorta(t(state.screenCurved ? 'dyn.screenCurved' : 'dyn.screenBent')))}</button>`
   + `<button class="diagram-tool-btn" onclick="removeSelectedDiagramElement(${state.ref})" title="${escapeHtml(t('dyn.removeSelected'))} \u2014 ${tastoCanc()}">${escapeHtml(etichettaCorta(t('dyn.removeSelected')))}</button>`
   + `<button class="diagram-tool-btn" onclick="undoLastDiagramElement(${state.ref})" title="${escapeHtml(t('dyn.undoLast'))} \u2014 ${tastoAnnulla()}">${escapeHtml(etichettaCorta(t('dyn.undoLast')))}</button>`
-  + `<button class="diagram-tool-btn" onclick="clearDiagram(${state.ref})">${escapeHtml(etichettaCorta(t('dyn.clearCourt')))}</button>`
+  + `<button class="diagram-tool-btn" onclick="clearDiagram(${state.ref})">${t('dyn.clearCourt')}</button>`
   /* I TASTI, DETTI UNA VOLTA SOLA (03/10/2026). Nunzi non sapeva che Canc
      cancella: c'era gia', ma scritto solo nell'aiuto lungo in fondo. Una
      riga sottile sotto la barra costa diciotto punti di altezza e li dice
@@ -36799,12 +36740,7 @@ function redrawDiagram(state, previewEnd) {
      nascosto e misura zero), quando si ridimensiona la finestra, quando si
      cambia monitor. Qui il canvas si riadatta da solo se serve davvero —
      niente ricorsione, si tocca solo la risoluzione. */
-  const fVoluto = diagramFattoreNitidezza(state);
-  if (Math.abs(fVoluto - (canvas.width / W)) > 0.08) {
-    canvas.width = Math.round(W * fVoluto);
-    canvas.height = Math.round(H * fVoluto);
-  }
-  ctx.setTransform(canvas.width / W, 0, 0, canvas.height / H, 0, 0);
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
   drawCourt(ctx, W, H, state.mode);
   drawDiagramMagnets(ctx, state, W, H);
   state.elements.forEach((el, i) => drawDiagramElement(ctx, W, H, el, i === state.selectedIndex));
