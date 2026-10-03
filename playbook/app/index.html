@@ -1324,41 +1324,14 @@
   }
   .diagram-canvas-shell canvas{display:block;width:100%;height:auto;border-radius:6px;cursor:crosshair;touch-action:none;}
   .diagram-toolbar{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px;}
-  /* GLI STRUMENTI DI FIANCO AL CAMPO, NON SOTTO (03/10/2026).
-   * Nunzi, dal suo PC: «la schermata e' troppo bassa per il video del pc e
-   * ogni volta devi stare a fare su e giu' sulla pagina, si perde un sacco
-   * di tempo — tutti gli strumenti devono stare nella stessa pagina».
-   * Stringere i bottoni non bastava (misurato: faceva peggio). Spostarli di
-   * fianco invece toglie di colpo tutta l'altezza della barra: il campo e'
-   * 504 punti di largo, la barra ne vuole 200, e in 720 ci stanno tutti e
-   * due affiancati. L'altezza torna quella del solo campo.
-   * Solo da 900 punti in su: sotto, sul telefono e sul tablet in verticale,
-   * la barra resta sotto al campo come prima. */
-  @media (min-width: 1000px){
-    .diagram-canvas-col{display:flex;gap:12px;align-items:flex-start;max-width:860px;}
-    .diagram-canvas-shell{flex:0 0 auto;max-width:504px;}
-    /* 320 e non 200: MISURATO. In colonna stretta i bottoni si impilano e la
-       barra diventa piu' alta del campo (216 larghi -> 546 alti, peggio di
-       prima). A 320 ne stanno due o tre per riga e la barra scende a 390,
-       cioe' sotto l'altezza del campo (423): l'editor diventa alto quanto il
-       solo campo. Misure prese a 11,5px: 216->546, 250->437, 310->390,
-       340->354, 380->280. */
-    .diagram-toolbar{flex:0 0 320px;max-width:320px;margin-top:0;align-content:flex-start;}
-    /* in colonna stretta le due larghezze fisse starebbero larghe: qui, e
-       solo qui, i due bottoni prendono tutta la riga e restano fermi lo
-       stesso, perche' la riga non cambia mai larghezza. */
-    .diagram-toolbar .diagram-tool-finish,
-    .diagram-toolbar .diagram-tool-screenmode{min-width:100%;}
-    .diagram-num-row{width:100%;}
-  }
-  /* MISURATO IL 03/10/2026: stringere i bottoni FA PEGGIO.
-     Nunzi: «la schermata e' troppo bassa per il video del pc, tutti gli
-     strumenti devono stare nella stessa pagina». Con margini e carattere
-     piu' piccoli le etichette lunghe smettono di andare a capo DENTRO al
-     bottone: i bottoni diventano piu' larghi e ne stanno meno per riga.
-     Misurato a 680px: prima 4 righe e 194px, dopo 5 righe e 259px.
-     Quindi qui resta com'era; l'altezza va presa in un altro modo —
-     etichette piu' corte, o barra di fianco al campo invece che sotto. */
+  /* GLI STRUMENTI DI FIANCO AL CAMPO: PROVATO E TOLTO (03/10/2026).
+   * Funzionava nel riquadro grande (editor a tutta pagina), ma nel foglio
+   * del Playbook la stessa colonna sta dentro una scheda piu' stretta: la
+   * barra usciva dalla scheda e finiva sopra al testo d'aiuto. Vince:
+   * «e' inguardabile, non si vede niente». Tolto nel giro di un minuto.
+   * Se si riprende, va legato al SOLO riquadro grande (#pbCourtOverlay /
+   * #exerciseDiagramOverlay) e non a .diagram-canvas-col in generale, e
+   * provato dentro al foglio del Playbook prima di pubblicare. */
   .diagram-tool-btn{
     background:var(--panel2);border:1px solid var(--border);color:var(--text);border-radius:8px;
     padding:7px 10px;font-size:11.5px;font-weight:600;
@@ -3951,9 +3924,7 @@
 <meta name="theme-color" content="#070d16">
 <link rel="apple-touch-icon" href="icona-180.png">
 <script>
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', function () { navigator.serviceWorker.register('sw.js').catch(function () {}); });
-}
+if ('serviceWorker' in navigator) { window.addEventListener('load', function () { navigator.serviceWorker.register('sw.js').catch(function () {}); }); }
 </script>
 </head>
 <body>
