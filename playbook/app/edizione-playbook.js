@@ -786,7 +786,7 @@
       'body.edizione-playbook .diagram-num-btn.placed{background:#e6ecf7;color:#12203a;border-color:#8ea3c7}',
       'body.pb-tablet .diagram-num-btn{width:42px;height:42px;font-size:15px}',
       'body.pb-tablet .diagram-num-row{gap:8px;margin-bottom:8px}',
-      'body.pb-tablet .diagram-tool-btn{min-height:42px;padding:8px 14px;font-size:14px}',
+      '@media (pointer: coarse){body.pb-tablet .diagram-tool-btn{min-height:42px;padding:8px 14px;font-size:14px}}',
       'body.pb-tablet #vdmLavagna .vl-btn{min-height:40px;padding:8px 14px;font-size:13.5px}',
       'body.pb-tablet #vdmLavagna .vl-btn.vl-azione{min-height:44px;font-size:14px}',
       'body.pb-tablet #vdmLavagna .vl-chip{padding:9px 12px}',
