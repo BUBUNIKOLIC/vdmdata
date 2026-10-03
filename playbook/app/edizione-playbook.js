@@ -471,6 +471,48 @@
   }
 
 
+  /* ---------- eliminare una squadra ----------
+   * Nell'app completa il tasto sta nella scheda della squadra, che nel Playbook
+   * e' nascosta: senza, una squadra sbagliata restava li' per sempre. Stesso
+   * posto del tasto Logo, e la domanda di conferma dice quello che conta qui:
+   * con la squadra se ne vanno i suoi giochi. */
+  const DOMANDA_ELIMINA = {
+    it: 'Eliminare la squadra «{n}»? Spariscono anche tutti i suoi giochi. Non si torna indietro.',
+    en: 'Delete the team \u201c{n}\u201d? All of its plays go with it. This cannot be undone.',
+    es: '\u00bfEliminar el equipo \u00ab{n}\u00bb? Tambi\u00e9n desaparecen todas sus jugadas. No se puede deshacer.',
+    fr: 'Supprimer l\u2019\u00e9quipe \u00ab\u00a0{n}\u00a0\u00bb ? Tous ses syst\u00e8mes disparaissent aussi. C\u2019est d\u00e9finitif.',
+    pt: 'Eliminar a equipa \u00ab{n}\u00bb? Todas as suas jogadas desaparecem tamb\u00e9m. N\u00e3o \u00e9 poss\u00edvel voltar atr\u00e1s.',
+    de: 'Das Team \u201e{n}\u201c l\u00f6schen? Alle seine Spielz\u00fcge verschwinden ebenfalls. Das l\u00e4sst sich nicht r\u00fcckg\u00e4ngig machen.',
+    lt: 'I\u0161trinti komand\u0105 \u201e{n}\u201c? Kartu dings visi jos deriniai. At\u0161aukti nebus galima.',
+    pl: 'Usun\u0105\u0107 zesp\u00f3\u0142 \u201e{n}\u201d? Znikn\u0105 te\u017c wszystkie jego zagrania. Tego nie mo\u017cna cofn\u0105\u0107.',
+    ru: '\u0423\u0434\u0430\u043b\u0438\u0442\u044c \u043a\u043e\u043c\u0430\u043d\u0434\u0443 \u00ab{n}\u00bb? \u0412\u043c\u0435\u0441\u0442\u0435 \u0441 \u043d\u0435\u0439 \u0438\u0441\u0447\u0435\u0437\u043d\u0443\u0442 \u0432\u0441\u0435 \u0435\u0451 \u043a\u043e\u043c\u0431\u0438\u043d\u0430\u0446\u0438\u0438. \u041e\u0442\u043c\u0435\u043d\u0438\u0442\u044c \u0431\u0443\u0434\u0435\u0442 \u043d\u0435\u043b\u044c\u0437\u044f.',
+    zh: '\u5220\u9664\u7403\u961f\u300c{n}\u300d\uff1f\u5b83\u7684\u6240\u6709\u6218\u672f\u4e5f\u4f1a\u4e00\u8d77\u6d88\u5931\uff0c\u65e0\u6cd5\u64a4\u9500\u3002',
+    ja: '\u30c1\u30fc\u30e0\u300c{n}\u300d\u3092\u524a\u9664\u3057\u307e\u3059\u304b\uff1f\u305d\u306e\u30d7\u30ec\u30fc\u3082\u3059\u3079\u3066\u6d88\u3048\u307e\u3059\u3002\u5143\u306b\u306f\u623b\u305b\u307e\u305b\u3093\u3002',
+    ko: '\u300c{n}\u300d \ud300\uc744 \uc0ad\uc81c\ud560\uae4c\uc694? \uc774 \ud300\uc758 \ud50c\ub808\uc774\ub3c4 \ubaa8\ub450 \uc0ac\ub77c\uc9c0\uba70 \ub418\ub3cc\ub9b4 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4.'
+  };
+  function domandaElimina(nome){
+    let l = 'en';
+    try { if (typeof currentLang !== 'undefined' && currentLang) l = currentLang; } catch (e) {}
+    return (DOMANDA_ELIMINA[l] || DOMANDA_ELIMINA.en).replace('{n}', nome);
+  }
+  /* La cancellazione vera resta quella dell'app completa (deleteActiveTeam):
+   * qui si presta solo la domanda giusta, per il tempo di quella chiamata. */
+  function eliminaSquadraAperta(){
+    const team = activeTeam();
+    if (!team || typeof deleteActiveTeam !== 'function') return;
+    const confermaOriginale = window.showConfirmModal;
+    if (typeof confermaOriginale === 'function'){
+      window.showConfirmModal = function(_msg, ok){ return confermaOriginale.call(this, domandaElimina(team.name), ok); };
+    }
+    try { deleteActiveTeam(); }
+    finally { if (typeof confermaOriginale === 'function') window.showConfirmModal = confermaOriginale; }
+  }
+  function parolaElimina(){
+    try { if (typeof t === 'function') return t('team.deleteBtn'); } catch (e) {}
+    return 'Delete team';
+  }
+
+
   /* ---------- ordine dei giochi e didascalia, a video ----------
    * Ogni gioco ha ▲ ▼ per spostarlo su o giu': l'ordine e' quello del foglio
    * stampato. Sotto i diagrammi, una riga per la didascalia del gioco. */
@@ -877,6 +919,8 @@
       '.pb-sq-nome{font-size:16px;font-weight:800;line-height:1.2;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:150px}',
       '.pb-sq-n{font-size:12.5px;color:#8aa0c4;margin-top:2px}',
       '.pb-sq-logobtn{margin-top:6px;font-size:12px;padding:4px 9px;border-radius:7px;border:1px solid #2c4474;background:#0e1a33;color:#cfe3ff}',
+      '.pb-sq-elimina{margin-left:6px;padding:4px 8px;border-color:#6b2730;background:#2a1116;color:#ffb3bd}',
+      '.pb-sq-logobtn{white-space:nowrap}',
       '.pb-sq.nuova{justify-content:center;border-style:dashed;color:#00e5ff;font-weight:800;font-size:15px;min-width:150px}',
       '.pb-arch-cerca{flex:1;max-width:340px;padding:9px 12px;border-radius:9px;border:1px solid rgba(0,229,255,.35);background:#0e1526;color:#fff;font-size:15px;text-transform:none;letter-spacing:normal;font-weight:400}',
       '.pb-arch-lista{max-height:34vh;overflow-y:auto;-webkit-overflow-scrolling:touch;display:flex;flex-direction:column;gap:12px}',
@@ -940,7 +984,8 @@
                              : '<span class="pb-sq-logo">' + esc(iniziali(tm.name)) + '</span>';
         return '<button type="button" class="pb-sq' + (tm === aperta ? ' on' : '') + '" data-sq="' + esc(tm.id) + '">' + logo +
           '<span><div class="pb-sq-nome">' + esc(tm.name) + '</div><div class="pb-sq-n">' + n + ' ' + esc(n === 1 ? pc('gioco') : pc('giochi')) + '</div>' +
-          (tm === aperta ? '<span class="pb-sq-logobtn" data-logo="1">🖼 ' + esc(pc('logo')) + '</span>' : '') + '</span></button>';
+          (tm === aperta ? '<span class="pb-sq-logobtn" data-logo="1">🖼 ' + esc(pc('logo')) + '</span>' +
+                           '<span class="pb-sq-logobtn pb-sq-elimina" data-elimina="1" title="' + esc(parolaElimina()) + '" aria-label="' + esc(parolaElimina()) + '">🗑</span>' : '') + '</span></button>';
       }).join('') + '<button type="button" class="pb-sq nuova" data-nuova="1">' + esc(pc('nuova')) + '</button>';
       const box = document.getElementById('pbSquadre');
       if (box.innerHTML !== html) box.innerHTML = html;
@@ -1070,6 +1115,11 @@
       if (ev.target.closest('[data-logo]')){
         const inp = document.getElementById('pbLogoInput');
         if (inp) inp.click();
+        return;
+      }
+      if (ev.target.closest('[data-elimina]')){
+        ev.preventDefault(); ev.stopPropagation();
+        eliminaSquadraAperta();
         return;
       }
       if (el.dataset.nuova){ try { createTeam(); } catch (e) {} return; }
