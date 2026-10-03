@@ -1338,7 +1338,7 @@
    * si mettono da soli nelle caselle giuste. */
   @media (min-width: 860px){
     .diagram-wrap{
-      display:grid;grid-template-columns:minmax(0, 1fr) minmax(300px, 340px);
+      display:grid;grid-template-columns:auto minmax(300px, 340px);
       grid-template-areas:"campo strumenti" "campo nota";
       align-items:start;justify-content:start;
     }
@@ -1346,6 +1346,10 @@
     .diagram-canvas-shell{grid-area:campo;justify-self:start;}
     .diagram-canvas-shell canvas{max-height:58vh;width:auto;max-width:100%;margin:0 auto;}
     .diagram-toolbar{grid-area:strumenti;align-content:flex-start;}
+    /* in colonna fissa la larghezza non cambia mai, quindi questi due
+       possono lasciare la loro misura minima senza tornare a ballare */
+    .diagram-toolbar .diagram-tool-finish,
+    .diagram-toolbar .diagram-tool-screenmode{min-width:0;}
     .diagram-form-col{grid-area:nota;}
   }
   /* GLI STRUMENTI DI FIANCO AL CAMPO: PROVATO E TOLTO (03/10/2026).
@@ -2178,6 +2182,18 @@
      Ora le 4 miniature restano sempre a vista qui sopra, si passa da una
      all'altra con un click diretto, senza mai dover chiudere l'editor. */
   .pb-editor-variants{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:10px;}
+  /* LE QUATTRO VARIANTI PIU' PICCOLE MENTRE SI DISEGNA (03/10/2026).
+   * Vince, guardando la sua schermata: «puoi rimpicciolire le schede in
+   * maniera tale che c'entrano». Hanno ragione d'essere — si salta da una
+   * variante all'altra senza chiudere l'editor — ma a tutta larghezza si
+   * prendono quasi quattrocento punti di altezza, e il campo su cui stai
+   * disegnando finisce fuori dallo schermo. Qui restano riconoscibili e
+   * cliccabili, ma smettono di mangiarsi la pagina. */
+  @media (min-width: 860px){
+    .pb-editor-variants{max-width:720px;gap:6px;margin-bottom:8px;}
+    .pb-editor-variant-cell{padding:3px;}
+    .pb-editor-variant-cell span{font-size:8.5px;margin-top:1px;}
+  }
   .pb-editor-variant-cell{border:2px solid #ddd;border-radius:6px;padding:4px;background:#fff;text-align:center;cursor:pointer;transition:border-color .15s;}
   .pb-editor-variant-cell:hover{border-color:var(--orange);}
   .pb-editor-variant-cell.pb-editor-variant-active{border-color:var(--orange);box-shadow:0 0 0 1px var(--orange);}
@@ -36359,6 +36375,21 @@ function setDiagramTool(state, tool) {
  * gia': stava scritto solo nell'aiuto in fondo al riquadro, che non legge
  * nessuno. Adesso il tasto e' scritto sul bottone che fa quella cosa.
  * Simboli e non parole: non vanno tradotti e non allungano la barra. */
+/* ETICHETTE CORTE SUI BOTTONI (03/10/2026, idea di Vince: «PALL. PASS.
+ * MOV. BLOC., cosi' la grandezza e' uguale e si riduce»).
+ * Si tiene il simbolo davanti e si accorcia la parola, con il nome intero
+ * nel suggerimento che esce passandoci sopra. Niente traduzioni nuove: si
+ * taglia quella che c'e' gia', e nelle lingue dove le parole sono gia'
+ * corte (cinese, giapponese, coreano) non cambia niente. */
+function etichettaCorta(testo) {
+  const m = String(testo || '').match(/^(\S+)\s+(.+)$/);
+  if (!m) return testo;
+  const simbolo = m[1];
+  const parola = m[2].split(/[\s\/(,:]/)[0];
+  if (!parola) return testo;
+  return simbolo + ' ' + (parola.length > 7 ? parola.slice(0, 5) + '.' : parola);
+}
+
 function tastoCanc() {
   try { return navigator.platform.indexOf('Mac') >= 0 ? '\u232B' : 'Canc'; } catch (e) { return 'Canc'; }
 }
@@ -36385,7 +36416,7 @@ function renderDiagramToolbar(state) {
   el.innerHTML = `<div class="diagram-num-row">${playerBtns}</div>`
   + `<div class="diagram-tool-row">`
   + DIAGRAM_TOOLS.map(tool =>
-    `<button class="diagram-tool-btn ${state.tool === tool.id ? 'active' : ''}" onclick="setDiagramTool(${state.ref}, '${tool.id}')">${t(tool.labelKey)}</button>`
+    `<button class="diagram-tool-btn ${state.tool === tool.id ? 'active' : ''}" onclick="setDiagramTool(${state.ref}, '${tool.id}')" title="${escapeHtml(t(tool.labelKey))}">${escapeHtml(etichettaCorta(t(tool.labelKey)))}</button>`
   ).join('')
   // "✔ Fine tratto" ora è SEMPRE presente nella stessa posizione della
   // toolbar (non solo mentre c'è un tratto a metà), esattamente come in
@@ -36399,13 +36430,13 @@ function renderDiagramToolbar(state) {
   // sempre nello stesso punto; resta comunque "no-op" se non c'è nessun
   // tratto in corso (vedi finishDiagramPath), solo evidenziato in verde
   // quando c'è davvero qualcosa da confermare, come indicazione in più.
-  + `<button class="diagram-tool-btn diagram-tool-finish${state.pendingPath ? ' diagram-tool-finish-active' : ''}" onclick="finishDiagramPath(${state.ref})" title="${escapeHtml(t('dyn.finishPath'))} \u2014 \u23CE">${state.pendingPath ? t('dyn.finishPathN', { n: state.pendingPath.points.length }) : t('dyn.finishPath')}</button>`
+  + `<button class="diagram-tool-btn diagram-tool-finish${state.pendingPath ? ' diagram-tool-finish-active' : ''}" onclick="finishDiagramPath(${state.ref})" title="${escapeHtml(t('dyn.finishPath'))} \u2014 \u23CE">${state.pendingPath ? t('dyn.finishPathN', { n: state.pendingPath.points.length }) : escapeHtml(etichettaCorta(t('dyn.finishPath')))}</button>`
   // Blocco spezzato o curvo, a scelta: stesso strumento, due rese possibili
   // ("anche il blocco può essere sia una linea spezzata sia una curva").
-  + `<button class="diagram-tool-btn diagram-tool-screenmode${state.screenCurved ? ' active' : ''}" onclick="toggleDiagramScreenCurved(${state.ref})">${t(state.screenCurved ? 'dyn.screenCurved' : 'dyn.screenBent')}</button>`
-  + `<button class="diagram-tool-btn" onclick="removeSelectedDiagramElement(${state.ref})" title="${escapeHtml(t('dyn.removeSelected'))} \u2014 ${tastoCanc()}">${t('dyn.removeSelected')}</button>`
-  + `<button class="diagram-tool-btn" onclick="undoLastDiagramElement(${state.ref})" title="${escapeHtml(t('dyn.undoLast'))} \u2014 ${tastoAnnulla()}">${t('dyn.undoLast')}</button>`
-  + `<button class="diagram-tool-btn" onclick="clearDiagram(${state.ref})">${t('dyn.clearCourt')}</button>`
+  + `<button class="diagram-tool-btn diagram-tool-screenmode${state.screenCurved ? ' active' : ''}" onclick="toggleDiagramScreenCurved(${state.ref})">${escapeHtml(etichettaCorta(t(state.screenCurved ? 'dyn.screenCurved' : 'dyn.screenBent')))}</button>`
+  + `<button class="diagram-tool-btn" onclick="removeSelectedDiagramElement(${state.ref})" title="${escapeHtml(t('dyn.removeSelected'))} \u2014 ${tastoCanc()}">${escapeHtml(etichettaCorta(t('dyn.removeSelected')))}</button>`
+  + `<button class="diagram-tool-btn" onclick="undoLastDiagramElement(${state.ref})" title="${escapeHtml(t('dyn.undoLast'))} \u2014 ${tastoAnnulla()}">${escapeHtml(etichettaCorta(t('dyn.undoLast')))}</button>`
+  + `<button class="diagram-tool-btn" onclick="clearDiagram(${state.ref})">${escapeHtml(etichettaCorta(t('dyn.clearCourt')))}</button>`
   /* I TASTI, DETTI UNA VOLTA SOLA (03/10/2026). Nunzi non sapeva che Canc
      cancella: c'era gia', ma scritto solo nell'aiuto lungo in fondo. Una
      riga sottile sotto la barra costa diciotto punti di altezza e li dice
