@@ -3923,7 +3923,7 @@ const { T, traduciPagina, nomeFase } = __vdm_src_renderer_core_lingua_js;
 
 const $ = function(s){ return document.getElementById(s); };
 /* fra un tempo e l'altro quasi niente: il gioco scorre (17/09) */
-const PAUSA_FASE = 350;
+const PAUSA_FASE = 700;
 /* le azioni del basket: gli strumenti in cima al campo */
 const MOVIMENTI = ['taglio', 'palleggio', 'blocco'];
 const AZIONI = MOVIMENTI.concat(['passaggio', 'tiro', 'palla', 'gomma']);
@@ -4028,7 +4028,7 @@ function Lavagna(opzioniLavagna){
     ritmo: function(a, b){ return sport.ritmo(a, b); },
     durataRelativa: function(a, b){ return sport.durataRelativa(a, b); },
     /* prima di muoversi si legge il diagramma */
-    pausaIniziale: 1100
+    pausaIniziale: 1700
   });
 
   function opzioni(){
@@ -5283,7 +5283,7 @@ function montaAnteprima(contenitore, gioco){
     disegna: function(f, s){ campo.disegnaFotogramma(f, SENZA_ROSA, opz, {punti: sport.sciaPalla(fasi[s], fasi[s + 1])}); },
     suFase: function(i){ statoTesto.textContent = T('fase {n} di {tot}', {n: i + 2, tot: fasi.length}) + ' · ' + (nomeFase(fasi[i + 1].nome) || ''); },
     inPausa: function(i){ campo.disegnaDiagramma(fasi[i], fasi[i + 1] || null, SENZA_ROSA, opz); },
-    pausaIniziale: 1000,
+    pausaIniziale: 1500,
     alTermine: function(){ bottone.textContent = T('↺ Di nuovo'); inCorso = null; fermo(fasi.length - 1); },
     ritmo: sport.ritmo,
     durataRelativa: sport.durataRelativa,
@@ -5304,7 +5304,7 @@ function montaAnteprima(contenitore, gioco){
     if (inCorso && inCorso !== controllo) inCorso.ferma();
     inCorso = controllo;
     bottone.textContent = T('■ Ferma');
-    lettore.avvia(fasi, {durata: gioco.velocita || 2600, pausa: 350, ciclo: false});
+    lettore.avvia(fasi, {durata: gioco.velocita || 2600, pausa: 700, ciclo: false});
   };
   /* la prospettiva si imposta quando il campo e' gia' nella pagina */
   requestAnimationFrame(function(){ campo.impostaProspettiva(angolo, angolo && gioco.vista.giro || 0); fermo(0); });

@@ -3,9 +3,9 @@
  * parte da li', anche in palestra dove il telefono non prende.
  * Il numero qui sotto va cambiato a ogni versione nuova: e' l'unica cosa
  * che dice al telefono di riprendersi i file aggiornati. */
-var VERSIONE = 'vdm-playbook-3';
+var VERSIONE = 'vdm-playbook-4';
 var ROBA = ['./', 'index.html', 'ponte-web.js',
-  'prova-web.js', 'edizione-playbook.js',
+  'prova-web.js', 'edizione-playbook.js', 'importa-statistiche.js',
             'vdm-motore.js', 'mp4-muxer.js', 'playbook.webmanifest',
             'icona-192.png', 'icona-512.png'];
 

@@ -389,6 +389,90 @@
     border-radius:10px;background:#000;
   }
   .video-player-wrap video{width:100%;height:100%;object-fit:cover;}
+
+  /* LE CASELLE SOPRA IL VIDEO (23 settembre 2026).
+   * Quando Inizio e Fine sono tutti e due marcati bisogna dire CHE COSA e'
+   * successo. Prima lo si faceva nel pannello di lato: gli occhi lasciavano
+   * la partita, e su un tempo intero quel movimento spezza il ritmo. Adesso
+   * le stesse caselle compaiono traslucide SOPRA il video, si clicca e
+   * spariscono. Stanno dentro .video-player-wrap, non dentro al <video>:
+   * cosi' restano visibili anche a schermo intero (vedi videoSchermoIntero). */
+  /* LE CASELLE SOPRA IL VIDEO — disposte come la schermata normale.
+   * Prima le mettevo tutte in fila in alto: illeggibili e, soprattutto,
+   * coprivano l'azione. Ora stanno dove il coach le ha gia' in testa:
+   * GIOCATORI SOPRA, ATTACCO A SINISTRA, DIFESA A DESTRA, e il centro resta
+   * libero — la partita si continua a vedere anche con le caselle accese. */
+  .vt-sopra{
+    position:absolute;inset:0;z-index:6;display:none;
+    flex-direction:column;gap:6px;padding:10px;pointer-events:none;
+  }
+  .vt-sopra.show{display:flex;}
+  .vt-sopra > *{pointer-events:auto;}
+  .vt-sopra-testa{display:flex;align-items:center;gap:10px;color:#fff;font-size:12px;font-weight:800;
+    text-shadow:0 1px 3px rgba(0,0,0,.9);flex:0 0 auto;
+    background:rgba(3,8,20,.55);border-radius:8px;padding:4px 10px;align-self:flex-start;}
+  .vt-sopra-chiudi{background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.35);
+    color:#fff;border-radius:7px;padding:1px 8px;font-size:12px;cursor:pointer;margin-left:6px;}
+  .vt-sopra-chiudi:hover{background:rgba(255,255,255,.3);}
+  .vt-sopra-alto{flex:0 0 auto;display:flex;flex-wrap:wrap;gap:5px;align-items:center;
+    background:rgba(3,8,20,.5);border-radius:10px;padding:6px 8px;}
+  .vt-sopra-mezzo{flex:1 1 auto;min-height:0;display:flex;justify-content:space-between;gap:10px;align-items:stretch;}
+  .vt-colonna{display:flex;flex-direction:column;gap:5px;overflow:auto;
+    background:rgba(3,8,20,.5);border-radius:10px;padding:8px;width:min(230px,26%);}
+  .vt-colonna.vuota{background:none;}
+  .vt-sopra-eti{color:rgba(255,255,255,.8);font-size:10px;font-weight:900;letter-spacing:.09em;
+    text-transform:uppercase;margin:0 0 2px;text-shadow:0 1px 3px rgba(0,0,0,.9);}
+  .vt-chip{
+    background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.36);
+    color:#fff;border-radius:999px;padding:5px 11px;font-size:12px;font-weight:700;
+    cursor:pointer;line-height:1.15;text-shadow:0 1px 2px rgba(0,0,0,.7);text-align:left;
+  }
+  .vt-chip:hover{background:rgba(0,229,255,.36);border-color:rgba(0,229,255,.85);}
+  .vt-chip.rapido{background:rgba(0,229,255,.2);border-color:rgba(0,229,255,.55);}
+  .vt-chip.rapido:hover{background:rgba(0,229,255,.45);}
+  .vt-chip.gioc{background:rgba(34,197,94,.22);border-color:rgba(34,197,94,.6);}
+  .vt-chip.gioc:hover{background:rgba(34,197,94,.45);}
+  /* SCHERMO INTERO: VA LA COLONNA, NON IL VIDEO DA SOLO.
+   * Primo tentativo sbagliato (23 settembre, corretto subito): mandavo a
+   * schermo intero il riquadro del video. Risultato: la partita grande e
+   * NESSUN modo di taggarla, perche' Inizio e Fine stanno nella barra che e'
+   * fuori dal riquadro. A schermo intero deve andare #videoCentralCol, che
+   * contiene tutti e due: sopra il video, sotto la barra con Inizio e Fine.
+   * Gli !important servono perche' il riquadro porta addosso una misura
+   * scritta nello stile (quella del grip nell'angolo), e uno stile scritto
+   * addosso vince sempre su una regola del foglio. */
+  #videoCentralCol:fullscreen{
+    width:100vw!important;height:100vh!important;max-width:none!important;max-height:none!important;
+    display:flex!important;flex-direction:column;gap:6px;background:#000;padding:0;margin:0;
+  }
+  /* il riquadro sta DENTRO #playerArea: se non si allunga anche lui, il
+   * video resta basso e sotto avanza nero. */
+  /* IN COLONNA, non in fila: dentro #playerArea ci sono il riquadro del video
+   * E la barra del tempo (.vt-trimbar-wrap, quella per saltare avanti e
+   * indietro). Con display:flex e basta finivano affiancati e la barra del
+   * tempo spariva di lato: senza quella, a schermo intero non si puo' andare
+   * a cercare un'azione. */
+  #videoCentralCol:fullscreen #playerArea{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;}
+  #videoCentralCol:fullscreen .vt-trimbar-wrap{flex:0 0 auto;margin:6px 12px 0;}
+  #videoCentralCol:fullscreen .video-player-wrap{
+    flex:1 1 auto;min-height:0;height:100%!important;
+    width:100%!important;height:auto!important;max-width:none!important;max-height:none!important;
+    aspect-ratio:auto!important;border-radius:0;margin:0;background:#000;
+  }
+  #videoCentralCol:fullscreen .video-player-wrap video{width:100%!important;height:100%!important;object-fit:contain!important;}
+  #videoCentralCol:fullscreen .playback-controls{flex:0 0 auto;margin:0;border-radius:0;}
+  #videoCentralCol:fullscreen .vt-resize-grip{display:none;}
+  #videoCentralCol:fullscreen .vt-pieno{opacity:1;}
+  /* quello che a schermo intero non serve e ruberebbe spazio */
+  #videoCentralCol:fullscreen .video-size-bar,
+  #videoCentralCol:fullscreen .trim-readout{display:none;}
+  .vt-pieno{
+    position:absolute;top:8px;right:8px;z-index:7;
+    background:rgba(3,8,20,.55);border:1px solid rgba(255,255,255,.3);color:#fff;
+    border-radius:8px;padding:3px 8px;font-size:13px;cursor:pointer;opacity:0;transition:opacity .15s;
+  }
+  .video-player-wrap:hover .vt-pieno{opacity:1;}
+  .vt-pieno:hover{background:rgba(0,229,255,.35);}
   .video-player-placeholder{
     height:420px;min-height:260px;border-radius:10px;
     display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
@@ -1240,9 +1324,48 @@
   }
   .diagram-canvas-shell canvas{display:block;width:100%;height:auto;border-radius:6px;cursor:crosshair;touch-action:none;}
   .diagram-toolbar{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px;}
+  /* GLI STRUMENTI DI FIANCO AL CAMPO, NON SOTTO (03/10/2026).
+   * Nunzi, dal suo PC: «la schermata e' troppo bassa per il video del pc e
+   * ogni volta devi stare a fare su e giu' sulla pagina, si perde un sacco
+   * di tempo — tutti gli strumenti devono stare nella stessa pagina».
+   * Stringere i bottoni non bastava (misurato: faceva peggio). Spostarli di
+   * fianco invece toglie di colpo tutta l'altezza della barra: il campo e'
+   * 504 punti di largo, la barra ne vuole 200, e in 720 ci stanno tutti e
+   * due affiancati. L'altezza torna quella del solo campo.
+   * Solo da 900 punti in su: sotto, sul telefono e sul tablet in verticale,
+   * la barra resta sotto al campo come prima. */
+  @media (min-width: 1000px){
+    .diagram-canvas-col{display:flex;gap:12px;align-items:flex-start;max-width:860px;}
+    .diagram-canvas-shell{flex:0 0 auto;max-width:504px;}
+    /* 320 e non 200: MISURATO. In colonna stretta i bottoni si impilano e la
+       barra diventa piu' alta del campo (216 larghi -> 546 alti, peggio di
+       prima). A 320 ne stanno due o tre per riga e la barra scende a 390,
+       cioe' sotto l'altezza del campo (423): l'editor diventa alto quanto il
+       solo campo. Misure prese a 11,5px: 216->546, 250->437, 310->390,
+       340->354, 380->280. */
+    .diagram-toolbar{flex:0 0 320px;max-width:320px;margin-top:0;align-content:flex-start;}
+    /* in colonna stretta le due larghezze fisse starebbero larghe: qui, e
+       solo qui, i due bottoni prendono tutta la riga e restano fermi lo
+       stesso, perche' la riga non cambia mai larghezza. */
+    .diagram-toolbar .diagram-tool-finish,
+    .diagram-toolbar .diagram-tool-screenmode{min-width:100%;}
+    .diagram-num-row{width:100%;}
+  }
+  /* MISURATO IL 03/10/2026: stringere i bottoni FA PEGGIO.
+     Nunzi: «la schermata e' troppo bassa per il video del pc, tutti gli
+     strumenti devono stare nella stessa pagina». Con margini e carattere
+     piu' piccoli le etichette lunghe smettono di andare a capo DENTRO al
+     bottone: i bottoni diventano piu' larghi e ne stanno meno per riga.
+     Misurato a 680px: prima 4 righe e 194px, dopo 5 righe e 259px.
+     Quindi qui resta com'era; l'altezza va presa in un altro modo —
+     etichette piu' corte, o barra di fianco al campo invece che sotto. */
   .diagram-tool-btn{
     background:var(--panel2);border:1px solid var(--border);color:var(--text);border-radius:8px;
     padding:7px 10px;font-size:11.5px;font-weight:600;
+  }
+  /* i tasti che fanno la stessa cosa dei bottoni, in una riga sola */
+  .diagram-tasti{
+    flex-basis:100%;margin-top:4px;font-size:10.5px;opacity:.62;letter-spacing:.02em;
   }
   .diagram-tool-btn.active{border-color:var(--orange);color:var(--orange);background:rgba(0,229,255,.1);box-shadow:var(--glow-orange);}
   .diagram-tool-btn:disabled{opacity:.4;}
@@ -1866,6 +1989,18 @@
      flex-wrap si ri-impaginava da sola ad ogni click, andava a capo e faceva
      SCENDERE tutto quello che sta sotto proprio mentre si stava disegnando
      ("la barra con le scritte scende mentre io disegno la terza fila"). */
+  /* 03/10/2026: queste due larghezze fisse erano la vera causa dello spreco.
+     Servono perche' le etichette cambiano da sole («Fine tratto» diventa
+     «Fine tratto (3)», «Blocco: spezzato» diventa «curvo») e senza una
+     larghezza fissa i bottoni dopo di loro ballavano a ogni click. Ma 168 e
+     150 punti erano molto piu' del necessario: in una riga da 680 se ne
+     mangiavano 318, cioe' quasi metà, e gli altri bottoni finivano a capo.
+     NON si toccano a occhio: quella larghezza tiene fermi i bottoni mentre
+     l'etichetta cambia, ed e' una correzione pagata cara («il coach non
+     sapeva mai dove sarebbe finito il bottone»). In italiano basterebbero
+     124 e 116, ma in tedesco e lituano le stesse frasi sono piu' lunghe e
+     il ballo tornerebbe. Si stringono solo dopo averle misurate in tutte e
+     dodici le lingue. */
   .diagram-tool-btn.diagram-tool-finish{opacity:.55;min-width:168px;text-align:center;}
   .diagram-tool-btn.diagram-tool-screenmode{min-width:150px;text-align:center;}
   .diagram-tool-btn.diagram-tool-finish.diagram-tool-finish-active{opacity:1;border-color:#22c55e;color:#22c55e;background:rgba(34,197,94,.12);font-weight:800;animation:diagramFinishPulse 1.1s ease-in-out infinite;}
@@ -1941,6 +2076,50 @@
   .pb-row-name::before{content:'#';opacity:.5;margin-right:1px;}
   .pb-row-name:empty::before{opacity:.3;}
   .pb-row-name:hover{background:rgba(0,229,255,.12);}
+  /* LA SERIE DEL GIOCO (23 settembre 2026). Testo libero accanto al nome:
+   * "Pick and Roll", "Rimesse", "Transizione". Serve a ritrovare le cose
+   * quando i giochi diventano centinaia — con duemila, senza, non si trova
+   * piu' niente. Nasce vuota: chi non la usa non se ne accorge. */
+  .pb-row-serie{
+    flex:0 1 150px;min-width:70px;font-size:11px;font-weight:700;
+    color:#444;background:transparent;border:1px solid transparent;border-radius:4px;
+    padding:2px 6px;font-family:inherit;
+  }
+  .pb-row-serie::placeholder{color:#aaa;font-weight:600;}
+  /* L'ORDINE DEI GIOCHI SUL FOGLIO (23 settembre 2026). I coach sono fissati
+   * con l'ordine del playbook: il gioco che si chiama per primo deve stare
+   * per primo. Due frecce sulla riga, come nel Playbook per iPad. */
+  .pb-sposta{opacity:.75;font-size:11px;line-height:1;padding:2px 5px;}
+
+  .pb-sposta:hover{opacity:1;}
+  .pb-sposta:disabled{opacity:.2;cursor:default;}
+  @media print{ .pb-sposta{display:none;} }
+  /* LA LIBRERIA: tutti i giochi della squadra, raggruppati per serie. */
+  .pb-lib{position:fixed;inset:0;z-index:9000;display:none;background:rgba(3,8,20,.72);
+    backdrop-filter:blur(3px);padding:26px;}
+  .pb-lib.show{display:flex;align-items:flex-start;justify-content:center;}
+  .pb-lib-dentro{background:var(--panel);border:1px solid var(--border);border-radius:14px;
+    width:min(1100px,96vw);max-height:90vh;display:flex;flex-direction:column;overflow:hidden;
+    box-shadow:0 20px 60px rgba(0,0,0,.55);}
+  .pb-lib-testa{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--border);}
+  .pb-lib-quanti{color:var(--muted);font-size:12px;}
+  .pb-lib-cerca{margin-left:auto;flex:0 1 260px;padding:5px 10px;border-radius:8px;
+    border:1px solid var(--border);background:var(--panel2);color:inherit;font-size:12px;font-family:inherit;}
+  .pb-lib-corpo{overflow:auto;padding:12px 16px 20px;}
+  .pb-lib-serie h4{margin:14px 0 8px;font-size:12px;font-weight:900;letter-spacing:.07em;
+    text-transform:uppercase;color:var(--accent);}
+  .pb-lib-serie h4 span{color:var(--muted);font-weight:700;letter-spacing:0;margin-left:6px;}
+  .pb-lib-griglia{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;}
+  .pb-lib-carta{margin:0;cursor:pointer;border:1px solid var(--border);border-radius:10px;
+    overflow:hidden;background:#fff;transition:border-color .12s,transform .12s;}
+  .pb-lib-carta:hover{border-color:var(--orange);transform:translateY(-2px);}
+  .pb-lib-carta img{display:block;width:100%;height:auto;background:#fff;}
+  .pb-lib-sq{display:block;font-weight:600;font-size:10px;color:#666;margin-top:1px;}
+  .pb-lib-carta figcaption{padding:5px 7px;font-size:11px;font-weight:700;color:#111;background:#f2f2f2;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .pb-row-serie:hover{background:rgba(0,229,255,.1);border-color:rgba(0,0,0,.12);}
+  .pb-row-serie:focus{outline:none;background:rgba(0,229,255,.18);border-color:var(--orange);}
+  @media print{ .pb-row-serie{border:none;background:none;color:#555;} .pb-row-serie::placeholder{color:transparent;} }
   .pb-row-name:focus{outline:none;background:rgba(0,229,255,.2);box-shadow:0 0 0 1px var(--orange);}
   .pb-sheet .pb-editor-panel #pbSchemaName,.pb-sheet .pb-editor-panel #pbSchemaGroup,.pb-sheet .pb-editor-panel #pbCourtMode,.pb-sheet .pb-editor-panel #pbSchemaNote{background:#f4f4f4;color:#000;border-color:#ccc;}
   .pb-row-cells{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;align-items:start;}
@@ -3772,11 +3951,8 @@
 <meta name="theme-color" content="#070d16">
 <link rel="apple-touch-icon" href="icona-180.png">
 <script>
-/* si installa dalla schermata Home e da li' in poi funziona anche senza rete */
 if ('serviceWorker' in navigator) {
-  window.addEventListener('load', function () {
-    navigator.serviceWorker.register('sw.js').catch(function () {});
-  });
+  window.addEventListener('load', function () { navigator.serviceWorker.register('sw.js').catch(function () {}); });
 }
 </script>
 </head>
@@ -4184,6 +4360,7 @@ if ('serviceWorker' in navigator) {
           <div class="diagram-hint" style="margin:0;" data-i18n="playbook.gridHint">Ogni foglio è una griglia 4x4: 4 giochi per foglio, 4 diagrammi (varianti) per gioco. "+ Aggiungi gioco" per crearne uno — pieno un foglio, il prossimo gioco parte in automatico su un foglio nuovo. Clicca su un diagramma per aprirlo subito con canvas e strumenti e disegnarci sopra — se è vuoto e non è il primo, riparte dall'ultimo disegno della casella precedente, pronto da modificare per il passo successivo dell'azione.</div>
           <div class="row" style="gap:8px;margin:0;">
             <button class="btn small primary" data-i18n="playbook.addGameBtn" onclick="addPlaybookGame()">+ Aggiungi gioco</button>
+            <button class="btn small" onclick="apriLibreriaGiochi()" data-i18n="playbook.libraryBtn">📚 Libreria giochi</button>
             <button class="btn small" data-i18n="playbook.printBtn" onclick="printPlaybookSheet()">🖨️ Stampa foglio schemi</button>
           </div>
         </div>
@@ -4282,6 +4459,7 @@ if ('serviceWorker' in navigator) {
             <button class="btn small primary" id="personnelVideoBtn" data-i18n-title="relazione.personnelVideoHint" onclick="portaPersonnelNelVideo()" data-i18n="relazione.personnelVideoBtn">🎥 Tagga il video con questi player</button>
             <button class="btn small" data-i18n="relazione.refreshSheetBtn" data-i18n-title="relazione.refreshSheetHint" onclick="aggiornaFoglioSubito()">🔄 Aggiorna foglio</button>
             <button class="btn small" data-i18n="relazione.reflowBtn" title="Rimette in ordine le dodici posizioni, bilanciate fra le due file" onclick="ridisponiPersonnel()">↻ Ridisponi</button>
+            <button class="btn small" data-i18n="ia.tasto" data-i18n-title="ia.tastoT" onclick="importaStatistichePersonnel()" title="Riempie le schede da solo con i dati che la tua IA ti ha preparato">🤖 USO IA</button>
             <button class="btn small" data-i18n="relazione.printPersonnelBtn" onclick="printPersonnel()">🖨️ Stampa Personnel</button>
           </span>
         </h2>
@@ -4383,11 +4561,12 @@ if ('serviceWorker' in navigator) {
             <div class="rb-head" data-i18n="relazione.boxPeggiorLiberi" data-tit="liberi">⚠️ Peggiori tiratrici tiri liberi</div>
             <div class="rb-body">
               <textarea id="srPeggiorLiberi" class="small" data-i18n-placeholder="relazione.phTiratrici" placeholder="es. #7 Cognome - 2.0 TL (52%)" oninput="updateScoutingReportField('peggiorTiratriceTL', this.value)"></textarea>
-              <!-- ERA UN BOX A PARTE, PIU' IN BASSO, E CONFONDEVA: sul foglio
-                   stampato questa riga sta DENTRO alla casella dei liberi, non
-                   e' un riquadro suo. Adesso anche qui sta dove sta sul foglio. -->
-              <div class="rb-sub" data-i18n="relazione.boxPeggioriTiratoriLiberi" data-sot="liberi:1">🎯⚠️ Peggiori tiratori di liberi</div>
-              <textarea id="srPeggioriTiratoriLiberi" class="small" data-i18n-placeholder="relazione.phTiratrici" placeholder="Player da attaccare in lunetta (una per riga, es. #7 Cognome - 52% TL)" oninput="updateScoutingReportField('peggioriTiratoriLiberi', this.value)"></textarea>
+              <!-- ERA UN BOX A PARTE, POI UNA RIGA DI TITOLO QUI DENTRO: in
+                   tutti e due i casi si leggeva due volte la stessa cosa,
+                   perche' il titolo del riquadro lo dice gia'. Tolta il
+                   30/09/2026 su richiesta di Vince: il riquadro e' uno, il
+                   titolo e' uno, e le due caselle si distinguono da sole dal
+                   testo di esempio. -->
             </div>
           </div>
         </div>
@@ -4881,6 +5060,8 @@ let currentLang = 'en';
 const I18N = {
 it: {
 "ui.close":"Chiudi",
+"ia.tasto":"🤖 USO IA",
+"ia.tastoT":"Riempie le schede da solo con i dati che la tua IA ti ha preparato",
 "header.tag":"VDM DATA — Video · Playbook · Scouting Report · Practice",
 "header.exportLeague":"⬇️ Esporta Lega (JSON)",
 "header.importLeague":"⬆️ Importa Lega (JSON)",
@@ -4992,6 +5173,7 @@ it: {
 "video.tagHere":"🏷️ Tag Qui",
 "video.trimReadout":"Inizio: — · Fine: —",
 "video.trimBarHint":"Clicca per spostarti nel video",
+"video.fullscreen":"Schermo intero",
 "video.pendingTagLabel":"Tag da classificare:",
 "video.readyTagLabel":"Tag pronto: {start} – {end}",
 "video.pendingTagPh":"Nome giocata...",
@@ -5030,6 +5212,23 @@ it: {
 "playbook.schemaNameLabel":"Nome schema",
 "playbook.schemaNamePh":"es. Pick and Roll lato forte",
 "playbook.groupLabel":"Gruppo",
+"playbook.libraryBtn":"📚 Libreria giochi",
+"playbook.libSolaSquadra":"Questa squadra",
+"playbook.copiaQuiTitolo":"Da {squadra} a {mia}: come lo chiami?",
+"playbook.copiaQuiFatto":"«{nome}» copiato nel tuo foglio",
+"playbook.libTutte":"Tutte le squadre",
+"playbook.libSearchPh":"cerca un gioco o una serie…",
+"playbook.serieNessuna":"Senza serie",
+"playbook.senzaNome":"Senza nome",
+"playbook.libVuota":"Qui non c'è ancora nessun gioco.",
+"playbook.ordinaSerieBtn":"↕️ Raggruppa per serie",
+"playbook.ordinaSerieAsk":"Metto vicini i giochi della stessa serie? L'ordine dentro ogni gruppo resta quello che hai scelto tu.",
+"playbook.ordinaSerieFatto":"Giochi raggruppati per serie",
+"playbook.suBtn":"Sposta su",
+"playbook.giuBtn":"Sposta giù",
+"playbook.seriePh":"sezioni…",
+"playbook.serieHint":"Le sezioni del gioco, separate da virgola: Transizione, Pick Centrale, Rimesse. Un gioco può stare in più sezioni e nella libreria compare sotto tutte.",
+"playbook.sezioniEti":"sezioni",
 "playbook.groupAtt":"⚡ Attacco",
 "playbook.groupDif":"🛡️ Difesa",
 "playbook.noteLabel":"Note",
@@ -5922,7 +6121,12 @@ it: {
 "lic.stateOver":"⛔ Il periodo di prova è finito. Puoi ancora guardare e stampare il lavoro già fatto, ma per salvare, taggare e lavorare in comune serve la licenza.",
 "lic.storeTitle":"Comprare VDM",
 "lic.storeBody":"La licenza completa si compra sul Mac App Store: si paga una volta sola, e gli aggiornamenti poi arrivano da soli.",
-"lic.storeExportFirst":"Prima di passare alla versione comprata, salva il tuo lavoro: menu File → <b>Esporta lega</b>. Esce un file .vdm con dentro tutto, e nella versione nuova lo ricarichi con <b>Importa lega</b>.",
+"lic.storeExportFirst":"Prima di passare alla versione comprata, salva il tuo lavoro: premi il pulsante qui sotto ed esce un file <b>vbc-lega.json</b> con dentro tutto. Nella versione nuova lo ricarichi con <b>⬆️ Importa Lega (JSON)</b>, in alto a destra.",
+"lic.storeExportBtn":"💾 Salva il tuo lavoro adesso",
+"lic.storeDirect":"Oppure comprala direttamente da me: ti rispondo con i dati per il bonifico e, appena arriva, ti mando la chiave. Continui a lavorare qui, con il tuo lavoro dov'è: niente negozio, niente reinstallazione.",
+"lic.storeDirectBtn":"✉️ Scrivimi per comprarla",
+"lic.storeDirectSubj":"Vorrei comprare VDM Basketball Coach",
+"lic.storeDirectBody":"Buongiorno,\nvorrei comprare VDM Basketball Coach.\n\nIl codice di questo computer è: {codice}\n\nGrazie.",
 "lic.storeBtnMac":"Apri il Mac App Store",
 "lic.storeWinSoon":"Per Windows la versione da comprare arriverà sul Microsoft Store. Nel frattempo scrivi a info@vdmdata.it.",
 "lic.storeBodyWin":"La licenza completa si compra sul Microsoft Store: si paga una volta sola, e gli aggiornamenti poi arrivano da soli.",
@@ -6058,6 +6262,8 @@ it: {
 },
 en: {
 "ui.close":"Close",
+"ia.tasto":"🤖 USE AI",
+"ia.tastoT":"Fills the cards by itself with the data your AI prepared for you",
 "header.tag":"VDM DATA — Video · Playbook · Scouting Report · Practice",
 "header.exportLeague":"⬇️ Export League (JSON)",
 "header.importLeague":"⬆️ Import League (JSON)",
@@ -6169,6 +6375,7 @@ en: {
 "video.tagHere":"🏷️ Tag Here",
 "video.trimReadout":"Start: — · End: —",
 "video.trimBarHint":"Click to jump to that point in the video",
+"video.fullscreen":"Full screen",
 "video.pendingTagLabel":"Tag to classify:",
 "video.readyTagLabel":"Tag ready: {start} – {end}",
 "video.pendingTagPh":"Play name...",
@@ -6207,6 +6414,23 @@ en: {
 "playbook.schemaNameLabel":"Scheme name",
 "playbook.schemaNamePh":"e.g. Strong-side Pick and Roll",
 "playbook.groupLabel":"Group",
+"playbook.libraryBtn":"📚 Play library",
+"playbook.libSolaSquadra":"This team",
+"playbook.copiaQuiTitolo":"From {squadra} to {mia}: what do you call it?",
+"playbook.copiaQuiFatto":"“{nome}” copied into your sheet",
+"playbook.libTutte":"All teams",
+"playbook.libSearchPh":"search a play or a series…",
+"playbook.serieNessuna":"No series",
+"playbook.senzaNome":"No name",
+"playbook.libVuota":"There are no plays here yet.",
+"playbook.ordinaSerieBtn":"↕️ Group by series",
+"playbook.ordinaSerieAsk":"Put the plays of the same series next to each other? The order inside each group stays the one you chose.",
+"playbook.ordinaSerieFatto":"Plays grouped by series",
+"playbook.suBtn":"Move up",
+"playbook.giuBtn":"Move down",
+"playbook.seriePh":"sections…",
+"playbook.serieHint":"The sections this play belongs to, separated by commas: Transition, Middle Pick, Inbounds. A play can be in several sections and shows up under each of them in the library.",
+"playbook.sezioniEti":"sections",
 "playbook.groupAtt":"⚡ Offense",
 "playbook.groupDif":"🛡️ Defense",
 "playbook.noteLabel":"Notes",
@@ -7099,7 +7323,12 @@ en: {
 "lic.stateOver":"⛔ The trial period is over. You can still view and print the work already done, but saving, tagging and shared work need a license.",
 "lic.storeTitle":"Buying VDM",
 "lic.storeBody":"The full licence is bought on the Mac App Store: you pay once, and updates then arrive on their own.",
-"lic.storeExportFirst":"Before moving to the purchased version, save your work: File menu → <b>Export league</b>. You get a .vdm file with everything in it, and in the new version you load it back with <b>Import league</b>.",
+"lic.storeExportFirst":"Before moving to the purchased version, save your work: press the button below and you get a <b>vbc-lega.json</b> file with everything in it. In the new version you load it back with <b>⬆️ Import League (JSON)</b>, top right.",
+"lic.storeExportBtn":"💾 Save your work now",
+"lic.storeDirect":"Or buy it directly from me: I reply with the bank transfer details and, as soon as it arrives, I send you the key. You carry on working right here, with your work where it is: no store, no reinstalling.",
+"lic.storeDirectBtn":"✉️ Write to me to buy it",
+"lic.storeDirectSubj":"I'd like to buy VDM Basketball Coach",
+"lic.storeDirectBody":"Hello,\nI'd like to buy VDM Basketball Coach.\n\nThe code of this computer is: {codice}\n\nThank you.",
 "lic.storeBtnMac":"Open the Mac App Store",
 "lic.storeWinSoon":"For Windows the paid version will arrive on the Microsoft Store. In the meantime write to info@vdmdata.it.",
 "lic.storeBodyWin":"The full licence is bought on the Microsoft Store: you pay once, and updates then arrive on their own.",
@@ -7235,6 +7464,8 @@ en: {
 },
 es: {
 "ui.close":"Cerrar",
+"ia.tasto":"🤖 USA LA IA",
+"ia.tastoT":"Rellena las fichas solo con los datos que te ha preparado tu IA",
 "header.tag":"VDM DATA — Video · Playbook · Scouting Report · Practice",
 "header.exportLeague":"⬇️ Exportar Liga (JSON)",
 "header.importLeague":"⬆️ Importar Liga (JSON)",
@@ -7346,6 +7577,7 @@ es: {
 "video.tagHere":"🏷️ Etiquetar Aquí",
 "video.trimReadout":"Inicio: — · Fin: —",
 "video.trimBarHint":"Haz clic para moverte a ese punto del video",
+"video.fullscreen":"Pantalla completa",
 "video.pendingTagLabel":"Tag por clasificar:",
 "video.readyTagLabel":"Tag listo: {start} – {end}",
 "video.pendingTagPh":"Nombre de la jugada...",
@@ -7384,6 +7616,23 @@ es: {
 "playbook.schemaNameLabel":"Nombre del esquema",
 "playbook.schemaNamePh":"ej. Bloqueo directo lado fuerte",
 "playbook.groupLabel":"Grupo",
+"playbook.libraryBtn":"📚 Biblioteca de jugadas",
+"playbook.libSolaSquadra":"Este equipo",
+"playbook.copiaQuiTitolo":"De {squadra} a {mia}: ¿cómo la llamas?",
+"playbook.copiaQuiFatto":"«{nome}» copiada en tu hoja",
+"playbook.libTutte":"Todos los equipos",
+"playbook.libSearchPh":"busca una jugada o una serie…",
+"playbook.serieNessuna":"Sin serie",
+"playbook.senzaNome":"Sin nombre",
+"playbook.libVuota":"Aquí todavía no hay ninguna jugada.",
+"playbook.ordinaSerieBtn":"↕️ Agrupar por serie",
+"playbook.ordinaSerieAsk":"¿Junto las jugadas de la misma serie? El orden dentro de cada grupo se queda como lo has elegido.",
+"playbook.ordinaSerieFatto":"Jugadas agrupadas por serie",
+"playbook.suBtn":"Subir",
+"playbook.giuBtn":"Bajar",
+"playbook.seriePh":"secciones…",
+"playbook.serieHint":"Las secciones de la jugada, separadas por comas: Transición, Pick Central, Saques. Una jugada puede estar en varias secciones y aparece en todas ellas en la biblioteca.",
+"playbook.sezioniEti":"secciones",
 "playbook.groupAtt":"⚡ Ataque",
 "playbook.groupDif":"🛡️ Defensa",
 "playbook.noteLabel":"Notas",
@@ -8299,7 +8548,12 @@ es: {
 "lic.stateOver":"⛔ El periodo de prueba ha terminado. Todavía puedes ver e imprimir el trabajo ya hecho, pero para guardar, etiquetar y trabajar en común hace falta la licencia.",
 "lic.storeTitle":"Comprar VDM",
 "lic.storeBody":"La licencia completa se compra en la Mac App Store: se paga una sola vez, y las actualizaciones llegan solas.",
-"lic.storeExportFirst":"Antes de pasar a la versión comprada, guarda tu trabajo: menú Archivo → <b>Exportar liga</b>. Sale un archivo .vdm con todo dentro, y en la versión nueva lo cargas con <b>Importar liga</b>.",
+"lic.storeExportFirst":"Antes de pasar a la versión comprada, guarda tu trabajo: pulsa el botón de abajo y sale un archivo <b>vbc-lega.json</b> con todo dentro. En la versión nueva lo cargas con <b>⬆️ Importar Liga (JSON)</b>, arriba a la derecha.",
+"lic.storeExportBtn":"💾 Guarda tu trabajo ahora",
+"lic.storeDirect":"O cómprala directamente a mí: te respondo con los datos para la transferencia y, en cuanto llega, te mando la clave. Sigues trabajando aquí, con tu trabajo donde está: sin tienda y sin reinstalar.",
+"lic.storeDirectBtn":"✉️ Escríbeme para comprarla",
+"lic.storeDirectSubj":"Quisiera comprar VDM Basketball Coach",
+"lic.storeDirectBody":"Buenos días,\nquisiera comprar VDM Basketball Coach.\n\nEl código de este ordenador es: {codice}\n\nGracias.",
 "lic.storeBtnMac":"Abrir la Mac App Store",
 "lic.storeWinSoon":"Para Windows la versión de pago llegará a la Microsoft Store. Mientras tanto escribe a info@vdmdata.it.",
 "lic.storeBodyWin":"La licencia completa se compra en la Microsoft Store: se paga una sola vez, y las actualizaciones llegan solas.",
@@ -8412,6 +8666,8 @@ es: {
 },
 fr: {
 "ui.close":"Fermer",
+"ia.tasto":"🤖 UTILISE L'IA",
+"ia.tastoT":"Remplit les fiches tout seul avec les données préparées par ton IA",
 "header.tag":"VDM DATA — Vidéo · Playbook · Scouting Report · Practice",
 "header.exportLeague":"⬇️ Exporter Ligue (JSON)",
 "header.importLeague":"⬆️ Importer Ligue (JSON)",
@@ -8523,6 +8779,7 @@ fr: {
 "video.tagHere":"🏷️ Tagger Ici",
 "video.trimReadout":"Début : — · Fin : —",
 "video.trimBarHint":"Cliquez pour vous déplacer à cet endroit de la vidéo",
+"video.fullscreen":"Plein écran",
 "video.pendingTagLabel":"Tag à classer :",
 "video.readyTagLabel":"Tag prêt : {start} – {end}",
 "video.pendingTagPh":"Nom de l'action...",
@@ -8561,6 +8818,23 @@ fr: {
 "playbook.schemaNameLabel":"Nom du schéma",
 "playbook.schemaNamePh":"ex. Pick and Roll côté fort",
 "playbook.groupLabel":"Groupe",
+"playbook.libraryBtn":"📚 Bibliothèque de jeux",
+"playbook.libSolaSquadra":"Cette équipe",
+"playbook.copiaQuiTitolo":"De {squadra} à {mia} : comment tu l’appelles ?",
+"playbook.copiaQuiFatto":"« {nome} » copié dans ta feuille",
+"playbook.libTutte":"Toutes les équipes",
+"playbook.libSearchPh":"cherche un jeu ou une série…",
+"playbook.serieNessuna":"Sans série",
+"playbook.senzaNome":"Sans nom",
+"playbook.libVuota":"Il n’y a encore aucun jeu ici.",
+"playbook.ordinaSerieBtn":"↕️ Grouper par série",
+"playbook.ordinaSerieAsk":"Je mets côte à côte les jeux d’une même série ? L’ordre à l’intérieur de chaque groupe reste celui que tu as choisi.",
+"playbook.ordinaSerieFatto":"Jeux groupés par série",
+"playbook.suBtn":"Monter",
+"playbook.giuBtn":"Descendre",
+"playbook.seriePh":"sections…",
+"playbook.serieHint":"Les sections du jeu, séparées par des virgules : Transition, Pick central, Remises. Un jeu peut être dans plusieurs sections et apparaît sous chacune dans la bibliothèque.",
+"playbook.sezioniEti":"sections",
 "playbook.groupAtt":"⚡ Attaque",
 "playbook.groupDif":"🛡️ Défense",
 "playbook.noteLabel":"Notes",
@@ -9476,7 +9750,12 @@ fr: {
 "lic.stateOver":"⛔ La période d'essai est terminée. Tu peux encore regarder et imprimer le travail déjà fait, mais pour enregistrer, taguer et travailler en commun il faut la licence.",
 "lic.storeTitle":"Acheter VDM",
 "lic.storeBody":"La licence complète s'achète sur le Mac App Store : on paie une seule fois, et les mises à jour arrivent ensuite toutes seules.",
-"lic.storeExportFirst":"Avant de passer à la version achetée, sauvegarde ton travail : menu Fichier → <b>Exporter la ligue</b>. Tu obtiens un fichier .vdm avec tout dedans, et dans la nouvelle version tu le recharges avec <b>Importer la ligue</b>.",
+"lic.storeExportFirst":"Avant de passer à la version achetée, sauvegarde ton travail : appuie sur le bouton ci-dessous et tu obtiens un fichier <b>vbc-lega.json</b> avec tout dedans. Dans la nouvelle version tu le recharges avec <b>⬆️ Importer la ligue (JSON)</b>, en haut à droite.",
+"lic.storeExportBtn":"💾 Sauvegarde ton travail maintenant",
+"lic.storeDirect":"Ou achète-la directement chez moi : je te réponds avec les coordonnées pour le virement et, dès qu'il arrive, je t'envoie la clé. Tu continues à travailler ici, avec ton travail là où il est : pas de magasin, pas de réinstallation.",
+"lic.storeDirectBtn":"✉️ Écris-moi pour l'acheter",
+"lic.storeDirectSubj":"Je voudrais acheter VDM Basketball Coach",
+"lic.storeDirectBody":"Bonjour,\nje voudrais acheter VDM Basketball Coach.\n\nLe code de cet ordinateur est : {codice}\n\nMerci.",
 "lic.storeBtnMac":"Ouvrir le Mac App Store",
 "lic.storeWinSoon":"Pour Windows, la version payante arrivera sur le Microsoft Store. En attendant, écris à info@vdmdata.it.",
 "lic.storeBodyWin":"La licence complète s'achète sur le Microsoft Store : on paie une seule fois, et les mises à jour arrivent ensuite toutes seules.",
@@ -9589,6 +9868,8 @@ fr: {
 },
 zh: {
 "ui.close":"关闭",
+"ia.tasto":"🤖 使用 AI",
+"ia.tastoT":"用你的 AI 准备好的数据自动填好卡片",
 "header.tag":"VDM DATA — 视频 · 战术板 · 球探报告 · 训练",
 "header.exportLeague":"⬇️ 导出联赛 (JSON)",
 "header.importLeague":"⬆️ 导入联赛 (JSON)",
@@ -9700,6 +9981,7 @@ zh: {
 "video.tagHere":"🏷️ 在此标记",
 "video.trimReadout":"开始：— · 结束：—",
 "video.trimBarHint":"点击跳转到视频的该位置",
+"video.fullscreen":"全屏",
 "video.pendingTagLabel":"待分类标签：",
 "video.readyTagLabel":"标签就绪：{start} – {end}",
 "video.pendingTagPh":"战术名称...",
@@ -9738,6 +10020,23 @@ zh: {
 "playbook.schemaNameLabel":"战术名称",
 "playbook.schemaNamePh":"例如：强侧挡拆",
 "playbook.groupLabel":"分组",
+"playbook.libraryBtn":"📚 战术库",
+"playbook.libSolaSquadra":"本队",
+"playbook.copiaQuiTitolo":"从 {squadra} 到 {mia}：你叫它什么？",
+"playbook.copiaQuiFatto":"「{nome}」已复制到你的战术表",
+"playbook.libTutte":"所有球队",
+"playbook.libSearchPh":"搜索战术或系列…",
+"playbook.serieNessuna":"无系列",
+"playbook.senzaNome":"未命名",
+"playbook.libVuota":"这里还没有任何战术。",
+"playbook.ordinaSerieBtn":"↕️ 按系列归类",
+"playbook.ordinaSerieAsk":"把同一系列的战术放在一起吗？每组内部的顺序保持你设定的样子。",
+"playbook.ordinaSerieFatto":"战术已按系列归类",
+"playbook.suBtn":"上移",
+"playbook.giuBtn":"下移",
+"playbook.seriePh":"分类…",
+"playbook.serieHint":"这个战术所属的分类，用逗号分隔：转换、中路挡拆、发球。一个战术可以属于多个分类，在战术库里会出现在每一个分类下。",
+"playbook.sezioniEti":"分类",
 "playbook.groupAtt":"⚡ 进攻",
 "playbook.groupDif":"🛡️ 防守",
 "playbook.noteLabel":"备注",
@@ -10653,7 +10952,12 @@ zh: {
 "lic.stateOver":"⛔ 试用期已结束。你仍然可以查看和打印已经做好的工作，但保存、标记和共同工作需要授权。",
 "lic.storeTitle":"购买 VDM",
 "lic.storeBody":"完整授权在 Mac App Store 购买：一次付费，之后的更新会自动送达。",
-"lic.storeExportFirst":"转到已购买的版本之前，先保存你的工作：文件菜单 → <b>导出联赛</b>。会生成一个包含全部内容的 .vdm 文件，在新版本里用<b>导入联赛</b>重新载入。",
+"lic.storeExportFirst":"转到已购买的版本之前，先保存你的工作：点击下面的按钮，会生成一个包含全部内容的 <b>vbc-lega.json</b> 文件。在新版本里用右上角的 <b>⬆️ 导入联赛 (JSON)</b> 重新载入。",
+"lic.storeExportBtn":"💾 立即保存你的工作",
+"lic.storeDirect":"或者直接向我购买：我会回信给你转账信息，收到款项后立刻把密钥发给你。你就在这里继续工作，作品原封不动：不用去商店，也不用重新安装。",
+"lic.storeDirectBtn":"✉️ 写信给我购买",
+"lic.storeDirectSubj":"我想购买 VDM Basketball Coach",
+"lic.storeDirectBody":"你好，\n我想购买 VDM Basketball Coach。\n\n这台电脑的代码是：{codice}\n\n谢谢。",
 "lic.storeBtnMac":"打开 Mac App Store",
 "lic.storeWinSoon":"Windows 的付费版本将在 Microsoft Store 上线。在此之前请写信到 info@vdmdata.it。",
 "lic.storeBodyWin":"完整许可证在 Microsoft Store 购买：只需付费一次，之后更新会自动推送。",
@@ -10766,6 +11070,8 @@ zh: {
 },
 ru: {
 "ui.close":"Закрыть",
+"ia.tasto":"🤖 ИСПОЛЬЗОВАТЬ ИИ",
+"ia.tastoT":"Сам заполняет карточки данными, которые подготовил ваш ИИ",
 "header.tag":"VDM DATA — Видео · Плейбук · Скаутинг-отчёт · Тренировки",
 "header.exportLeague":"⬇️ Экспорт лиги (JSON)",
 "header.importLeague":"⬆️ Импорт лиги (JSON)",
@@ -10877,6 +11183,7 @@ ru: {
 "video.tagHere":"🏷️ Тег здесь",
 "video.trimReadout":"Начало: — · Конец: —",
 "video.trimBarHint":"Нажмите, чтобы перейти к этому моменту видео",
+"video.fullscreen":"Во весь экран",
 "video.pendingTagLabel":"Тег для классификации:",
 "video.readyTagLabel":"Тег готов: {start} – {end}",
 "video.pendingTagPh":"Название розыгрыша...",
@@ -10915,6 +11222,23 @@ ru: {
 "playbook.schemaNameLabel":"Название схемы",
 "playbook.schemaNamePh":"напр. Заслон и выход на сильной стороне",
 "playbook.groupLabel":"Группа",
+"playbook.libraryBtn":"📚 Библиотека розыгрышей",
+"playbook.libSolaSquadra":"Эта команда",
+"playbook.copiaQuiTitolo":"Из {squadra} в {mia}: как ты его называешь?",
+"playbook.copiaQuiFatto":"«{nome}» скопирован в твой лист",
+"playbook.libTutte":"Все команды",
+"playbook.libSearchPh":"найди розыгрыш или серию…",
+"playbook.serieNessuna":"Без серии",
+"playbook.senzaNome":"Без названия",
+"playbook.libVuota":"Здесь пока нет ни одного розыгрыша.",
+"playbook.ordinaSerieBtn":"↕️ Сгруппировать по сериям",
+"playbook.ordinaSerieAsk":"Поставить розыгрыши одной серии рядом? Порядок внутри каждой группы останется твоим.",
+"playbook.ordinaSerieFatto":"Розыгрыши сгруппированы по сериям",
+"playbook.suBtn":"Выше",
+"playbook.giuBtn":"Ниже",
+"playbook.seriePh":"разделы…",
+"playbook.serieHint":"Разделы розыгрыша через запятую: переход, центральный пик, вбрасывания. Розыгрыш может быть в нескольких разделах и появится в каждом.",
+"playbook.sezioniEti":"разделов",
 "playbook.groupAtt":"⚡ Атака",
 "playbook.groupDif":"🛡️ Защита",
 "playbook.noteLabel":"Заметки",
@@ -11830,7 +12154,12 @@ ru: {
 "lic.stateOver":"⛔ Пробный период закончился. Ты по-прежнему можешь смотреть и печатать уже сделанную работу, но для сохранения, меток и совместной работы нужна лицензия.",
 "lic.storeTitle":"Покупка VDM",
 "lic.storeBody":"Полная лицензия покупается в Mac App Store: платишь один раз, а обновления потом приходят сами.",
-"lic.storeExportFirst":"Прежде чем перейти на купленную версию, сохрани свою работу: меню Файл → <b>Экспорт лиги</b>. Получится файл .vdm со всем содержимым, и в новой версии ты загрузишь его через <b>Импорт лиги</b>.",
+"lic.storeExportFirst":"Прежде чем перейти на купленную версию, сохрани свою работу: нажми кнопку ниже — получится файл <b>vbc-lega.json</b> со всем содержимым. В новой версии загрузишь его через <b>⬆️ Импорт лиги (JSON)</b> справа вверху.",
+"lic.storeExportBtn":"💾 Сохранить работу сейчас",
+"lic.storeDirect":"Или купи напрямую у меня: я отвечу с реквизитами для перевода и, как только он придёт, пришлю ключ. Ты продолжишь работать прямо здесь, а работа останется на месте: без магазина и без переустановки.",
+"lic.storeDirectBtn":"✉️ Напиши мне, чтобы купить",
+"lic.storeDirectSubj":"Хочу купить VDM Basketball Coach",
+"lic.storeDirectBody":"Здравствуйте,\nхочу купить VDM Basketball Coach.\n\nКод этого компьютера: {codice}\n\nСпасибо.",
 "lic.storeBtnMac":"Открыть Mac App Store",
 "lic.storeWinSoon":"Для Windows платная версия появится в Microsoft Store. А пока напиши на info@vdmdata.it.",
 "lic.storeBodyWin":"Полная лицензия покупается в Microsoft Store: вы платите один раз, а обновления потом приходят сами.",
@@ -11943,6 +12272,8 @@ ru: {
 },
 de: {
 "ui.close":"Schließen",
+"ia.tasto":"🤖 KI NUTZEN",
+"ia.tastoT":"Füllt die Karten von allein mit den Daten, die deine KI vorbereitet hat",
 "header.tag":"VDM DATA — Video · Playbook · Scouting-Bericht · Training",
 "header.exportLeague":"⬇️ Liga exportieren (JSON)",
 "header.importLeague":"⬆️ Liga importieren (JSON)",
@@ -12054,6 +12385,7 @@ de: {
 "video.tagHere":"🏷️ Hier taggen",
 "video.trimReadout":"Start: — · Ende: —",
 "video.trimBarHint":"Klicken, um zu dieser Stelle im Video zu springen",
+"video.fullscreen":"Vollbild",
 "video.pendingTagLabel":"Tag zu klassifizieren:",
 "video.readyTagLabel":"Tag bereit: {start} – {end}",
 "video.pendingTagPh":"Spielzugname...",
@@ -12092,6 +12424,23 @@ de: {
 "playbook.schemaNameLabel":"Spielzugname",
 "playbook.schemaNamePh":"z. B. Pick and Roll starke Seite",
 "playbook.groupLabel":"Gruppe",
+"playbook.libraryBtn":"📚 Spielzug-Bibliothek",
+"playbook.libSolaSquadra":"Dieses Team",
+"playbook.copiaQuiTitolo":"Von {squadra} zu {mia}: wie nennst du ihn?",
+"playbook.copiaQuiFatto":"„{nome}“ in dein Blatt kopiert",
+"playbook.libTutte":"Alle Teams",
+"playbook.libSearchPh":"Spielzug oder Serie suchen…",
+"playbook.serieNessuna":"Ohne Serie",
+"playbook.senzaNome":"Ohne Namen",
+"playbook.libVuota":"Hier gibt es noch keinen Spielzug.",
+"playbook.ordinaSerieBtn":"↕️ Nach Serie gruppieren",
+"playbook.ordinaSerieAsk":"Die Spielzüge derselben Serie nebeneinander stellen? Die Reihenfolge innerhalb jeder Gruppe bleibt deine.",
+"playbook.ordinaSerieFatto":"Spielzüge nach Serie gruppiert",
+"playbook.suBtn":"Nach oben",
+"playbook.giuBtn":"Nach unten",
+"playbook.seriePh":"Bereiche…",
+"playbook.serieHint":"Die Bereiche des Spielzugs, mit Komma getrennt: Umschaltspiel, Pick in der Mitte, Einwürfe. Ein Spielzug kann in mehreren Bereichen stehen und erscheint in der Bibliothek unter jedem.",
+"playbook.sezioniEti":"Bereiche",
 "playbook.groupAtt":"⚡ Angriff",
 "playbook.groupDif":"🛡️ Verteidigung",
 "playbook.noteLabel":"Notizen",
@@ -13007,7 +13356,12 @@ de: {
 "lic.stateOver":"⛔ Der Testzeitraum ist vorbei. Du kannst die schon gemachte Arbeit noch ansehen und drucken, aber zum Speichern, Taggen und gemeinsamen Arbeiten braucht es die Lizenz.",
 "lic.storeTitle":"VDM kaufen",
 "lic.storeBody":"Die volle Lizenz kauft man im Mac App Store: einmal bezahlen, und die Updates kommen danach von selbst.",
-"lic.storeExportFirst":"Bevor du zur gekauften Version wechselst, sichere deine Arbeit: Menü Datei → <b>Liga exportieren</b>. Es entsteht eine .vdm-Datei mit allem darin, und in der neuen Version lädst du sie mit <b>Liga importieren</b> wieder ein.",
+"lic.storeExportFirst":"Bevor du zur gekauften Version wechselst, sichere deine Arbeit: Druck auf den Knopf unten, und es entsteht eine <b>vbc-lega.json</b>-Datei mit allem darin. In der neuen Version lädst du sie mit <b>⬆️ Liga importieren (JSON)</b> oben rechts wieder ein.",
+"lic.storeExportBtn":"💾 Deine Arbeit jetzt sichern",
+"lic.storeDirect":"Oder kauf sie direkt bei mir: Ich antworte mit den Daten für die Überweisung und schicke dir den Schlüssel, sobald sie da ist. Du arbeitest hier weiter, deine Arbeit bleibt wo sie ist: kein Store, keine Neuinstallation.",
+"lic.storeDirectBtn":"✉️ Schreib mir zum Kaufen",
+"lic.storeDirectSubj":"Ich möchte VDM Basketball Coach kaufen",
+"lic.storeDirectBody":"Guten Tag,\nich möchte VDM Basketball Coach kaufen.\n\nDer Code dieses Computers ist: {codice}\n\nDanke.",
 "lic.storeBtnMac":"Mac App Store öffnen",
 "lic.storeWinSoon":"Für Windows kommt die Kaufversion in den Microsoft Store. Schreib in der Zwischenzeit an info@vdmdata.it.",
 "lic.storeBodyWin":"Die Vollversion kaufst du im Microsoft Store: einmal bezahlen, die Updates kommen danach von selbst.",
@@ -13120,6 +13474,8 @@ de: {
 },
 lt: {
 "ui.close":"Uždaryti",
+"ia.tasto":"🤖 NAUDOK DI",
+"ia.tastoT":"Pats užpildo korteles duomenimis, kuriuos paruošė tavo DI",
 "header.tag":"VDM DATA — Vaizdo įrašas · Žaidimų knyga · Žvalgybos ataskaita · Treniruotė",
 "header.exportLeague":"⬇️ Eksportuoti lygą (JSON)",
 "header.importLeague":"⬆️ Importuoti lygą (JSON)",
@@ -13231,6 +13587,7 @@ lt: {
 "video.tagHere":"🏷️ Žymėti čia",
 "video.trimReadout":"Pradžia: — · Pabaiga: —",
 "video.trimBarHint":"Spustelėkite, kad peršoktumėte į tą vietą vaizdo įraše",
+"video.fullscreen":"Visas ekranas",
 "video.pendingTagLabel":"Žymė laukia klasifikavimo:",
 "video.readyTagLabel":"Žymė paruošta: {start} – {end}",
 "video.pendingTagPh":"Derinio pavadinimas...",
@@ -13269,6 +13626,23 @@ lt: {
 "playbook.schemaNameLabel":"Schemos pavadinimas",
 "playbook.schemaNamePh":"pvz., Stiprios pusės Pick and Roll",
 "playbook.groupLabel":"Grupė",
+"playbook.libraryBtn":"📚 Derinių biblioteka",
+"playbook.libSolaSquadra":"Ši komanda",
+"playbook.copiaQuiTitolo":"Iš {squadra} į {mia}: kaip jį vadini?",
+"playbook.copiaQuiFatto":"„{nome}“ nukopijuotas į tavo lapą",
+"playbook.libTutte":"Visos komandos",
+"playbook.libSearchPh":"ieškok derinio ar serijos…",
+"playbook.serieNessuna":"Be serijos",
+"playbook.senzaNome":"Be pavadinimo",
+"playbook.libVuota":"Čia dar nėra nė vieno derinio.",
+"playbook.ordinaSerieBtn":"↕️ Grupuoti pagal seriją",
+"playbook.ordinaSerieAsk":"Sudėti tos pačios serijos derinius greta? Tvarka kiekvienoje grupėje liks tavo pasirinkta.",
+"playbook.ordinaSerieFatto":"Deriniai sugrupuoti pagal serijas",
+"playbook.suBtn":"Aukštyn",
+"playbook.giuBtn":"Žemyn",
+"playbook.seriePh":"skyriai…",
+"playbook.serieHint":"Derinio skyriai, atskirti kableliais: perėjimas, centrinis pikas, įmetimai. Derinys gali būti keliuose skyriuose ir bibliotekoje matysis kiekviename.",
+"playbook.sezioniEti":"skyriai",
 "playbook.groupAtt":"⚡ Puolimas",
 "playbook.groupDif":"🛡️ Gynyba",
 "playbook.noteLabel":"Pastabos",
@@ -14184,7 +14558,12 @@ lt: {
 "lic.stateOver":"⛔ Bandomasis laikotarpis baigėsi. Jau atliktą darbą dar gali peržiūrėti ir atsispausdinti, bet išsaugojimui, žymėjimui ir bendram darbui reikia licencijos.",
 "lic.storeTitle":"Pirkti VDM",
 "lic.storeBody":"Pilna licencija perkama Mac App Store: sumoki vieną kartą, o atnaujinimai vėliau ateina patys.",
-"lic.storeExportFirst":"Prieš pereidamas prie nupirktos versijos, išsaugok savo darbą: meniu Failas → <b>Eksportuoti lygą</b>. Gausi .vdm failą su viskuo viduje, o naujoje versijoje jį įkelsi per <b>Importuoti lygą</b>.",
+"lic.storeExportFirst":"Prieš pereidamas prie nupirktos versijos, išsaugok savo darbą: paspausk mygtuką žemiau ir gausi <b>vbc-lega.json</b> failą su viskuo viduje. Naujoje versijoje jį įkelsi per <b>⬆️ Importuoti lygą (JSON)</b> viršuje dešinėje.",
+"lic.storeExportBtn":"💾 Išsaugok darbą dabar",
+"lic.storeDirect":"Arba nusipirk tiesiai iš manęs: atsakysiu su duomenimis pavedimui ir, kai tik jis ateis, atsiųsiu raktą. Toliau dirbsi čia, o tavo darbas liks vietoje: be parduotuvės ir be perinstaliavimo.",
+"lic.storeDirectBtn":"✉️ Parašyk man, kad nupirktum",
+"lic.storeDirectSubj":"Noriu nusipirkti VDM Basketball Coach",
+"lic.storeDirectBody":"Laba diena,\nnoriu nusipirkti VDM Basketball Coach.\n\nŠio kompiuterio kodas: {codice}\n\nAčiū.",
 "lic.storeBtnMac":"Atidaryti Mac App Store",
 "lic.storeWinSoon":"Windows mokama versija atsiras Microsoft Store. Kol kas rašyk info@vdmdata.it.",
 "lic.storeBodyWin":"Pilną licenciją galima įsigyti Microsoft Store: mokama vieną kartą, o atnaujinimai vėliau atsiunčiami patys.",
@@ -14297,6 +14676,8 @@ lt: {
 },
 pl: {
 "ui.close":"Zamknij",
+"ia.tasto":"🤖 UŻYJ SI",
+"ia.tastoT":"Sam wypełnia karty danymi, które przygotowała twoja SI",
 "header.tag":"VDM DATA — Wideo · Schematy gry · Raport skautingowy · Trening",
 "header.exportLeague":"⬇️ Eksportuj ligę (JSON)",
 "header.importLeague":"⬆️ Importuj ligę (JSON)",
@@ -14408,6 +14789,7 @@ pl: {
 "video.tagHere":"🏷️ Otaguj tutaj",
 "video.trimReadout":"Początek: — · Koniec: —",
 "video.trimBarHint":"Kliknij, aby przejść do tego miejsca w filmie",
+"video.fullscreen":"Pełny ekran",
 "video.pendingTagLabel":"Tag do sklasyfikowania:",
 "video.readyTagLabel":"Tag gotowy: {start} – {end}",
 "video.pendingTagPh":"Nazwa akcji...",
@@ -14446,6 +14828,23 @@ pl: {
 "playbook.schemaNameLabel":"Nazwa schematu",
 "playbook.schemaNamePh":"np. Pick and roll od mocnej strony",
 "playbook.groupLabel":"Grupa",
+"playbook.libraryBtn":"📚 Biblioteka akcji",
+"playbook.libSolaSquadra":"Ta drużyna",
+"playbook.copiaQuiTitolo":"Z {squadra} do {mia}: jak ją nazywasz?",
+"playbook.copiaQuiFatto":"„{nome}” skopiowana do twojego arkusza",
+"playbook.libTutte":"Wszystkie drużyny",
+"playbook.libSearchPh":"szukaj akcji lub serii…",
+"playbook.serieNessuna":"Bez serii",
+"playbook.senzaNome":"Bez nazwy",
+"playbook.libVuota":"Nie ma tu jeszcze żadnej akcji.",
+"playbook.ordinaSerieBtn":"↕️ Grupuj według serii",
+"playbook.ordinaSerieAsk":"Ustawić akcje z tej samej serii obok siebie? Kolejność wewnątrz grupy zostanie twoja.",
+"playbook.ordinaSerieFatto":"Akcje pogrupowane według serii",
+"playbook.suBtn":"W górę",
+"playbook.giuBtn":"W dół",
+"playbook.seriePh":"sekcje…",
+"playbook.serieHint":"Sekcje akcji, oddzielone przecinkami: Transition, Pick centralny, Wznowienia. Akcja może być w kilku sekcjach i pojawi się w każdej z nich.",
+"playbook.sezioniEti":"sekcji",
 "playbook.groupAtt":"⚡ Atak",
 "playbook.groupDif":"🛡️ Obrona",
 "playbook.noteLabel":"Notatki",
@@ -15361,7 +15760,12 @@ pl: {
 "lic.stateOver":"⛔ Okres próbny się skończył. Możesz nadal oglądać i drukować już wykonaną pracę, ale zapisywanie, tagowanie i praca wspólna wymagają licencji.",
 "lic.storeTitle":"Kupno VDM",
 "lic.storeBody":"Pełną licencję kupuje się w Mac App Store: płacisz raz, a aktualizacje przychodzą później same.",
-"lic.storeExportFirst":"Zanim przejdziesz na kupioną wersję, zapisz swoją pracę: menu Plik → <b>Eksportuj ligę</b>. Powstanie plik .vdm ze wszystkim w środku, a w nowej wersji wczytasz go przez <b>Importuj ligę</b>.",
+"lic.storeExportFirst":"Zanim przejdziesz na kupioną wersję, zapisz swoją pracę: naciśnij przycisk poniżej, a powstanie plik <b>vbc-lega.json</b> ze wszystkim w środku. W nowej wersji wczytasz go przez <b>⬆️ Importuj ligę (JSON)</b> w prawym górnym rogu.",
+"lic.storeExportBtn":"💾 Zapisz swoją pracę teraz",
+"lic.storeDirect":"Albo kup ją bezpośrednio u mnie: odpiszę z danymi do przelewu i, jak tylko wpłynie, wyślę ci klucz. Pracujesz dalej tutaj, z pracą tam gdzie jest: bez sklepu i bez przeinstalowania.",
+"lic.storeDirectBtn":"✉️ Napisz do mnie, żeby kupić",
+"lic.storeDirectSubj":"Chciałbym kupić VDM Basketball Coach",
+"lic.storeDirectBody":"Dzień dobry,\nchciałbym kupić VDM Basketball Coach.\n\nKod tego komputera to: {codice}\n\nDziękuję.",
 "lic.storeBtnMac":"Otwórz Mac App Store",
 "lic.storeWinSoon":"Dla Windows wersja płatna pojawi się w Microsoft Store. Tymczasem napisz na info@vdmdata.it.",
 "lic.storeBodyWin":"Pełną licencję kupuje się w Microsoft Store: płacisz raz, a aktualizacje przychodzą potem same.",
@@ -15474,6 +15878,8 @@ pl: {
 },
 ja: {
 "ui.close":"閉じる",
+"ia.tasto":"🤖 AI を使う",
+"ia.tastoT":"AI が用意したデータでカードを自動で埋めます",
 "header.tag":"VDM DATA — ビデオ・プレイブック・スカウティングレポート・練習",
 "header.exportLeague":"⬇️ リーグをエクスポート (JSON)",
 "header.importLeague":"⬆️ リーグをインポート (JSON)",
@@ -15585,6 +15991,7 @@ ja: {
 "video.tagHere":"🏷️ ここにタグ付け",
 "video.trimReadout":"開始: — ・終了: —",
 "video.trimBarHint":"クリックして動画のその位置に移動",
+"video.fullscreen":"全画面",
 "video.pendingTagLabel":"分類待ちのタグ：",
 "video.readyTagLabel":"タグ準備完了：{start} – {end}",
 "video.pendingTagPh":"プレー名...",
@@ -15623,6 +16030,23 @@ ja: {
 "playbook.schemaNameLabel":"スキーム名",
 "playbook.schemaNamePh":"例:ストロングサイド ピック&ロール",
 "playbook.groupLabel":"カテゴリー",
+"playbook.libraryBtn":"📚 プレー集",
+"playbook.libSolaSquadra":"このチーム",
+"playbook.copiaQuiTitolo":"{squadra} から {mia} へ：なんと呼びますか？",
+"playbook.copiaQuiFatto":"「{nome}」をシートにコピーしました",
+"playbook.libTutte":"全チーム",
+"playbook.libSearchPh":"プレーやシリーズを検索…",
+"playbook.serieNessuna":"シリーズなし",
+"playbook.senzaNome":"名前なし",
+"playbook.libVuota":"ここにはまだプレーがありません。",
+"playbook.ordinaSerieBtn":"↕️ シリーズごとにまとめる",
+"playbook.ordinaSerieAsk":"同じシリーズのプレーを並べますか？各グループ内の順番はそのままです。",
+"playbook.ordinaSerieFatto":"シリーズごとにまとめました",
+"playbook.suBtn":"上へ",
+"playbook.giuBtn":"下へ",
+"playbook.seriePh":"セクション…",
+"playbook.serieHint":"このプレーのセクション（カンマ区切り）：トランジション、ミドルピック、スローイン。一つのプレーが複数のセクションに属せます。",
+"playbook.sezioniEti":"セクション",
 "playbook.groupAtt":"⚡ オフェンス",
 "playbook.groupDif":"🛡️ ディフェンス",
 "playbook.noteLabel":"メモ",
@@ -16538,7 +16962,12 @@ ja: {
 "lic.stateOver":"⛔ 試用期間が終了しました。すでに作った作業を見ることも印刷することもできますが、保存、タグ付け、共同作業にはライセンスが必要です。",
 "lic.storeTitle":"VDMを購入する",
 "lic.storeBody":"完全版のライセンスはMac App Storeで購入します。支払いは一度だけで、その後の更新は自動で届きます。",
-"lic.storeExportFirst":"購入版に移る前に作業を保存してください。ファイルメニュー →<b>リーグを書き出す</b>。すべてが入った.vdmファイルができるので、新しい版で<b>リーグを読み込む</b>から読み込みます。",
+"lic.storeExportFirst":"購入版に移る前に作業を保存してください。下のボタンを押すと、すべてが入った <b>vbc-lega.json</b> ファイルができます。新しい版では右上の <b>⬆️ リーグを読み込む (JSON)</b> から読み込みます。",
+"lic.storeExportBtn":"💾 今すぐ作業を保存",
+"lic.storeDirect":"または私から直接購入できます。振込先をお返事でお送りし、入金を確認しだいキーをお送りします。このままここで作業を続けられ、作ったものもそのままです。ストアも再インストールも不要です。",
+"lic.storeDirectBtn":"✉️ 購入の連絡をする",
+"lic.storeDirectSubj":"VDM Basketball Coach を購入したいです",
+"lic.storeDirectBody":"こんにちは。\nVDM Basketball Coach を購入したいです。\n\nこのパソコンのコード: {codice}\n\nよろしくお願いします。",
 "lic.storeBtnMac":"Mac App Storeを開く",
 "lic.storeWinSoon":"Windows版の有料版はMicrosoft Storeで提供予定です。それまではinfo@vdmdata.itまでご連絡ください。",
 "lic.storeBodyWin":"完全版のライセンスは Microsoft Store で購入できます。支払いは一度だけで、その後のアップデートは自動で届きます。",
@@ -16651,6 +17080,8 @@ ja: {
 },
 pt: {
 "ui.close":"Fechar",
+"ia.tasto":"🤖 USA A IA",
+"ia.tastoT":"Preenche as fichas sozinho com os dados que a tua IA preparou",
 "header.tag":"VDM DATA — Vídeo · Plano de Jogo · Relatório de Scouting · Treino",
 "header.exportLeague":"⬇️ Exportar Liga (JSON)",
 "header.importLeague":"⬆️ Importar Liga (JSON)",
@@ -16762,6 +17193,7 @@ pt: {
 "video.tagHere":"🏷️ Marcar Aqui",
 "video.trimReadout":"Início: — · Fim: —",
 "video.trimBarHint":"Clique para saltar para esse ponto do vídeo",
+"video.fullscreen":"Ecrã inteiro",
 "video.pendingTagLabel":"Tag por classificar:",
 "video.readyTagLabel":"Tag pronta: {start} – {end}",
 "video.pendingTagPh":"Nome da jogada...",
@@ -16800,6 +17232,23 @@ pt: {
 "playbook.schemaNameLabel":"Nome do esquema",
 "playbook.schemaNamePh":"ex.: Pick and Roll do lado forte",
 "playbook.groupLabel":"Grupo",
+"playbook.libraryBtn":"📚 Biblioteca de jogadas",
+"playbook.libSolaSquadra":"Esta equipa",
+"playbook.copiaQuiTitolo":"De {squadra} para {mia}: como lhe chamas?",
+"playbook.copiaQuiFatto":"«{nome}» copiada para a tua folha",
+"playbook.libTutte":"Todas as equipas",
+"playbook.libSearchPh":"procura uma jogada ou uma série…",
+"playbook.serieNessuna":"Sem série",
+"playbook.senzaNome":"Sem nome",
+"playbook.libVuota":"Ainda não há nenhuma jogada aqui.",
+"playbook.ordinaSerieBtn":"↕️ Agrupar por série",
+"playbook.ordinaSerieAsk":"Junto as jogadas da mesma série? A ordem dentro de cada grupo fica como escolheste.",
+"playbook.ordinaSerieFatto":"Jogadas agrupadas por série",
+"playbook.suBtn":"Subir",
+"playbook.giuBtn":"Descer",
+"playbook.seriePh":"secções…",
+"playbook.serieHint":"As secções da jogada, separadas por vírgulas: Transição, Pick central, Lançamentos. Uma jogada pode estar em várias secções e aparece em todas na biblioteca.",
+"playbook.sezioniEti":"secções",
 "playbook.groupAtt":"⚡ Ataque",
 "playbook.groupDif":"🛡️ Defesa",
 "playbook.noteLabel":"Notas",
@@ -17715,7 +18164,12 @@ pt: {
 "lic.stateOver":"⛔ O período de experiência acabou. Ainda podes ver e imprimir o trabalho já feito, mas para guardar, marcar e trabalhar em comum é precisa a licença.",
 "lic.storeTitle":"Comprar o VDM",
 "lic.storeBody":"A licença completa compra-se na Mac App Store: paga-se uma só vez, e as atualizações chegam depois sozinhas.",
-"lic.storeExportFirst":"Antes de passares para a versão comprada, guarda o teu trabalho: menu Ficheiro → <b>Exportar liga</b>. Sai um ficheiro .vdm com tudo lá dentro, e na versão nova voltas a carregá-lo com <b>Importar liga</b>.",
+"lic.storeExportFirst":"Antes de passares para a versão comprada, guarda o teu trabalho: carrega no botão abaixo e sai um ficheiro <b>vbc-lega.json</b> com tudo lá dentro. Na versão nova voltas a carregá-lo com <b>⬆️ Importar Liga (JSON)</b>, no canto superior direito.",
+"lic.storeExportBtn":"💾 Guarda o teu trabalho agora",
+"lic.storeDirect":"Ou compra-a directamente a mim: respondo-te com os dados para a transferência e, assim que chegar, envio-te a chave. Continuas a trabalhar aqui, com o teu trabalho onde está: sem loja e sem reinstalar.",
+"lic.storeDirectBtn":"✉️ Escreve-me para comprá-la",
+"lic.storeDirectSubj":"Gostaria de comprar o VDM Basketball Coach",
+"lic.storeDirectBody":"Bom dia,\ngostaria de comprar o VDM Basketball Coach.\n\nO código deste computador é: {codice}\n\nObrigado.",
 "lic.storeBtnMac":"Abrir a Mac App Store",
 "lic.storeWinSoon":"Para Windows a versão paga chegará à Microsoft Store. Entretanto escreve para info@vdmdata.it.",
 "lic.storeBodyWin":"A licença completa compra-se na Microsoft Store: paga-se uma única vez, e as atualizações chegam depois sozinhas.",
@@ -17828,6 +18282,8 @@ pt: {
 },
 ko: {
 "ui.close":"닫기",
+"ia.tasto":"🤖 AI 사용",
+"ia.tastoT":"AI가 준비한 데이터로 카드를 알아서 채웁니다",
 "header.tag":"VDM DATA — 영상 · 전술판 · 스카우팅 리포트 · 훈련",
 "header.exportLeague":"⬇️ 리그 내보내기 (JSON)",
 "header.importLeague":"⬆️ 리그 가져오기 (JSON)",
@@ -17939,6 +18395,7 @@ ko: {
 "video.tagHere":"🏷️ 여기에 태그",
 "video.trimReadout":"시작: — · 종료: —",
 "video.trimBarHint":"클릭하면 영상의 해당 지점으로 이동합니다",
+"video.fullscreen":"전체 화면",
 "video.pendingTagLabel":"분류 대기 중인 태그:",
 "video.readyTagLabel":"태그 준비 완료: {start} – {end}",
 "video.pendingTagPh":"플레이 이름...",
@@ -17977,6 +18434,23 @@ ko: {
 "playbook.schemaNameLabel":"전술 이름",
 "playbook.schemaNamePh":"예: 스트롱사이드 픽앤롤",
 "playbook.groupLabel":"분류",
+"playbook.libraryBtn":"📚 플레이 라이브러리",
+"playbook.libSolaSquadra":"이 팀",
+"playbook.copiaQuiTitolo":"{squadra}에서 {mia}(으)로: 뭐라고 부르나요?",
+"playbook.copiaQuiFatto":"'{nome}'을(를) 시트에 복사했습니다",
+"playbook.libTutte":"모든 팀",
+"playbook.libSearchPh":"플레이나 시리즈 검색…",
+"playbook.serieNessuna":"시리즈 없음",
+"playbook.senzaNome":"이름 없음",
+"playbook.libVuota":"여기에는 아직 플레이가 없습니다.",
+"playbook.ordinaSerieBtn":"↕️ 시리즈별로 모으기",
+"playbook.ordinaSerieAsk":"같은 시리즈의 플레이를 모을까요? 각 그룹 안의 순서는 그대로 유지됩니다.",
+"playbook.ordinaSerieFatto":"시리즈별로 정리했습니다",
+"playbook.suBtn":"위로",
+"playbook.giuBtn":"아래로",
+"playbook.seriePh":"섹션…",
+"playbook.serieHint":"이 플레이의 섹션(쉼표로 구분): 트랜지션, 미들 픽, 스로인. 한 플레이가 여러 섹션에 속할 수 있습니다.",
+"playbook.sezioniEti":"섹션",
 "playbook.groupAtt":"⚡ 공격",
 "playbook.groupDif":"🛡️ 수비",
 "playbook.noteLabel":"메모",
@@ -18892,7 +19366,12 @@ ko: {
 "lic.stateOver":"⛔ 체험 기간이 끝났습니다. 이미 해 둔 작업은 계속 보고 인쇄할 수 있지만, 저장과 태그, 공동 작업에는 라이선스가 필요합니다.",
 "lic.storeTitle":"VDM 구입하기",
 "lic.storeBody":"정식 라이선스는 Mac App Store에서 구입합니다. 한 번만 결제하면 이후 업데이트는 자동으로 도착합니다.",
-"lic.storeExportFirst":"구입한 버전으로 옮기기 전에 작업을 저장하세요. 파일 메뉴 → <b>리그 내보내기</b>. 모든 내용이 담긴 .vdm 파일이 만들어지고, 새 버전에서 <b>리그 가져오기</b>로 다시 불러옵니다.",
+"lic.storeExportFirst":"구입한 버전으로 옮기기 전에 작업을 저장하세요. 아래 버튼을 누르면 모든 내용이 담긴 <b>vbc-lega.json</b> 파일이 만들어집니다. 새 버전에서는 오른쪽 위의 <b>⬆️ 리그 가져오기 (JSON)</b> 로 불러옵니다.",
+"lic.storeExportBtn":"💾 지금 작업 저장하기",
+"lic.storeDirect":"또는 저에게 직접 구입하실 수 있습니다. 계좌이체 정보를 답장으로 보내 드리고, 입금이 확인되는 대로 키를 보내 드립니다. 이 자리에서 그대로 작업을 이어가실 수 있고 작업물도 그대로입니다. 스토어도 재설치도 필요 없습니다.",
+"lic.storeDirectBtn":"✉️ 구입 문의 메일 보내기",
+"lic.storeDirectSubj":"VDM Basketball Coach를 구입하고 싶습니다",
+"lic.storeDirectBody":"안녕하세요,\nVDM Basketball Coach를 구입하고 싶습니다.\n\n이 컴퓨터의 코드: {codice}\n\n감사합니다.",
 "lic.storeBtnMac":"Mac App Store 열기",
 "lic.storeWinSoon":"Windows용 유료 버전은 Microsoft Store에 올라올 예정입니다. 그때까지는 info@vdmdata.it 으로 연락 주세요.",
 "lic.storeBodyWin":"정식 라이선스는 Microsoft Store에서 구입합니다. 한 번만 결제하면 이후 업데이트는 자동으로 받습니다.",
@@ -21532,11 +22011,29 @@ async function licAttiva() {
  * processo principale, che intercetta i target="_blank" e li gira a macOS.
  * IL PASSAGGIO DEI DATI. La versione comprata sull'App Store gira nella sua
  * gabbia e ha una cartella dati tutta sua: il lavoro fatto in prova NON si
- * ritrova da solo. Per questo qui si dice, prima del bottone, di esportare la
- * lega — un file .vdm che poi si ricarica nella versione nuova. Senza questa
- * riga uno compra, apre, trova tutto vuoto e pensa di aver perso il lavoro. */
+ * ritrova da solo. Per questo qui, PRIMA del bottone del negozio, c'e' il
+ * bottone che esporta la lega: esce vbc-lega.json, e nella versione comprata
+ * si ricarica con "Importa Lega (JSON)". Senza, uno compra, apre, trova tutto
+ * vuoto e pensa di aver perso il lavoro.
+ * 23 settembre 2026: qui la riga diceva "menu File -> Esporta lega" e parlava
+ * di un file .vdm. Quella voce di menu NON ESISTE (nel menu File ci sono solo
+ * Apri lavoro, Salva lavoro come, Cartella dei dati, Stampa) e il file si
+ * chiama vbc-lega.json. Chi finiva la prova cercava una voce inesistente
+ * proprio mentre decideva se comprare: ora il bottone e' qui dentro. */
 const LIC_URL_APP_STORE = 'https://apps.apple.com/app/id6804416013';
 const LIC_URL_MS_STORE = 'https://apps.microsoft.com/detail/9NLD6JCZNJ0G';
+/* LA SECONDA VIA PER COMPRARE (23 settembre 2026). Il negozio non e' l'unica
+ * strada: chi preferisce puo' scrivere a info@vdmdata.it e ricevere la chiave
+ * per mail, restando nella copia che sta gia' usando — niente esportazione,
+ * niente seconda installazione, il lavoro resta dov'e'. La mail parte gia'
+ * scritta e con dentro il CODICE MACCHINA: senza quello la chiave non si puo'
+ * generare, e chiederlo dopo per mail costa due giorni di andirivieni. */
+const LIC_MAIL_ACQUISTO = 'info@vdmdata.it';
+function licMailAcquisto(st) {
+  const ogg = encodeURIComponent(t('lic.storeDirectSubj'));
+  const corpo = encodeURIComponent(t('lic.storeDirectBody', { codice: (st && st.codiceMacchina) || '—' }));
+  return 'mailto:' + LIC_MAIL_ACQUISTO + '?subject=' + ogg + '&body=' + corpo;
+}
 function licBloccoNegozio(st) {
   // Nelle versioni di prova a tempo (beta) il negozio non c'entra.
   if (!st || st.tipo === 'beta' || st.tipo === 'betaChiave') return '';
@@ -21547,11 +22044,25 @@ function licBloccoNegozio(st) {
   const azione = suMac
     ? `<a class="btn primary" href="${LIC_URL_APP_STORE}" target="_blank" rel="noopener">${escapeHtml(t('lic.storeBtnMac'))}</a>`
     : `<a class="btn primary" href="${LIC_URL_MS_STORE}" target="_blank" rel="noopener">${escapeHtml(t('lic.storeBtnWin'))}</a>`;
+  /* LA SECONDA VIA (scrivimi e ti mando la chiave) NON PUO' STARE NELLA COPIA
+   * DELL'APP STORE. La linea guida 3.1.1 vieta di indicare, dentro un'app
+   * presa dall'App Store, come si compra fuori dall'App Store: e' la stessa
+   * regola per cui la 3.7.24 e' stata respinta. Nella copia scaricata dal
+   * sito e in quella Microsoft, invece, ci sta e serve. */
+  const diretto = edizioneCorrente() === 'appstore' ? '' : `
+      <div class="lic-nota" style="margin-top:12px;">${escapeHtml(t('lic.storeDirect'))}</div>
+      <div class="lic-riga-btn" style="margin-top:8px;">
+        <a class="btn" href="${licMailAcquisto(st)}">${escapeHtml(t('lic.storeDirectBtn'))}</a>
+      </div>`;
   return `<div class="lic-negozio">
       <h4 class="lic-h">${escapeHtml(t('lic.storeTitle'))}</h4>
       <div class="lic-nota">${escapeHtml(t(suMac ? 'lic.storeBody' : 'lic.storeBodyWin'))}</div>
       <div class="lic-nota">${t('lic.storeExportFirst')}</div>
+      <div class="lic-riga-btn" style="margin-top:8px;">
+        <button class="btn" onclick="exportDB()">${escapeHtml(t('lic.storeExportBtn'))}</button>
+      </div>
       <div class="lic-riga-btn" style="margin-top:8px;">${azione}</div>
+      ${diretto}
     </div>`;
 }
 function licRenderPannello() {
@@ -25979,6 +26490,7 @@ function markStart() {
   const v = document.getElementById('vPlayer');
   if (!v) return;
   vt.trimStart = v.currentTime;
+  vt.sopraChiuso = false;   // nuovo pezzo da marcare: le caselle tornano
   if (vt.trimEnd != null && vt.trimEnd <= vt.trimStart) vt.trimEnd = null;
   // Re-render completo (non solo il testo): aggiorna anche la tacca "Inizio"
   // sulla barra di taglio visuale — la posizione di riproduzione resta
@@ -26103,6 +26615,96 @@ function renderPendingTagPanel() {
 /* Conferma il tag scritto a mano nel pannello "tag pronto": riusa quickTag
  * (che sa già gestire sia il caso Inizio/Fine marcati sia il caso "Tag Qui"
  * in attesa di classificazione tramite vt.pendingTagId). */
+/* LE CASELLE SOPRA IL VIDEO. Stesso momento del pannello "tag pronto"
+ * (Inizio+Fine marcati, oppure un tag in attesa di classificazione), ma
+ * disegnate dentro al riquadro del video: si sceglie senza staccare gli
+ * occhi dalla partita. Sono le stesse identiche giocate dei pannelli di
+ * lato e gli stessi tag rapidi, e chiamano la stessa quickTag(), cosi' non
+ * esistono due strade che si comportano in modo diverso.
+ * NOTA sui tag rapidi: qui NON creano il taglio da 3 secondi (quello lo fa
+ * quickCutLabel quando non c'e' niente da classificare). Qui danno il nome
+ * al pezzo che hai appena marcato, esattamente come scriverlo a mano. */
+function renderTagOverlay() {
+  /* SI SPENGONO TUTTI, non solo quello trovato per id. Ridisegnando la
+   * sezione (o cambiando la grandezza del video) puo' restare in giro un
+   * riquadro vecchio: cercandone uno solo, quello rimaneva acceso sopra la
+   * partita anche tornando dalla finestra grande. Qui si spengono tutti e si
+   * riempie l'ultimo, che e' quello attaccato al video di adesso. */
+  const tutti = [...document.querySelectorAll('.vt-sopra')];
+  if (!tutti.length) return;
+  tutti.forEach(b => { b.classList.remove('show'); b.innerHTML = ''; });
+  const box = tutti[tutti.length - 1];
+  /* SOLO A SCHERMO INTERO. A schermo normale i pannelli Attacco e Difesa
+   * sono gia' li' di fianco al video: il riquadro traslucido sarebbe un
+   * doppione che copre la partita per niente. Serve quando quei pannelli
+   * non si vedono, cioe' a tutto schermo — ed era la richiesta di partenza.
+   * (23 settembre: prima compariva sempre, e a schermo normale si finiva con
+   * le caselle due volte, sul video e di lato.) */
+  if (!document.fullscreenElement) return;
+  const clip = currentClip();
+  const pronto = !!clip && (!!vt.pendingTagId || (vt.trimStart != null && vt.trimEnd != null));
+  if (!pronto || vt.sopraChiuso) return;
+  const team = activeTeam();
+  const cats = team ? ensureTagCategories(team) : { attacco: [], difesa: [] };
+  const rapidi = (team && Array.isArray(team.quickTags)) ? team.quickTags : [];
+  const eti = vt.pendingTagId
+    ? t('video.pendingTagLabel')
+    : t('video.readyTagLabel', { start: fmtTime(vt.trimStart), end: fmtTime(vt.trimEnd) });
+  const chip = (side, nome, cls) =>
+    `<button class="vt-chip${cls ? ' ' + cls : ''}" onclick='quickTag(${jsAttr(side)}, ${jsAttr(nome)}, null)'>${escapeHtml(nome)}</button>`;
+  // I GIOCATORI, sopra: stessa squadra della striscia normale e stessa
+  // chiamata, cosi' il pezzo finisce nella scheda della persona giusta.
+  const sq = (typeof squadraDeiNomi === 'function') ? squadraDeiNomi(team, clip) : team;
+  const gioc = (sq && Array.isArray(sq.players)) ? sq.players.filter(p => (p.name || '').trim() || String(p.number || '').trim()) : [];
+  const chipGioc = (p, i) => {
+    const nome = (p.name || '').trim() || ('#' + (p.number || (i + 1)));
+    const scritta = (p.number ? '#' + p.number + ' ' : '') + nome;
+    return `<button class="vt-chip gioc" onclick='quickTag(null, null, ${jsAttr({ id: p.id || ((sq && sq.id) + '_' + i), number: p.number || '', name: nome })})'>${escapeHtml(scritta)}</button>`;
+  };
+  const colonna = (eti2, roba) => roba
+    ? `<div class="vt-colonna"><div class="vt-sopra-eti">${escapeHtml(eti2)}</div>${roba}</div>`
+    : `<div class="vt-colonna vuota"></div>`;
+  box.innerHTML = `
+    <div class="vt-sopra-testa">\ud83c\udff7\ufe0f ${escapeHtml(eti)}
+      <button class="vt-sopra-chiudi" onclick="chiudiTagOverlay()">\u2715</button></div>
+    <div class="vt-sopra-alto">
+      ${rapidi.map(x => chip(null, x, 'rapido')).join('')}
+      ${gioc.map(chipGioc).join('')}
+    </div>
+    <div class="vt-sopra-mezzo">
+      ${colonna(t('playbook.groupAtt'), (cats.attacco || []).map(x => chip('attacco', x)).join(''))}
+      ${colonna(t('playbook.groupDif'), (cats.difesa || []).map(x => chip('difesa', x)).join(''))}
+    </div>`;
+  box.classList.add('show');
+}
+
+/* Via le caselle senza classificare: il pezzo marcato resta, e si puo'
+ * sempre usare il pannello di lato o la casella per scriverlo a mano. */
+function chiudiTagOverlay() {
+  vt.sopraChiuso = true;
+  renderTagOverlay();
+}
+/* Cambiando la grandezza del video, o entrando e uscendo da schermo intero,
+ * il riquadro va comunque ridisegnato: e' il momento in cui prima restava
+ * appiccicato. */
+document.addEventListener('fullscreenchange', () => { try { renderTagOverlay(); } catch (e) {} });
+document.addEventListener('keydown', (e) => {
+  if (e.key !== 'Escape') return;
+  const box = document.getElementById('vtSopra');
+  if (box && box.classList.contains('show')) { e.preventDefault(); chiudiTagOverlay(); }
+});
+
+/* Schermo intero VERO. Va chiesto per il RIQUADRO, non per il <video>: se lo
+ * si chiedesse al video, il sistema lo mostrerebbe da solo a tutto schermo e
+ * le caselle qui sopra sparirebbero, che e' esattamente il problema che
+ * stiamo risolvendo. */
+function videoSchermoIntero() {
+  if (document.fullscreenElement) { document.exitFullscreen(); return; }
+  // la COLONNA, non il video: dentro ci sta anche la barra con Inizio e Fine
+  const col = document.getElementById('videoCentralCol') || document.getElementById('videoPlayerWrap');
+  if (col && col.requestFullscreen) col.requestFullscreen();
+}
+
 function confirmPendingTag(name) {
   const clean = (name || '').trim();
   if (!clean) { toast(t('toast.typeTagNameFirst')); return; }
@@ -29189,8 +29791,7 @@ function presContenutoScheda(opp, chiave) {
   }
   if (chiave === 'strategie') return [{ eti: '', testo: sr.strategie.difesa }];
   if (chiave === 'tiro3') return [{ eti: '', testo: sr.migliorTiratrice3pt }];
-  if (chiave === 'liberi') return [{ eti: '', testo: sr.peggiorTiratriceTL },
-    sotto('relazione.boxPeggioriTiratoriLiberi', 1, sr.peggioriTiratoriLiberi)];
+  if (chiave === 'liberi') return [{ eti: '', testo: sr.peggiorTiratriceTL }];
   return [];
 }
 
@@ -32850,7 +33451,7 @@ function ensureQuickTags(team) {
 // foglio stampato, es. "SE N.4 è primo bloccante").
 function emptyPlaybookSlot() { return { elements: [], campoMode: 'half', note: '' }; }
 function defaultPlaybookRow(nome, gruppo) {
-  return { id: nextId('pbrow'), nome: nome || '', gruppo: gruppo || 'attacco', slots: [emptyPlaybookSlot(), emptyPlaybookSlot(), emptyPlaybookSlot(), emptyPlaybookSlot()] };
+  return { id: nextId('pbrow'), nome: nome || '', serie: '', gruppo: gruppo || 'attacco', slots: [emptyPlaybookSlot(), emptyPlaybookSlot(), emptyPlaybookSlot(), emptyPlaybookSlot()] };
 }
 // Migra il vecchio elenco piatto di schemi (sia quello originale pre-riga,
 // sia quello della versione "griglia 4x5" di schemi indipendenti) in righe:
@@ -32864,9 +33465,16 @@ function migratePlaybookListToRows(legacyList) {
     return row;
   });
 }
+/* MIGRAZIONE, fatta per aggiunta e basta: ai giochi che esistono gia' si
+ * mette una serie VUOTA. Niente viene rinominato, niente spostato, niente
+ * perso. Chi ha dentro il lavoro di una stagione non si accorge di nulla. */
+function assicuraSerie(righe) {
+  (righe || []).forEach(r => { if (typeof r.serie !== 'string') r.serie = ''; });
+  return righe;
+}
 function ensurePlaybookRows(team) {
   if (!Array.isArray(team.playbookRows)) team.playbookRows = migratePlaybookListToRows(team.playbook);
-  return team.playbookRows;
+  return assicuraSerie(team.playbookRows);
 }
 // Libreria generale di schemi, usata quando il Playbook viene aperto senza
 // nessuna squadra selezionata (il coach potrebbe voler disegnare solo schemi/
@@ -32874,7 +33482,7 @@ function ensurePlaybookRows(team) {
 // esportata/importata insieme al resto.
 function ensureScratchPlaybookRows() {
   if (!Array.isArray(DB.scratchPlaybookRows)) DB.scratchPlaybookRows = migratePlaybookListToRows(DB.scratchPlaybook);
-  return DB.scratchPlaybookRows;
+  return assicuraSerie(DB.scratchPlaybookRows);
 }
 // Righe su cui sta lavorando il Playbook in questo momento: quelle della
 // squadra attiva, oppure la libreria generale se nessuna squadra è selezionata.
@@ -33448,7 +34056,6 @@ function defaultScoutingReport() {
     // box): player generici da tenere d'occhio, non legati a una sola
     // statistica come le tiratrici qui sopra.
     miglioriGiocatori: '',
-    peggioriTiratoriLiberi: '',
     statisticheAvanzate: { puntiPerPossesso: '', tiro2pt: '', tiro3pt: '', fonte: '', nota: '' },
   };
 }
@@ -33490,7 +34097,6 @@ const SCOUTING_FIELD_MAP = [
   ['srMigliorTL', 'migliorTiratriceTL'],
   ['srPeggiorLiberi', 'peggiorTiratriceTL'],
   ['srMiglioriGiocatori', 'miglioriGiocatori'],
-  ['srPeggioriTiratoriLiberi', 'peggioriTiratoriLiberi'],
   ['srSaPuntiPerPossesso', 'statisticheAvanzate.puntiPerPossesso'],
   ['srSaTiro2pt', 'statisticheAvanzate.tiro2pt'],
   ['srSaTiro3pt', 'statisticheAvanzate.tiro3pt'],
@@ -33535,7 +34141,7 @@ function abbassaScoutInMinuscolo(opponent) {
     'partita.forzaMentale', 'partita.difesa', 'partita.attacco',
     'partita.unoUno', 'partita.tiro3pt.media', 'partita.tiro3pt.tiratrici',
     'migliorTiratrice3pt', 'migliorTiratriceTL', 'peggiorTiratriceTL',
-    'miglioriGiocatori', 'peggioriTiratoriLiberi',
+    'miglioriGiocatori',
   ];
   campi.forEach(percorso => {
     let v;
@@ -33568,6 +34174,18 @@ function ensureScoutingReport(opponent) {
   if (typeof sr.partita === 'string') { const old = sr.partita; sr.partita = d.partita; sr.partita.attacco = old; }
   if (typeof sr.miglior3pt === 'string') { sr.migliorTiratrice3pt = sr.miglior3pt; delete sr.miglior3pt; }
   if (typeof sr.peggiorLiberi === 'string') { sr.peggiorTiratriceTL = sr.peggiorLiberi; delete sr.peggiorLiberi; }
+  /* 30/09/2026 — LE DUE CASELLE DEI LIBERI DIVENTANO UNA. Nel riquadro
+     "Peggiori tiratrici tiri liberi" ce n'erano due identiche, una sotto
+     l'altra, e sul foglio stampato finivano insieme: a schermo sembrava di
+     dover scrivere due volte la stessa cosa. Ne resta una, e quello che era
+     gia' scritto nell'altra ci finisce dentro invece di sparire. */
+  if (typeof sr.peggioriTiratoriLiberi === 'string' && sr.peggioriTiratoriLiberi.trim()) {
+    const prima = String(sr.peggiorTiratriceTL || '').trim();
+    sr.peggiorTiratriceTL = prima
+      ? (prima + '\n' + sr.peggioriTiratoriLiberi.trim())
+      : sr.peggioriTiratoriLiberi.trim();
+  }
+  delete sr.peggioriTiratoriLiberi;
   // Backfill: qualunque sotto-campo mancante (report creati con una versione
   // precedente, o parzialmente migrati sopra) viene aggiunto senza toccare i
   // valori già presenti.
@@ -33589,7 +34207,6 @@ function ensureScoutingReport(opponent) {
   if (sr.migliorTiratriceTL == null) sr.migliorTiratriceTL = '';
   if (sr.peggiorTiratriceTL == null) sr.peggiorTiratriceTL = '';
   if (sr.miglioriGiocatori == null) sr.miglioriGiocatori = '';
-  if (sr.peggioriTiratoriLiberi == null) sr.peggioriTiratoriLiberi = '';
   if (!sr.statisticheAvanzate || typeof sr.statisticheAvanzate !== 'object') sr.statisticheAvanzate = { puntiPerPossesso: '', tiro2pt: '', tiro3pt: '', fonte: '', nota: '' };
   ['puntiPerPossesso', 'tiro2pt', 'tiro3pt', 'fonte', 'nota'].forEach(k => { if (sr.statisticheAvanzate[k] == null) sr.statisticheAvanzate[k] = ''; });
   try { abbassaScoutInMinuscolo(opponent); } catch (e) { console.error('minuscolo', e); }
@@ -34819,6 +35436,8 @@ function renderVideoSection() {
       <div class="video-player-wrap" id="videoPlayerWrap"${seedStyle}>
         <video id="vPlayer" src="${clip.url}" onclick="togglePlayPause()" onloadedmetadata="onVideoMeta('${clip.id}', this)" onerror="onVideoError('${clip.id}', this)"></video>
         <div class="vt-resize-grip" title="${escapeHtml(t('video.resizeGripHint'))}" onmousedown="startVideoCornerResize(event)" ontouchstart="startVideoCornerResize(event)" ondblclick="resetVideoSize()"></div>
+        <button class="vt-pieno" title="${escapeHtml(t('video.fullscreen'))}" onclick="videoSchermoIntero()">⛶</button>
+        <div class="vt-sopra" id="vtSopra"></div>
       </div>
       ${clip.error ? `<div class="note-banner" style="margin-top:8px;">⚠️ ${escapeHtml(clip.error)}</div>` : ''}
       <div class="vt-trimbar-wrap">
@@ -34835,6 +35454,7 @@ function renderVideoSection() {
     playbackControls.style.display = 'flex';
     renderTrimReadout();
     renderPendingTagPanel();
+    renderTagOverlay();
 
     // Se le proporzioni reali sono già note da un caricamento precedente
     // (es. si torna su questa clip dopo averne guardata un'altra), non
@@ -35666,11 +36286,46 @@ function drawDiagramMagnets(ctx, state, W, H) {
   ctx.restore();
 }
 
+/* IL CAMPO DISEGNATO ALLA MISURA VERA (03/10/2026).
+ *
+ * Luciano Nunzi, dal suo PC: «quando il campo è grande le linee vanno bene,
+ * quando si rimpicciolisce sono troppo spesse».
+ *
+ * Non erano piu' spesse: erano SFOCATE. Il campo veniva disegnato sempre a
+ * 504x420 punti e poi era il browser a rimpicciolirlo con un filtro grezzo,
+ * e una linea sfocata l'occhio la legge come piu' grassa. Lo stesso succede
+ * al contrario sugli schermi a punti doppi, dove il campo veniva ingrandito.
+ *
+ * Qui il canvas prende la risoluzione VERA a cui si vede (per la larghezza
+ * che ha sullo schermo, moltiplicata per i punti del monitor), e il disegno
+ * viene ingrandito della stessa misura con una sola riga in redrawDiagram.
+ * Tutto il resto del codice continua a ragionare in 504x420: le calamite, i
+ * bersagli del click, le proporzioni della stampa non cambiano di un punto.
+ * Cambia solo la nitidezza — ed e' quella che Nunzi chiamava spessore. */
+function diagramFattoreNitidezza(state) {
+  const canvas = document.getElementById(state.canvasId);
+  const size = diagramCanvasSize(state.mode);
+  if (!canvas) return 1;
+  let larghezzaVista = 0;
+  try { larghezzaVista = canvas.getBoundingClientRect().width; } catch (e) {}
+  if (!larghezzaVista) larghezzaVista = size.w;
+  const punti = (window.devicePixelRatio || 1);
+  /* SI SCENDE ANCHE SOTTO 1, ed e' il caso di Nunzi: quando il riquadro e'
+     piu' stretto di 504 punti il campo veniva comunque disegnato a 504 e poi
+     RIMPICCIOLITO dal browser — ed e' li' che le linee diventano sfocate e
+     sembrano grasse. Disegnandolo gia' alla misura giusta il browser non
+     deve rimpicciolire niente e il tratto resta pulito.
+     Il limite in basso e' 0,5 (sotto si perderebbe davvero dettaglio) e in
+     alto 3 (oltre e' memoria buttata). */
+  return Math.max(0.5, Math.min(3, (larghezzaVista * punti) / size.w));
+}
 function resizeDiagramCanvas(state) {
   const canvas = document.getElementById(state.canvasId);
   if (!canvas) return;
   const size = diagramCanvasSize(state.mode);
-  canvas.width = size.w; canvas.height = size.h;
+  const f = diagramFattoreNitidezza(state);
+  canvas.width = Math.round(size.w * f);
+  canvas.height = Math.round(size.h * f);
 }
 
 function setDiagramCourtMode(state, mode) {
@@ -35687,6 +36342,19 @@ function setDiagramTool(state, tool) {
   if (state.pendingPath) finishDiagramPath(state);
   state.tool = tool;
   renderDiagramToolbar(state);
+}
+
+/* IL NOME DEL TASTO, SCRITTO SUL BOTTONE (03/10/2026).
+ * Luciano Nunzi, il giorno dopo aver comprato la licenza: «se col tasto
+ * Canc si potesse cancellare direttamente la cosa che evidenzi». Si poteva
+ * gia': stava scritto solo nell'aiuto in fondo al riquadro, che non legge
+ * nessuno. Adesso il tasto e' scritto sul bottone che fa quella cosa.
+ * Simboli e non parole: non vanno tradotti e non allungano la barra. */
+function tastoCanc() {
+  try { return navigator.platform.indexOf('Mac') >= 0 ? '\u232B' : 'Canc'; } catch (e) { return 'Canc'; }
+}
+function tastoAnnulla() {
+  try { return navigator.platform.indexOf('Mac') >= 0 ? '\u2318Z' : 'Ctrl+Z'; } catch (e) { return 'Ctrl+Z'; }
 }
 
 function renderDiagramToolbar(state) {
@@ -35716,13 +36384,18 @@ function renderDiagramToolbar(state) {
   // sempre nello stesso punto; resta comunque "no-op" se non c'è nessun
   // tratto in corso (vedi finishDiagramPath), solo evidenziato in verde
   // quando c'è davvero qualcosa da confermare, come indicazione in più.
-  + `<button class="diagram-tool-btn diagram-tool-finish${state.pendingPath ? ' diagram-tool-finish-active' : ''}" onclick="finishDiagramPath(${state.ref})">${state.pendingPath ? t('dyn.finishPathN', { n: state.pendingPath.points.length }) : t('dyn.finishPath')}</button>`
+  + `<button class="diagram-tool-btn diagram-tool-finish${state.pendingPath ? ' diagram-tool-finish-active' : ''}" onclick="finishDiagramPath(${state.ref})" title="${escapeHtml(t('dyn.finishPath'))} \u2014 \u23CE">${state.pendingPath ? t('dyn.finishPathN', { n: state.pendingPath.points.length }) : t('dyn.finishPath')}</button>`
   // Blocco spezzato o curvo, a scelta: stesso strumento, due rese possibili
   // ("anche il blocco può essere sia una linea spezzata sia una curva").
   + `<button class="diagram-tool-btn diagram-tool-screenmode${state.screenCurved ? ' active' : ''}" onclick="toggleDiagramScreenCurved(${state.ref})">${t(state.screenCurved ? 'dyn.screenCurved' : 'dyn.screenBent')}</button>`
-  + `<button class="diagram-tool-btn" onclick="removeSelectedDiagramElement(${state.ref})">${t('dyn.removeSelected')}</button>`
-  + `<button class="diagram-tool-btn" onclick="undoLastDiagramElement(${state.ref})">${t('dyn.undoLast')}</button>`
-  + `<button class="diagram-tool-btn" onclick="clearDiagram(${state.ref})">${t('dyn.clearCourt')}</button>`;
+  + `<button class="diagram-tool-btn" onclick="removeSelectedDiagramElement(${state.ref})" title="${escapeHtml(t('dyn.removeSelected'))} \u2014 ${tastoCanc()}">${t('dyn.removeSelected')}</button>`
+  + `<button class="diagram-tool-btn" onclick="undoLastDiagramElement(${state.ref})" title="${escapeHtml(t('dyn.undoLast'))} \u2014 ${tastoAnnulla()}">${t('dyn.undoLast')}</button>`
+  + `<button class="diagram-tool-btn" onclick="clearDiagram(${state.ref})">${t('dyn.clearCourt')}</button>`
+  /* I TASTI, DETTI UNA VOLTA SOLA (03/10/2026). Nunzi non sapeva che Canc
+     cancella: c'era gia', ma scritto solo nell'aiuto lungo in fondo. Una
+     riga sottile sotto la barra costa diciotto punti di altezza e li dice
+     tutti e tre; le targhette dentro ai bottoni costavano una riga intera. */
+  + `<div class="diagram-tasti">${tastoCanc()} ${escapeHtml(t('dyn.removeSelected').replace(/^\S+\s/, ''))} \u00b7 ${tastoAnnulla()} ${escapeHtml(t('dyn.undoLast').replace(/^\S+\s/, ''))} \u00b7 \u23CE ${escapeHtml(t('dyn.finishPath').replace(/^\S+\s/, ''))}</div>`;
 }
 
 function removeSelectedDiagramElement(state) {
@@ -36072,16 +36745,30 @@ function redrawDiagram(state, previewEnd) {
   const canvas = document.getElementById(state.canvasId);
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
-  drawCourt(ctx, canvas.width, canvas.height, state.mode);
-  drawDiagramMagnets(ctx, state, canvas.width, canvas.height);
-  state.elements.forEach((el, i) => drawDiagramElement(ctx, canvas.width, canvas.height, el, i === state.selectedIndex));
+  /* la misura logica resta 504x420: tutto il disegno la usa, e la riga qui
+     sotto la porta alla risoluzione vera del canvas. Vedi resizeDiagramCanvas. */
+  const size = diagramCanvasSize(state.mode);
+  const W = size.w, H = size.h;
+  /* La misura sullo schermo cambia: quando il riquadro si apre (prima e'
+     nascosto e misura zero), quando si ridimensiona la finestra, quando si
+     cambia monitor. Qui il canvas si riadatta da solo se serve davvero —
+     niente ricorsione, si tocca solo la risoluzione. */
+  const fVoluto = diagramFattoreNitidezza(state);
+  if (Math.abs(fVoluto - (canvas.width / W)) > 0.08) {
+    canvas.width = Math.round(W * fVoluto);
+    canvas.height = Math.round(H * fVoluto);
+  }
+  ctx.setTransform(canvas.width / W, 0, 0, canvas.height / H, 0, 0);
+  drawCourt(ctx, W, H, state.mode);
+  drawDiagramMagnets(ctx, state, W, H);
+  state.elements.forEach((el, i) => drawDiagramElement(ctx, W, H, el, i === state.selectedIndex));
   if (state.pendingPath) {
     const pts = state.pendingPath.points;
     ctx.save();
     ctx.fillStyle = '#00e5ff';
     pts.forEach(p => {
       ctx.beginPath();
-      ctx.arc(p.x * canvas.width, p.y * canvas.height, 4, 0, Math.PI * 2);
+      ctx.arc(p.x * W, p.y * H, 4, 0, Math.PI * 2);
       ctx.fill();
     });
     ctx.restore();
@@ -36263,7 +36950,7 @@ function drawDiagramArrow(ctx, W, H, el) {
   // campo quando il campo diventa più grande.
   const S = Math.min(W, H);
   const LW = Math.max(1.8, S * 0.0072);
-  const AH = Math.max(9, S * 0.039);
+  const AH = Math.max(9, S * 0.041);   // 03/10: +5%, chiesto da Nunzi
   ctx.save();
   ctx.strokeStyle = '#000'; ctx.lineJoin = 'round'; ctx.lineCap = 'round';
 
@@ -36812,6 +37499,11 @@ function playbookRowHtml(row) {
         <span class="pb-row-name" contenteditable="true"
           oninput="onPlaybookRowNameLiveEdit('${row.id}', this)"
           onblur="onPlaybookRowNameLiveEdit('${row.id}', this)">${escapeHtml(row.nome)}</span>
+        <input class="pb-row-serie" list="pbSerieUsate" value="${escapeHtml(row.serie || '')}"
+          placeholder="${escapeHtml(t('playbook.seriePh'))}" title="${escapeHtml(t('playbook.serieHint'))}"
+          oninput="onPlaybookRowSerieEdit('${row.id}', this)">
+        <button class="pb-slot-del pb-sposta" title="${escapeHtml(t('playbook.suBtn'))}" onclick="spostaGiocoNelFoglio('${row.id}', -1)">▲</button>
+        <button class="pb-slot-del pb-sposta" title="${escapeHtml(t('playbook.giuBtn'))}" onclick="spostaGiocoNelFoglio('${row.id}', 1)">▼</button>
         <button class="pb-slot-del" onclick="deletePlaybookRow('${row.id}')">✕</button>
       </div>
       <div class="pb-row-cells">${cellsHtml}</div>
@@ -36820,7 +37512,12 @@ function playbookRowHtml(row) {
 }
 
 function renderPlaybookSection() {
+  setTimeout(aggiornaSerieUsate, 0);
   const container = document.getElementById('pbPages');
+  if (!document.getElementById('pbSerieUsate')) {
+    const dl = document.createElement('datalist'); dl.id = 'pbSerieUsate';
+    document.body.appendChild(dl);
+  }
   if (!container) return;
   const rows = activePlaybookRows();
   if (pbEditingRowId && !rows.some(r => r.id === pbEditingRowId)) { pbEditingRowId = null; pbEditingSlotIndex = null; }
@@ -36909,6 +37606,167 @@ function createPlaybookRow(rawName) {
 // vuota da compilare in linea) — chiede solo il nome, poi lo aggiunge in
 // coda. Quando il foglio corrente (4 giochi) è pieno, il nuovo gioco ricade
 // da solo sul foglio successivo, che compare in automatico.
+/* LA LIBRERIA DEI GIOCHI (23 settembre 2026).
+ * Il foglio del playbook e' fatto per STAMPARE: quattro giochi per pagina, in
+ * fila. Va benissimo finche' i giochi sono venti. A duecento — e c'e' chi ne
+ * ha duemila — per ritrovare una rimessa si scorrono pagine a vuoto.
+ * Qui i giochi della squadra aperta si vedono tutti insieme, raggruppati per
+ * SERIE, con il primo diagramma sotto gli occhi: clicchi e vai. Non sposta e
+ * non cambia niente, e' solo un altro modo di guardare le stesse righe. */
+let pbLibTutte = false;   // libreria: solo questa squadra, o tutte
+
+/* TUTTE LE SQUADRE INSIEME.
+ * Lo stesso gioco ha nomi diversi in squadre diverse: Schio lo chiama "3",
+ * Campobasso lo chiama "L", ma e' sempre un Double High. Scrivendo la stessa
+ * sezione su tutti e due, qui li si ritrova affiancati — e si vede anche
+ * COME lo giocano diversamente, che e' meta' del lavoro di uno scout. */
+function pbRigheLibreria() {
+  if (!pbLibTutte) return activePlaybookRows().map(r => ({ r, sq: (activeTeam() || {}).name || '' }));
+  const fuori = [];
+  (DB.leagues || []).forEach(lg => (lg.teams || []).forEach(tm => {
+    (tm.playbookRows || []).forEach(r => fuori.push({ r, sq: tm.name || '' }));
+  }));
+  (DB.scratchPlaybookRows || []).forEach(r => fuori.push({ r, sq: '' }));
+  return fuori;
+}
+function pbLibCambiaAmbito() {
+  pbLibTutte = !pbLibTutte;
+  apriLibreriaGiochi();
+}
+
+function apriLibreriaGiochi() {
+  const coppie = pbRigheLibreria();
+  const righe = coppie.map(c => c.r);
+  const squadraDi = new Map(coppie.map(c => [c.r.id, c.sq]));
+  let box = document.getElementById('pbLibreria');
+  if (!box) {
+    box = document.createElement('div');
+    box.id = 'pbLibreria';
+    box.className = 'pb-lib';
+    box.onclick = (e) => { if (e.target === box) chiudiLibreriaGiochi(); };
+    document.body.appendChild(box);
+  }
+  const gruppi = new Map();
+  righe.forEach(r => {
+    const sue = sezioniDi(r);
+    const dove = sue.length ? sue : [t('playbook.serieNessuna')];
+    dove.forEach(k => {
+      if (!gruppi.has(k)) gruppi.set(k, []);
+      gruppi.get(k).push(r);
+    });
+  });
+  const chiavi = [...gruppi.keys()].sort((a, b) => {
+    const na = a === t('playbook.serieNessuna'), nb = b === t('playbook.serieNessuna');
+    if (na !== nb) return na ? 1 : -1;      // "senza serie" in fondo
+    return a.localeCompare(b);
+  });
+  const team = activeTeam();
+  let html = `<div class="pb-lib-dentro" onclick="event.stopPropagation()">
+    <div class="pb-lib-testa">
+      <b>\ud83d\udcda ${escapeHtml(t('playbook.libraryBtn'))}</b>
+      <span class="pb-lib-quanti">${escapeHtml(team ? (team.name || '') : '')} · ${righe.length} · ${gruppi.size} ${escapeHtml(t('playbook.sezioniEti'))}</span>
+      <button class="btn small${pbLibTutte ? ' primary' : ''}" onclick="pbLibCambiaAmbito()">${escapeHtml(t(pbLibTutte ? 'playbook.libTutte' : 'playbook.libSolaSquadra'))}</button>
+      <input class="pb-lib-cerca" id="pbLibCerca" placeholder="${escapeHtml(t('playbook.libSearchPh'))}" oninput="filtraLibreriaGiochi(this.value)">
+      <button class="btn small" onclick="chiudiLibreriaGiochi()">✕</button>
+    </div>
+    <div class="pb-lib-corpo">`;
+  if (!righe.length) {
+    html += `<div class="muted" style="padding:20px;">${escapeHtml(t('playbook.libVuota'))}</div>`;
+  }
+  chiavi.forEach(k => {
+    const elenco = gruppi.get(k);
+    html += `<div class="pb-lib-serie" data-serie="${escapeHtml(k.toLowerCase())}">
+      <h4>${escapeHtml(k)} <span>${elenco.length}</span></h4>
+      <div class="pb-lib-griglia">`;
+    elenco.forEach(r => {
+      const primo = (r.slots || []).find(sl => sl && (sl.elements || []).length) || null;
+      const img = renderSchemaThumbnail(primo, (primo && primo.campoMode) || 'half');
+      const sq = squadraDi.get(r.id) || '';
+      html += `<figure class="pb-lib-carta" data-nome="${escapeHtml(((r.nome || '') + ' ' + sq).toLowerCase())}" onclick="vaiAlGioco('${r.id}')">
+        <img src="${img}" alt="">
+        <figcaption>${escapeHtml(r.nome || t('playbook.senzaNome'))}${sq && pbLibTutte ? `<span class="pb-lib-sq">${escapeHtml(sq)}</span>` : ''}</figcaption>
+      </figure>`;
+    });
+    html += `</div></div>`;
+  });
+  html += `</div></div>`;
+  box.innerHTML = html;
+  box.classList.add('show');
+  const c = document.getElementById('pbLibCerca');
+  if (c) c.focus();
+}
+function chiudiLibreriaGiochi() {
+  const box = document.getElementById('pbLibreria');
+  if (box) box.classList.remove('show');
+}
+/* Cerca per nome del gioco o per serie: le carte che non c'entrano spariscono
+ * e le serie rimaste vuote si nascondono da sole. */
+function filtraLibreriaGiochi(testo) {
+  const q = (testo || '').trim().toLowerCase();
+  document.querySelectorAll('#pbLibreria .pb-lib-serie').forEach(sez => {
+    let visibili = 0;
+    sez.querySelectorAll('.pb-lib-carta').forEach(c => {
+      const ok = !q || (c.dataset.nome || '').includes(q) || (sez.dataset.serie || '').includes(q);
+      c.style.display = ok ? '' : 'none';
+      if (ok) visibili++;
+    });
+    sez.style.display = visibili ? '' : 'none';
+  });
+}
+/* DALLA LIBRERIA AL FOGLIO.
+ * Se il gioco e' di QUESTA squadra: si apre e ce lo si trova sotto gli occhi.
+ * Se e' di un'ALTRA squadra (lo stesso Double High che Schio chiama "3" e
+ * Campobasso chiama "L"): se ne prende una copia e la si porta nel foglio su
+ * cui si sta lavorando, chiedendo prima come chiamarlo — perche' ogni squadra
+ * ha il suo nome per lo stesso gioco. L'originale non si tocca. */
+function vaiAlGioco(rowId) {
+  const mie = activePlaybookRows();
+  if (mie.some(r => r.id === rowId)) {
+    chiudiLibreriaGiochi();
+    pbExpandedRowId = rowId;
+    renderPlaybookSection();
+    setTimeout(() => {
+      const el = document.querySelector('.pb-row[data-row-id="' + rowId + '"]');
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 60);
+    return;
+  }
+  // sta in un'altra squadra: se ne prende una copia
+  let trovato = null, daSquadra = '';
+  (DB.leagues || []).forEach(lg => (lg.teams || []).forEach(tm => {
+    (tm.playbookRows || []).forEach(r => { if (r.id === rowId) { trovato = r; daSquadra = tm.name || ''; } });
+  }));
+  (DB.scratchPlaybookRows || []).forEach(r => { if (r.id === rowId) trovato = r; });
+  if (!trovato) return;
+  const team = activeTeam();
+  if (!team) { toast(t('arc.nienteSquadra')); return; }
+  chiudiLibreriaGiochi();
+  showPromptModal(
+    t('playbook.copiaQuiTitolo', { squadra: daSquadra, mia: team.name || '' }),
+    trovato.nome || '',
+    (nome) => {   // (il campo parte gia' col nome originale: vedi l'ultimo argomento)
+      const copia = JSON.parse(JSON.stringify(trovato));
+      copia.id = nextId('pbrow');
+      copia.nome = (nome || '').trim() || trovato.nome || '';
+      activePlaybookRows().push(copia);
+      scheduleAutosave();
+      pbExpandedRowId = copia.id;
+      renderPlaybookSection();
+      toast(t('playbook.copiaQuiFatto', { nome: copia.nome }));
+      setTimeout(() => {
+        const el = document.querySelector('.pb-row[data-row-id="' + copia.id + '"]');
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 80);
+    },
+    trovato.nome || ''
+  );
+}
+document.addEventListener('keydown', (e) => {
+  if (e.key !== 'Escape') return;
+  const box = document.getElementById('pbLibreria');
+  if (box && box.classList.contains('show')) { e.preventDefault(); chiudiLibreriaGiochi(); }
+});
+
 function addPlaybookGame() {
   showPromptModal(t('playbook.newGamePromptTitle'), t('playbook.rowNamePh'), (name) => {
     createPlaybookRow(name);
@@ -37371,6 +38229,53 @@ function onPlaybookRowNameLiveEdit(rowId, el) {
     const nameField = document.getElementById('pbSchemaName');
     if (nameField && nameField.value !== row.nome) nameField.value = row.nome;
   }
+}
+
+/* SPOSTA UN GIOCO SU O GIU' NEL FOGLIO. Stessa logica del Playbook per
+ * iPad: si scambia con quello sopra o sotto, e il foglio si ridisegna. E'
+ * l'ordine con cui il playbook viene stampato e sfogliato. */
+function spostaGiocoNelFoglio(rowId, verso) {
+  const righe = activePlaybookRows();
+  const i = righe.findIndex(r => r.id === rowId);
+  const j = i + verso;
+  if (i < 0 || j < 0 || j >= righe.length) return;
+  const x = righe[i]; righe[i] = righe[j]; righe[j] = x;
+  scheduleAutosave();
+  renderPlaybookSection();
+}
+
+/* La serie scritta sulla riga. Testo libero: si salva com'e', e l'elenco dei
+ * suggerimenti (pbSerieUsate) si aggiorna da solo con quelle gia' usate. */
+function onPlaybookRowSerieEdit(rowId, el) {
+  const row = activePlaybookRows().find(r => r.id === rowId);
+  if (!row) return;
+  row.serie = (el.value || '').slice(0, 40);
+  scheduleAutosave();
+  aggiornaSerieUsate();
+}
+
+/* Tutte le serie gia' scritte, in questa squadra e nelle altre: cosi' se
+ * scrivi "Pick" ti viene offerto "Pick and Roll" che avevi usato a ottobre,
+ * e non finisci con tre modi diversi di scrivere la stessa cosa. */
+/* LE SEZIONI DI UN GIOCO. Un gioco puo' stare in PIU' sezioni: si scrivono
+ * separate da virgola ("Transizione, Pick Centrale") e nella libreria quel
+ * gioco compare sotto tutte. E' come lo tiene in testa un allenatore: un
+ * pick centrale in transizione e' tutte e due le cose, e lo cerca da tutte
+ * e due le parti. */
+function sezioniDi(row) {
+  return String((row && row.serie) || '').split(',').map(x => x.trim()).filter(Boolean);
+}
+function serieUsate() {
+  const viste = new Set();
+  const prendi = r => sezioniDi(r).forEach(x => viste.add(x));
+  (DB.leagues || []).forEach(lg => (lg.teams || []).forEach(tm => (tm.playbookRows || []).forEach(prendi)));
+  ((DB.scratchPlaybookRows) || []).forEach(prendi);
+  return [...viste].sort((a, b) => a.localeCompare(b));
+}
+function aggiornaSerieUsate() {
+  const dl = document.getElementById('pbSerieUsate');
+  if (!dl) return;
+  dl.innerHTML = serieUsate().map(x => `<option value="${escapeHtml(x)}"></option>`).join('');
 }
 
 function onPlaybookSlotNoteLiveEdit(rowId, slotIndex, el) {
@@ -40031,9 +40936,6 @@ function buildScoutingReportPageHtml(team, league, editable) {
   // e una in fondo): sul foglio è un'informazione sola. In anteprima
   // editabile le righe restano due, per poterle scrivere entrambe.
   const sezioniLiberi = [{ text: sr.peggiorTiratriceTL, path: 'peggiorTiratriceTL' }];
-  if (editable || (sr.peggioriTiratoriLiberi || '').toString().trim()) {
-    sezioniLiberi.push({ label: t('relazione.boxPeggioriTiratoriLiberi').replace(/^[^\p{L}]+/u, ''), text: sr.peggioriTiratoriLiberi, path: 'peggioriTiratoriLiberi' });
-  }
   ensureScoutPersonalizzazioni(opp);
   const tolto = (k) => opp.boxNascosti.indexOf(k) >= 0;
   const box = (k, label, sezioni, cls) => tolto(k) ? '' : scoutingReportBoxHtml(label, sezioni, cls, editable, k);
@@ -40099,9 +41001,11 @@ function buildScoutingReportPageHtml(team, league, editable) {
   const barra = editable ? `<div class="scout-barra">
       <button class="btn small" onclick="scoutBoxNuovo('testo')">${escapeHtml(t('scout.boxNuovoTesto'))}</button>
       <button class="btn small" onclick="scoutBoxNuovo('dati')">${escapeHtml(t('scout.boxNuovoDati'))}</button>
+      <button class="btn small" data-i18n="ia.tasto" data-i18n-title="ia.tastoT" onclick="importaStatisticheScouting()" title="Riempie le schede da solo con i dati che la tua IA ti ha preparato">🤖 USO IA</button>
       ${opp.boxNascosti.length ? `<button class="btn small" onclick="scoutBoxRimettiTutti()">${escapeHtml(t('scout.rimettiBox'))} (${opp.boxNascosti.length})</button>` : ''}
       ${(Object.keys(opp.titoliBox || {}).length + Object.keys(opp.titoliSezione || {}).length) ? `<button class="btn small" onclick="scoutTitoliOriginali()">${escapeHtml(t('scout.titoliOriginali'))}</button>` : ''}
       <label class="scout-solo1"><input type="checkbox" ${scoutSoloPrimaPagina ? 'checked' : ''} onchange="scoutCambiaPagine(this.checked)"> ${escapeHtml(t('scout.soloPrimaPagina'))}</label>
+      ${opp.statAvanzate ? `<label class="scout-solo1" title="La pagina in coda al report con le statistiche avanzate di squadra"><input type="checkbox" ${opp.paginaStatAvanzate === false ? '' : 'checked'} onchange="impPaginaScouting(this.checked)"> 📊 Statistiche avanzate</label>` : ''}
       <span class="muted" style="font-size:10.5px;">${escapeHtml(t('scout.titoloModificabile'))}</span>
     </div>` : '';
   return barra + page1 + page2;
@@ -40541,5 +41445,9 @@ window.addEventListener('beforeunload', autosaveNow);
 <script src="ponte-web.js"></script>
 <script src="prova-web.js"></script>
 <script src="edizione-playbook.js"></script>
+<!-- Importa le statistiche da un file scaricato dal fornitore di dati
+     (Hudl InStat). Tutto quello che fa si accende solo premendo i due
+     pulsanti: chi non li usa non se ne accorge. (28 settembre 2026) -->
+<script src="importa-statistiche.js"></script>
 </body>
 </html>
