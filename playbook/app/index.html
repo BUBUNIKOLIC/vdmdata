@@ -1324,6 +1324,28 @@
   }
   .diagram-canvas-shell canvas{display:block;width:100%;height:auto;border-radius:6px;cursor:crosshair;touch-action:none;}
   .diagram-toolbar{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px;}
+  /* GLI STRUMENTI NELLA COLONNA CHE C'E' GIA' (03/10/2026, secondo tentativo).
+   * Nunzi: «la schermata e' troppo bassa per il video del pc, tutti gli
+   * strumenti devono stare nella stessa pagina». Il primo tentativo —
+   * inventare una colonna nuova a destra del campo — usciva dalla scheda e
+   * finiva sopra al testo: «e' inguardabile». Guardando la schermata di
+   * Vince si vede che la colonna a destra C'E' GIA' (.diagram-form-col, con
+   * la Nota e l'aiuto) e sotto l'aiuto c'e' spazio vuoto.
+   * Allora gli strumenti vanno li', e non si inventa niente: .diagram-wrap
+   * diventa una griglia a due colonne, .diagram-canvas-col sparisce come
+   * contenitore (display:contents) e i suoi due figli — campo e strumenti —
+   * si mettono da soli nelle caselle giuste. */
+  @media (min-width: 1100px){
+    .diagram-wrap{
+      display:grid;grid-template-columns:minmax(0, 560px) minmax(330px, 1fr);
+      grid-template-areas:"campo strumenti" "campo nota";
+      align-items:start;justify-content:start;
+    }
+    .diagram-canvas-col{display:contents;}
+    .diagram-canvas-shell{grid-area:campo;}
+    .diagram-toolbar{grid-area:strumenti;}
+    .diagram-form-col{grid-area:nota;}
+  }
   /* GLI STRUMENTI DI FIANCO AL CAMPO: PROVATO E TOLTO (03/10/2026).
    * Funzionava nel riquadro grande (editor a tutta pagina), ma nel foglio
    * del Playbook la stessa colonna sta dentro una scheda piu' stretta: la
