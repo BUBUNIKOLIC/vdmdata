@@ -696,7 +696,16 @@ function interpola(a, b, p, ritmo){
       punti.shift();
       /* finche' palleggia la palla e' dove si trova lei adesso, non dove arrivera' */
       const chiOra = giocatori.get(primaTappa.giocatore);
-      if (chiOra) punti[0] = spalla(chiOra);
+      /* ma una volta passata la palla non la segue piu': se dopo il passaggio lei
+         taglia via, la palla parte da dove gliel'ha lasciata e va dritta a chi
+         riceve, invece di farsi rimorchiare dietro al taglio (24 settembre 2026). */
+      let origine = chiOra;
+      const suaB = inB.get(primaTappa.giocatore);
+      if (tempo && p > tempo.da && suaB && Array.isArray(suaB.passi) && suaB.passi.length > 1){
+        const conPalla = suaB.passi.filter(function(s){ return s.azione === 'palleggio'; });
+        if (conPalla.length) origine = conPalla[conPalla.length - 1];
+      }
+      if (origine) punti[0] = spalla(origine);
     }
     const n = punti.length - 1;
     if (tempo && tempo.curva === 'costante'){
@@ -3782,7 +3791,7 @@ function analisi(a, b){
     let da = g0;
     passi.forEach(function(s, i){
       const lungo = da ? metri([da].concat(s.via || [], [s])) : 0;
-      azioni.push({id: g.id, indice: i, stadio: i > 0 ? 'seconde' : s.azione === 'blocco' ? 'blocchi' : 'movimenti',
+      azioni.push({id: g.id, indice: i, azione: s.azione, stadio: i > 0 ? 'seconde' : s.azione === 'blocco' ? 'blocchi' : 'movimenti',
                    durata: Math.max(MINIMO, lungo / METRI_PER_TEMPO_BASE)});
       da = s;
     });
@@ -3819,11 +3828,23 @@ function analisi(a, b){
     }
     const punti = percorsoPalla(a, b, palla.id) || [pa, palla];
     const durata = Math.max(MINIMO, metri(punti) / (METRI_PER_TEMPO_BASE * PASSAGGIO_PIU_VELOCE));
-    let da = Math.max(inizi.seconde != null ? inizi.seconde : (inizi.movimenti || 0), fineMovimenti - durata);
+    /* La palla parte in tempo per arrivare con CHI RICEVE, non alla fine di TUTTI
+       i movimenti: chi ha passato se ne va (a bloccare, a tagliare) e la palla non
+       deve aspettare lui, restando ferma a mezz'aria. Se chi riceve non si muove,
+       il passaggio parte subito (24 settembre 2026). */
+    const riceve = (b.elementi || []).find(function(g){ return g.tipo === 'giocatore' && vicinaAllaSpalla(g, palla); });
+    const fineRicevente = riceve ? azioni.filter(function(x){ return x.id === riceve.id; })
+                                        .reduce(function(m, x){ return Math.max(m, x.a); }, 0) : 0;
+    let da = Math.max(inizi.seconde != null ? inizi.seconde : (inizi.movimenti || 0), fineRicevente - durata);
     /* chi passa prima finisce la sua azione (il palleggio): poi parte la palla */
     const chiPassa = (a.elementi || []).find(function(g){ return g.tipo === 'giocatore' && vicinaAllaSpalla(g, pa); });
     if (chiPassa){
-      azioni.forEach(function(x){ if (x.id === chiPassa.id) da = Math.max(da, x.a); });
+      /* 24 settembre 2026: la palla parte quando finisce il PALLEGGIO, non quando
+         chi passa ha finito tutto. Dopo aver passato si taglia via, e il passaggio
+         non aspetta il taglio: prima partiva alla fine di tutti i suoi movimenti e
+         fino a li' la palla le restava in mano mentre correva senza averla piu'. */
+      const palleggi = azioni.filter(function(x){ return x.id === chiPassa.id && x.azione === 'palleggio'; });
+      palleggi.forEach(function(x){ da = Math.max(da, x.a); });
     }
     passaggi.set(palla.id, {da: da, a: da + durata});
   });
@@ -3902,7 +3923,7 @@ const { T, traduciPagina, nomeFase } = __vdm_src_renderer_core_lingua_js;
 
 const $ = function(s){ return document.getElementById(s); };
 /* fra un tempo e l'altro quasi niente: il gioco scorre (17/09) */
-const PAUSA_FASE = 700;
+const PAUSA_FASE = 350;
 /* le azioni del basket: gli strumenti in cima al campo */
 const MOVIMENTI = ['taglio', 'palleggio', 'blocco'];
 const AZIONI = MOVIMENTI.concat(['passaggio', 'tiro', 'palla', 'gomma']);
@@ -4007,7 +4028,7 @@ function Lavagna(opzioniLavagna){
     ritmo: function(a, b){ return sport.ritmo(a, b); },
     durataRelativa: function(a, b){ return sport.durataRelativa(a, b); },
     /* prima di muoversi si legge il diagramma */
-    pausaIniziale: 1700
+    pausaIniziale: 1100
   });
 
   function opzioni(){
@@ -5262,7 +5283,7 @@ function montaAnteprima(contenitore, gioco){
     disegna: function(f, s){ campo.disegnaFotogramma(f, SENZA_ROSA, opz, {punti: sport.sciaPalla(fasi[s], fasi[s + 1])}); },
     suFase: function(i){ statoTesto.textContent = T('fase {n} di {tot}', {n: i + 2, tot: fasi.length}) + ' · ' + (nomeFase(fasi[i + 1].nome) || ''); },
     inPausa: function(i){ campo.disegnaDiagramma(fasi[i], fasi[i + 1] || null, SENZA_ROSA, opz); },
-    pausaIniziale: 1500,
+    pausaIniziale: 1000,
     alTermine: function(){ bottone.textContent = T('↺ Di nuovo'); inCorso = null; fermo(fasi.length - 1); },
     ritmo: sport.ritmo,
     durataRelativa: sport.durataRelativa,
@@ -5283,7 +5304,7 @@ function montaAnteprima(contenitore, gioco){
     if (inCorso && inCorso !== controllo) inCorso.ferma();
     inCorso = controllo;
     bottone.textContent = T('■ Ferma');
-    lettore.avvia(fasi, {durata: gioco.velocita || 2600, pausa: 700, ciclo: false});
+    lettore.avvia(fasi, {durata: gioco.velocita || 2600, pausa: 350, ciclo: false});
   };
   /* la prospettiva si imposta quando il campo e' gia' nella pagina */
   requestAnimationFrame(function(){ campo.impostaProspettiva(angolo, angolo && gioco.vista.giro || 0); fermo(0); });
@@ -5531,6 +5552,19 @@ function convertiRiga(riga){
       });
     });
     let tappe = [], dopoPalla = conPalla;
+    /* 24 settembre 2026: chi ha la palla puo' palleggiare E POI passare nella
+       stessa casella. Senza questa tappa il motore non vede nessuna portatrice
+       - il controllo vuole la palla vicina a lei PRIMA e DOPO, ma dopo sta gia'
+       con chi riceve - e la palla parte da dove la giocatrice era, volando al
+       ricevitore mentre lei corre per conto suo. Segnandola come prima tappa,
+       la palla le resta addosso per tutto il palleggio e parte da dove si trova
+       quando passa davvero. Misurato sul banco: la distanza fra palla e
+       palleggiatrice al 15/30/45% del tempo era 1,2 / 9,6 / 18,2, ora 0,2 / 0,4 / 0. */
+    var palleggiaLei = false;
+    f.movimenti.forEach(function(lista, chi){
+      if (f.idDi.get(chi) === conPalla && lista.some(function(a){ return AZIONE[a.type] === 'palleggio'; })) palleggiaLei = true;
+    });
+    if (palleggiaLei && f.passaggi.length && conPalla) tappe.push({giocatore: conPalla});
     f.passaggi.forEach(function(p){
       const a = f.idDi.get(p.a);
       if (dopoPalla && dopoPalla !== conPalla) tappe.push({giocatore: dopoPalla});
