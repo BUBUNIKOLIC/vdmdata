@@ -1324,6 +1324,7 @@
   }
   .diagram-canvas-shell canvas{display:block;width:100%;height:auto;border-radius:6px;cursor:crosshair;touch-action:none;}
   .diagram-toolbar{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px;}
+  .diagram-tool-row{display:contents;}
   /* GLI STRUMENTI NELLA COLONNA CHE C'E' GIA' (03/10/2026, secondo tentativo).
    * Nunzi: «la schermata e' troppo bassa per il video del pc, tutti gli
    * strumenti devono stare nella stessa pagina». Il primo tentativo —
@@ -1342,8 +1343,9 @@
       align-items:start;justify-content:start;
     }
     .diagram-canvas-col{display:contents;}
-    .diagram-canvas-shell{grid-area:campo;}
-    .diagram-toolbar{grid-area:strumenti;}
+    .diagram-canvas-shell{grid-area:campo;justify-self:start;}
+    .diagram-canvas-shell canvas{max-height:58vh;width:auto;max-width:100%;margin:0 auto;}
+    .diagram-toolbar{grid-area:strumenti;align-content:flex-start;}
     .diagram-form-col{grid-area:nota;}
   }
   /* GLI STRUMENTI DI FIANCO AL CAMPO: PROVATO E TOLTO (03/10/2026).
@@ -2151,6 +2153,20 @@
   .pb-box-thumb{width:100%;height:auto;display:block;background:#fff;}
   .pb-box-variant{display:block;font-size:9.5px;color:#666;margin-top:4px;font-weight:700;}
   .pb-editor-panel{margin-top:10px;padding-top:10px;border-top:1px dashed #bbb;}
+  /* IL RIQUADRO DELL'EDITOR SI SPORGE SUI LATI (03/10/2026, idea di Vince:
+   * «forse dovresti fare un campo bianco che si sporge sul lato»).
+   * Mentre si disegna serve larghezza: con piu' larghezza il campo resta
+   * grande E gli strumenti stanno di fianco senza stringere niente. Il resto
+   * della pagina non si tocca: si allarga solo questo riquadro, e solo
+   * mentre e' aperto. Mai oltre la finestra meno due dita per lato. */
+  @media (min-width: 860px){
+    .pb-editor-panel{
+      --largo: min(1500px, calc(100vw - 44px));
+      width: var(--largo);
+      margin-left: calc(50% - var(--largo) / 2);
+      margin-right: calc(50% - var(--largo) / 2);
+    }
+  }
   .pb-editor-head{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px;}
   .pb-editor-head input[type=text]{flex:1 1 200px;min-width:0;font-weight:700;}
   .pb-editor-head select{width:auto;}
@@ -36361,7 +36377,13 @@ function renderDiagramToolbar(state) {
     const placed = placedLabels.has(p.team + ':' + p.label);
     return `<button class="diagram-num-btn ${p.team}${state.tool === p.id ? ' active' : ''}${placed ? ' placed' : ''}" onclick="setDiagramTool(${state.ref}, '${p.id}')" title="${escapeHtml(t(p.team === 'off' ? 'tool.offense' : 'tool.defense'))} ${p.label}">${p.label}</button>`;
   }).join('');
+  /* DUE PEZZI, NON UNO (03/10/2026, idea di Vince): «i numeri puoi metterli
+     sotto al diagramma, che uno li usa solo all'inizio, e recuperi due righe
+     per mettere tutti gli strumenti nello schermo». Per poterli spostare
+     devono essere due scatole separate; sotto gli 860 punti .diagram-tool-row
+     e' display:contents e non cambia niente rispetto a prima. */
   el.innerHTML = `<div class="diagram-num-row">${playerBtns}</div>`
+  + `<div class="diagram-tool-row">`
   + DIAGRAM_TOOLS.map(tool =>
     `<button class="diagram-tool-btn ${state.tool === tool.id ? 'active' : ''}" onclick="setDiagramTool(${state.ref}, '${tool.id}')">${t(tool.labelKey)}</button>`
   ).join('')
@@ -36388,7 +36410,8 @@ function renderDiagramToolbar(state) {
      cancella: c'era gia', ma scritto solo nell'aiuto lungo in fondo. Una
      riga sottile sotto la barra costa diciotto punti di altezza e li dice
      tutti e tre; le targhette dentro ai bottoni costavano una riga intera. */
-  + `<div class="diagram-tasti">${tastoCanc()} ${escapeHtml(t('dyn.removeSelected').replace(/^\S+\s/, ''))} \u00b7 ${tastoAnnulla()} ${escapeHtml(t('dyn.undoLast').replace(/^\S+\s/, ''))} \u00b7 \u23CE ${escapeHtml(t('dyn.finishPath').replace(/^\S+\s/, ''))}</div>`;
+  + `<div class="diagram-tasti">${tastoCanc()} ${escapeHtml(t('dyn.removeSelected').replace(/^\S+\s/, ''))} \u00b7 ${tastoAnnulla()} ${escapeHtml(t('dyn.undoLast').replace(/^\S+\s/, ''))} \u00b7 \u23CE ${escapeHtml(t('dyn.finishPath').replace(/^\S+\s/, ''))}</div>`
+  + `</div>`;
 }
 
 function removeSelectedDiagramElement(state) {
