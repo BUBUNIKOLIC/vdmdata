@@ -4377,6 +4377,15 @@ if ('serviceWorker' in navigator) { window.addEventListener('load', function () 
                 <option value="half" data-i18n="playbook.half">Mezzo campo</option>
                 <option value="full" data-i18n="playbook.full">Campo intero</option>
               </select>
+              <!-- IL VERSO DEL CAMPO, COME IMPOSTAZIONE DELLA PAGINA
+                   (03/10/2026). Vince: «deve essere in alto, cioe' deve
+                   essere una impostazione della pagina» — non un attrezzo in
+                   mezzo agli altri, ma una scelta che riguarda il foglio,
+                   accanto a mezzo campo / campo intero. -->
+              <select id="pbCourtFlip" onchange="setDiagramRuotato(pbState, this.value === 'giu')" title="">
+                <option value="su" data-i18n="playbook.flipUp">Canestro in alto</option>
+                <option value="giu" data-i18n="playbook.flipDown">Canestro in basso</option>
+              </select>
               <span id="pbVariantLabel" class="muted" style="font-size:11px;font-weight:700;"></span>
               <button class="btn small" onclick="duplicatePlaybookSchemaFromEditor()" data-i18n="dyn.duplicateBtn">⧉ Duplica</button>
               <button class="btn small danger" data-i18n="playbook.clearSlotBtn" onclick="deletePlaybookSchemaFromEditor()">🧹 Svuota casella</button>
@@ -4979,7 +4988,7 @@ if ('serviceWorker' in navigator) { window.addEventListener('load', function () 
 <script>/* prova tablet: edizione Playbook nel browser */
 window.VDM = { nativo: false, tablet: true, edizioneSubito: function(){ return "playbook"; }, playbookSubito: function(){ return true; } };
 </script>
-<script src="mp4-muxer.js?v=29"></script>
+<script src="mp4-muxer.js?v=30"></script>
 <script>
 /* ============================ SALVA IL LAVORO DENTRO AL FILE ============================
  * Il salvataggio automatico vive nella memoria del browser: è comodo ma è
@@ -5524,6 +5533,8 @@ it: {
 "dyn.drawBtn":"✏️ Disegna",
 "dyn.clearCourt":"🧹 Canc. tutto",
 "dyn.flipCourt":"Gira il campo di 180°",
+"playbook.flipUp":"Canestro in alto",
+"playbook.flipDown":"Canestro in basso",
 "dyn.undoLast":"↩ Annulla ultimo",
 "dyn.finishPath":"✔ Fine tratto",
 "tool.select":"↖ Seleziona",
@@ -6727,6 +6738,8 @@ en: {
 "dyn.drawBtn":"✏️ Draw",
 "dyn.clearCourt":"🧹 Clear all",
 "dyn.flipCourt":"Turn the court 180°",
+"playbook.flipUp":"Basket at the top",
+"playbook.flipDown":"Basket at the bottom",
 "dyn.undoLast":"↩ Undo last",
 "dyn.finishPath":"✔ End line",
 "tool.select":"↖ Select",
@@ -7930,6 +7943,8 @@ es: {
 "dyn.drawBtn":"✏️ Dibujar",
 "dyn.clearCourt":"🧹 Borrar todo",
 "dyn.flipCourt":"Girar la cancha 180°",
+"playbook.flipUp":"Canasta arriba",
+"playbook.flipDown":"Canasta abajo",
 "dyn.undoLast":"↩ Deshacer último",
 "dyn.finishPath":"✔ Fin del trazo",
 "tool.select":"↖ Seleccionar",
@@ -36410,7 +36425,6 @@ function renderDiagramToolbar(state) {
   // Blocco spezzato o curvo, a scelta: stesso strumento, due rese possibili
   // ("anche il blocco può essere sia una linea spezzata sia una curva").
   + `<button class="diagram-tool-btn diagram-tool-screenmode${state.screenCurved ? ' active' : ''}" onclick="toggleDiagramScreenCurved(${state.ref})">${escapeHtml(etichettaCorta(t(state.screenCurved ? 'dyn.screenCurved' : 'dyn.screenBent')))}</button>`
-  + `<button class="diagram-tool-btn${state.ruotato ? ' active' : ''}" onclick="giraDiagramma(${state.ref})" title="${escapeHtml(t('dyn.flipCourt'))}">\u27F3 180\u00b0</button>`
   + `<button class="diagram-tool-btn" onclick="removeSelectedDiagramElement(${state.ref})" title="${escapeHtml(t('dyn.removeSelected'))} \u2014 ${tastoCanc()}">${escapeHtml(etichettaCorta(t('dyn.removeSelected')))}</button>`
   + `<button class="diagram-tool-btn" onclick="undoLastDiagramElement(${state.ref})" title="${escapeHtml(t('dyn.undoLast'))} \u2014 ${tastoAnnulla()}">${escapeHtml(etichettaCorta(t('dyn.undoLast')))}</button>`
   + `<button class="diagram-tool-btn" onclick="clearDiagram(${state.ref})">${t('dyn.clearCourt')}</button>`
@@ -36429,6 +36443,11 @@ function renderDiagramToolbar(state) {
  * quello che tocchi.
  * E' un modo di GUARDARE, non si salva nel gioco: riaprendo il foglio il
  * campo torna com'e' sempre stato, e la stampa non cambia. */
+function setDiagramRuotato(state, giu) {
+  state.ruotato = !!giu;
+  renderDiagramToolbar(state);
+  redrawDiagram(state);
+}
 function giraDiagramma(state) {
   state.ruotato = !state.ruotato;
   renderDiagramToolbar(state);
@@ -41492,14 +41511,14 @@ document.addEventListener('change', scheduleAutosave, true);
 document.addEventListener('click', scheduleAutosave, true);
 window.addEventListener('beforeunload', autosaveNow);
 </script>
-<script src="vdm-motore.js?v=29"></script>
+<script src="vdm-motore.js?v=30"></script>
 <!-- Edizione "playbook" (VDM Basketball Playbook): nell'app completa non fa nulla. -->
-<script src="ponte-web.js?v=29"></script>
-<script src="prova-web.js?v=29"></script>
-<script src="edizione-playbook.js?v=29"></script>
+<script src="ponte-web.js?v=30"></script>
+<script src="prova-web.js?v=30"></script>
+<script src="edizione-playbook.js?v=30"></script>
 <!-- Importa le statistiche da un file scaricato dal fornitore di dati
      (Hudl InStat). Tutto quello che fa si accende solo premendo i due
      pulsanti: chi non li usa non se ne accorge. (28 settembre 2026) -->
-<script src="importa-statistiche.js?v=29"></script>
+<script src="importa-statistiche.js?v=30"></script>
 </body>
 </html>
