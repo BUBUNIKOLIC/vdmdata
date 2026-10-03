@@ -1335,9 +1335,9 @@
    * diventa una griglia a due colonne, .diagram-canvas-col sparisce come
    * contenitore (display:contents) e i suoi due figli — campo e strumenti —
    * si mettono da soli nelle caselle giuste. */
-  @media (min-width: 1100px){
+  @media (min-width: 860px){
     .diagram-wrap{
-      display:grid;grid-template-columns:minmax(0, 560px) minmax(330px, 1fr);
+      display:grid;grid-template-columns:minmax(0, 1fr) minmax(300px, 340px);
       grid-template-areas:"campo strumenti" "campo nota";
       align-items:start;justify-content:start;
     }
