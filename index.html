@@ -216,6 +216,18 @@
   .gal-tasti button:hover{color:var(--txt);background:rgba(0,234,255,.07);}
   .gal-tasti button.on{background:linear-gradient(120deg,var(--acc),var(--blu));color:#03121a;}
 
+  /* IL VIDEO PLAYBOOK (07/10/2026). Il filmato e' verticale — e' una clip di
+     partita vera con lo schema sotto — quindi non sta a tutta larghezza come
+     gli altri: clip stretta a sinistra, testo a destra, e su telefono uno
+     sopra l'altro. */
+  .vp-blocco{display:flex;gap:30px;align-items:center;margin:42px 0 0;flex-wrap:wrap;}
+  .vp-clip{flex:0 0 300px;max-width:300px;border:2px solid var(--bordo);border-radius:10px;
+    overflow:hidden;background:#04070f;}
+  .vp-clip video{width:100%;height:auto;display:block;}
+  .vp-testo{flex:1 1 320px;min-width:280px;}
+  .vp-testo h3{margin:0 0 10px;font-size:23px;line-height:1.25;}
+  .vp-testo p{margin:0 0 10px;}
+  @media (max-width:720px){ .vp-blocco{gap:18px} .vp-clip{flex-basis:100%;max-width:340px;margin:0 auto} }
   .film{margin:30px 0 0;border:2px solid var(--bordo);overflow:hidden;background:#04070f;position:relative;
     box-shadow:0 30px 80px rgba(0,0,0,.6);}
   .film::before{content:'';position:absolute;top:0;left:0;right:0;height:5px;z-index:2;
@@ -724,6 +736,26 @@
   </div>
   <p class="didascalia" data-it>Quaranta secondi dentro il programma, su una partita vera.</p>
   <p class="didascalia" data-en>Forty seconds inside the program, on a real game.</p><p class="didascalia" data-es>Cuarenta segundos dentro del programa, en un partido real.</p>
+
+
+  <!-- IL VIDEO PLAYBOOK. Aggiunto il 07/10/2026: era la cosa piu' nuova del
+       programma e sulla home non era nominata nemmeno una volta. Il filmato e'
+       quello che su Facebook ha funzionato meglio. -->
+  <div class="vp-blocco">
+    <figure class="vp-clip">
+      <video src="/clip/video-playbook.mp4" poster="/clip/video-playbook-fermo.jpg"
+             autoplay muted loop playsinline preload="metadata" controls></video>
+    </figure>
+    <div class="vp-testo">
+      <h3 data-it>Video Playbook</h3><h3 data-en>Video Playbook</h3><h3 data-es>Video Playbook</h3>
+      <p data-it>Sopra la clip vera dell'avversaria, sotto il campo. Dove succede qualcosa fermi, disegni quello che e' appena successo, e riprendi.</p>
+      <p data-en>The opponents' real clip on top, the court underneath. Where something happens you pause, draw what just happened, and carry on.</p>
+      <p data-es>Arriba el video real del rival, debajo la pista. Donde pasa algo pausas, dibujas lo que acaba de pasar y sigues.</p>
+      <p data-it>Alla fine esce <b>un solo video</b>: l'azione vera sopra e il tuo schema che si costruisce sotto, in movimento. Per spiegarlo a una squadra, o a una sala di allenatori, non c'e' niente di piu' rapido.</p>
+      <p data-en>At the end it gives you <b>one single video</b>: the real play above and your diagram building underneath, in motion. For teaching a team, or a room of coaches, there is nothing quicker.</p>
+      <p data-es>Al final sale <b>un solo video</b>: la jugada real arriba y tu esquema construyendose debajo, en movimiento. Para explicarlo a un equipo, o a una sala de entrenadores, no hay nada mas rapido.</p>
+    </div>
+  </div>
 
   <div class="gal-tasti" id="galTasti"></div>
   <div class="film" id="galCornice"></div>
