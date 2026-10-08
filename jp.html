@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!-- Pagina in giapponese (8 ottobre 2026). Come quella cinese: in Giappone il
+     programma si compra gia' (App Store ¥8.000, Microsoft Store ¥6.550) ma le
+     pagine del sito sono in inglese. In Giappone YouTube funziona, quindi qui
+     c'e' anche il collegamento al video su YouTube oltre a quello nostro. -->
+<link rel="icon" href="img/vdm-icona.svg" type="image/svg+xml">
+<link rel="icon" href="img/vdm-icona-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="img/vdm-icona-180.png">
+<meta name="theme-color" content="#04060d">
+<link rel="canonical" href="https://vdmdata.it/jp">
+<title>VDM Basketball Coach &mdash; バスケットボール指導者の仕事を、ひとつのソフトに</title>
+<meta name="description" content="試合映像のタグ付け、戦術ボードと3Dアニメーション、スカウティングレポート、練習計画、シュートチャート。すべてひとつのソフトに。MacとWindows、日本語対応。14日間無料、登録不要。買い切り、サブスクリプションなし。">
+<meta name="keywords" content="バスケットボール,戦術ボード,バスケ 指導者,スカウティングレポート,映像分析,練習計画,コーチング,プレー図">
+<meta property="og:title" content="VDM Basketball Coach — バスケットボール指導者の仕事を、ひとつのソフトに">
+<meta property="og:description" content="映像のタグ付け、戦術ボード、スカウティングレポート、練習計画。日本語対応。14日間無料。">
+<meta property="og:image" content="https://vdmdata.it/clip/video-playbook-fermo.jpg">
+<meta property="og:url" content="https://vdmdata.it/jp">
+<meta property="og:type" content="website">
+<style>
+  :root{
+    --fondo:#04060d; --fondo2:#0a1226;
+    --card:linear-gradient(160deg,#0d1730,#070c18);
+    --bordo:#1b2a4d; --txt:#f0f6ff; --muted:#8aa0c4;
+    --acc:#00eaff; --acc2:#4c8dff; --blu:#1e4fd8;
+    --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box;}
+  html{overflow-x:hidden;}
+  body{margin:0;background:var(--fondo);color:var(--txt);overflow-x:hidden;
+    font:16px/1.75 -apple-system,BlinkMacSystemFont,"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic","Meiryo","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;}
+  body::after{content:'';position:fixed;inset:0;z-index:-3;pointer-events:none;background-repeat:no-repeat;
+    background:
+      radial-gradient(75% 42% at 12% 0%,rgba(0,234,255,.13),transparent 68%),
+      radial-gradient(55% 38% at 92% 4%,rgba(30,79,216,.20),transparent 70%),
+      linear-gradient(180deg,var(--fondo2),var(--fondo) 42%);}
+  a{color:var(--acc);text-decoration:none;} a:hover{text-decoration:underline;}
+  .wrap{max-width:980px;margin:0 auto;padding:0 20px;}
+  .bar{display:flex;align-items:center;justify-content:space-between;gap:16px;
+    padding:16px 0;border-bottom:1px solid var(--bordo);}
+  .logo{font-weight:900;letter-spacing:.14em;font-size:13px;text-transform:uppercase;color:var(--txt);}
+  .logo b{background:linear-gradient(100deg,var(--acc),var(--acc2));
+    -webkit-background-clip:text;background-clip:text;color:transparent;}
+  .bar a.altro{color:var(--muted);font-size:13px;}
+  .nuovo{display:inline-flex;align-items:center;gap:9px;background:var(--card);
+    border-left:3px solid var(--acc);padding:7px 14px;font-size:12px;color:var(--muted);
+    font-family:var(--mono);letter-spacing:.06em;text-transform:uppercase;margin:34px 0 18px;}
+  .nuovo b{color:var(--acc);font-weight:800;}
+  h1{font-size:clamp(32px,6vw,58px);line-height:1.04;margin:0 0 16px;letter-spacing:-.02em;font-weight:900;}
+  h1 em{font-style:normal;background:linear-gradient(100deg,var(--acc) 10%,var(--acc2) 75%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;}
+  p.sub{font-size:clamp(16px,2.1vw,19px);color:var(--muted);max-width:660px;margin:0 0 26px;}
+  .bottoni{display:flex;flex-wrap:wrap;gap:12px;margin:0 0 14px;}
+  .btn{display:inline-flex;flex-direction:column;align-items:flex-start;gap:3px;
+    padding:14px 24px;border:2px solid var(--bordo);background:var(--card);color:var(--txt);
+    font-size:14.5px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;
+    transition:transform .15s,border-color .15s,box-shadow .15s;}
+  .btn:hover{text-decoration:none;border-color:var(--acc);transform:translateY(-1px);}
+  .btn.primo{background:linear-gradient(120deg,var(--acc),var(--blu) 85%);border-color:transparent;color:#03121a;
+    box-shadow:0 12px 34px rgba(0,234,255,.28);}
+  .btn.primo:hover{box-shadow:0 16px 44px rgba(0,234,255,.42);}
+  .btn small{font-weight:600;font-size:10.5px;opacity:.85;text-transform:none;letter-spacing:0;}
+  .nota{color:var(--muted);font-size:12.5px;font-family:var(--mono);margin:0 0 34px;}
+  video{width:100%;height:auto;display:block;border:1px solid var(--bordo);background:#000;}
+  .passi{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));margin:34px 0 8px;}
+  .passo{background:var(--card);border:1px solid var(--bordo);border-top:3px solid var(--acc);padding:18px 18px 20px;}
+  .passo h3{margin:0 0 6px;font-size:15px;letter-spacing:.04em;text-transform:uppercase;}
+  .passo p{margin:0;color:var(--muted);font-size:14.5px;}
+  .passo span{font-family:var(--mono);font-size:11px;color:var(--acc);display:block;margin-bottom:8px;}
+  .resto{border-top:1px solid var(--bordo);margin-top:46px;padding:28px 0 10px;color:var(--muted);font-size:14.5px;}
+  .resto h2{color:var(--txt);font-size:17px;letter-spacing:.04em;text-transform:uppercase;margin:0 0 10px;}
+  .resto ul{margin:0 0 18px;padding-left:18px;}
+  .resto li{margin:4px 0;}
+  footer{border-top:1px solid var(--bordo);margin-top:26px;padding:18px 0 40px;color:var(--muted);font-size:12.5px;
+    display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;}
+  /* 24 settembre 2026: chi arriva qui dal telefono non puo' farci niente con un
+     .dmg o un .exe. Stessa riga della pagina principale, piu' il bottone che gli
+     manda il link dove se lo ritrova la sera. Solo da schermo stretto. */
+  .solo-telefono{display:none;}
+  .ricorda-telefono{display:none;}
+  @media (max-width:720px){
+    .solo-telefono{display:block;margin:14px auto 0;padding:12px 14px;border-radius:12px;
+      background:rgba(214,138,0,.12);border:1px solid rgba(214,138,0,.38);
+      font-size:14px;line-height:1.45;max-width:74ch;text-align:left;}
+    .ricorda-telefono{display:block;margin:10px 0 0;}
+    .ricorda-telefono .btn{font-size:14px;padding:10px 14px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <div class="bar">
+    <div class="logo">VDM <b>Basketball Coach</b></div>
+    <a class="altro" href="/">English &rarr;</a>
+  </div>
+
+  <div class="nuovo"><b>新機能</b> &middot; Video Playbook</div>
+
+  <h1>シーズン分の仕事を、<br><em>ひとつのソフトに。</em></h1>
+  <p class="sub">試合映像のタグ付け、戦術の作図と3Dアニメーション、対戦相手のスカウティングレポート、チームへのプレゼン、練習計画。すべてチームごとに整理され、すべてご自身のパソコンの中にあります。<b>日本語に対応しています。</b></p>
+
+  <div class="bottoni">
+    <a class="btn primo" href="https://apps.apple.com/jp/app/id6804416013">App Store で購入<small>Mac &middot; ¥8,000 買い切り</small></a>
+    <a class="btn primo" href="https://apps.microsoft.com/detail/9NLD6JCZNJ0G?hl=ja-jp&amp;gl=JP">Microsoft Store で購入<small>Windows &middot; ¥6,550 買い切り</small></a>
+  </div>
+  <div class="bottoni">
+    <a class="btn" href="https://github.com/BUBUNIKOLIC/vdmdata/releases/latest/download/VDM-Basketball-Coach-mac.dmg">Mac 版をダウンロード<small>.dmg &middot; 14日間無料</small></a>
+    <a class="btn" href="https://github.com/BUBUNIKOLIC/vdmdata/releases/latest/download/VDM-Basketball-Coach-win.exe">Windows 版をダウンロード<small>.exe &middot; 14日間無料</small></a>
+  </div>
+  <p class="solo-telefono">スマートフォンでご覧になっています。VDM は Mac と Windows 用のソフトで、スマートフォンにはインストールできません。お仕事で使うパソコンで、もう一度このページを開いてください。</p>
+  <p class="nota">14日間無料 &middot; 登録不要、アカウント不要 &middot; 買い切り、サブスクリプションなし、ライセンスは期限切れなし</p>
+
+  <figure style="margin:0 0 10px;">
+    <video src="/clip/video-playbook.mp4" poster="/clip/video-playbook-fermo.jpg"
+           autoplay muted loop playsinline preload="metadata" controls></video>
+    <figcaption style="color:#8aa0c4;font-size:13px;padding:8px 2px 0;">18秒、実際の試合から。上に試合映像、下に組み上がっていくプレー図。<a href="https://youtu.be/G82Fp5sfyYk">3Dアニメーションの動画はこちら &rarr;</a></figcaption>
+  </figure>
+
+  <div class="passi">
+    <div class="passo"><span>01</span><h3>映像とタグ付け</h3><p>試合を読み込み、見ながらタグを付けます。ひとつひとつのプレーが名前の付いたクリップになり、トリミング、選手への割り当て、画面への書き込みができます。クイックタグは「今の数秒前から」を切り出します。</p></div>
+    <div class="passo"><span>02</span><h3>戦術ボードと3D</h3><p>いつもどおりに描きます——ボールを持つ選手の番号、カット、スクリーン、ドリブル、パス。「3Dアニメーション」を押すと、3Dのコート上で正しい順番に動きます。まずスクリーン、次にそれを使う選手、そしてパス。</p></div>
+    <div class="passo"><span>03</span><h3>Video Playbook</h3><p>上に相手の実際の映像、下にコート。何かが起きたところで止めて、今起きたことを描き、また進めます。最後に<b>ひとつの動画</b>になります。上に実際のプレー、下にご自身のプレー図が動きながら組み上がります。</p></div>
+  </div>
+
+  <div class="resto">
+    <h2>ほかにできること</h2>
+    <ul>
+      <li><b>スカウティングレポート</b>——相手選手の特徴、攻守のプレータイプ、1ポゼッションあたりの得点。選手に配る紙の資料としてそのまま印刷できます。</li>
+      <li><b>Personnel（登録メンバー表）</b>——12の固定枠に、写真、身長、生年、スタッツ、特徴4行。</li>
+      <li><b>練習計画</b>——時間配分付きの練習メニュー、印刷対応。</li>
+      <li><b>シュートチャート</b>——選手別・位置別に記録し、自動で集計します。</li>
+      <li><b>アドバンススタッツ</b>——ソフトが依頼文を作り、すでにご契約中のAIでそれを実行し、結果がソフトに戻ります。ソフトの中にAPIキーはなく、新たに登録するサービスもありません。</li>
+      <li><b>12言語対応</b>（日本語を含む）。<b>オフラインで動作</b>します——ベンチにWi-Fiはありません。</li>
+      <li><b>データはすべてご自身のパソコンの中</b>にあり、どのサーバーにも送信されません。</li>
+    </ul>
+
+    <h2>価格について</h2>
+    <ul>
+      <li>買い切りで、<b>サブスクリプションではありません</b>。年会費も更新料もなく、アップデートは無料、ライセンスに期限はありません。</li>
+      <li>まず14日間無料でお試しいただけます。キーも、アカウントも、登録も不要です。</li>
+    </ul>
+
+    <h2>作った人</h2>
+    <ul>
+      <li>Vincenzo Di Meglio、イタリア女子代表のアシスタントコーチ。自分のスタッフのために作ったソフトで、ベルリンのワールドカップでも対戦相手の準備にこれを使いました。</li>
+      <li>イタリアのプロコーチ協会 USAP が、会員に提供しています。</li>
+    </ul>
+  </div>
+
+  <footer>
+    <div>VDM DATA &middot; Vincenzo Di Meglio &middot; info@vdmdata.it</div>
+    <div><a href="/">English</a> &middot; <a href="/privacy.html">プライバシー</a></div>
+  </footer>
+
+</div>
+
+</body>
+</html>
