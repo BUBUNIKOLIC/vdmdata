@@ -90,6 +90,12 @@
     .ricorda-telefono{display:block;margin:10px 0 0;}
     .ricorda-telefono .btn{font-size:14px;padding:10px 14px;}
   }
+
+  .funz{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));margin:30px 0 6px;}
+  .funz figure{margin:0;background:var(--card);border:1px solid var(--bordo);}
+  .funz img{display:block;width:100%;height:auto;}
+  .funz figcaption{padding:9px 11px;font-size:13px;color:var(--muted);border-top:1px solid var(--bordo);}
+  .funz h2{grid-column:1/-1;margin:0;font-size:17px;letter-spacing:.04em;text-transform:uppercase;}
 </style>
 </head>
 <body>
@@ -127,6 +133,17 @@
     <div class="passo"><span>01</span><h3>视频与标记</h3><p>导入比赛，边看边标记。每一个回合都变成一段带名称的视频，可以裁剪、指定给某位球员、在画面上标注。快捷标记会抓取刚刚过去的几秒钟。</p></div>
     <div class="passo"><span>02</span><h3>战术板与 3D</h3><p>像平时一样画战术——持球球员的号码、空切、掩护、运球、传球。按下“3D 演示”，战术会在 3D 球场上按正确顺序跑起来：先掩护，再是利用掩护的球员，然后是传球。</p></div>
     <div class="passo"><span>03</span><h3>视频战术板</h3><p>上面是对手的真实画面，下面是球场。哪里有情况就暂停、画下刚刚发生的事，然后继续。最后导出<b>一段完整视频</b>：真实画面在上，你的战术图在下同步生成。</p></div>
+  </div>
+
+  <div class="funz">
+    <h2>程序里的七个部分</h2>
+    <figure><img src="img/f-video.webp" alt="视频与标记" loading="lazy"><figcaption>视频与标记</figcaption></figure>
+    <figure><img src="img/f-playbook.webp" alt="战术板与 3D 演示" loading="lazy"><figcaption>战术板与 3D 演示</figcaption></figure>
+    <figure><img src="img/f-scouting.webp" alt="球探报告" loading="lazy"><figcaption>球探报告</figcaption></figure>
+    <figure><img src="img/f-personnel.webp" alt="Personnel 阵容表" loading="lazy"><figcaption>Personnel 阵容表</figcaption></figure>
+    <figure><img src="img/f-practice.webp" alt="训练计划" loading="lazy"><figcaption>训练计划</figcaption></figure>
+    <figure><img src="img/f-tiro.webp" alt="投篮统计" loading="lazy"><figcaption>投篮统计</figcaption></figure>
+    <figure><img src="img/f-montaggi.webp" alt="剪辑与演示" loading="lazy"><figcaption>剪辑与演示</figcaption></figure>
   </div>
 
   <div class="resto">

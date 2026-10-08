@@ -89,6 +89,12 @@
     .ricorda-telefono{display:block;margin:10px 0 0;}
     .ricorda-telefono .btn{font-size:14px;padding:10px 14px;}
   }
+
+  .funz{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));margin:30px 0 6px;}
+  .funz figure{margin:0;background:var(--card);border:1px solid var(--bordo);}
+  .funz img{display:block;width:100%;height:auto;}
+  .funz figcaption{padding:9px 11px;font-size:13px;color:var(--muted);border-top:1px solid var(--bordo);}
+  .funz h2{grid-column:1/-1;margin:0;font-size:17px;letter-spacing:.04em;text-transform:uppercase;}
 </style>
 </head>
 <body>
@@ -126,6 +132,17 @@
     <div class="passo"><span>01</span><h3>映像とタグ付け</h3><p>試合を読み込み、見ながらタグを付けます。ひとつひとつのプレーが名前の付いたクリップになり、トリミング、選手への割り当て、画面への書き込みができます。クイックタグは「今の数秒前から」を切り出します。</p></div>
     <div class="passo"><span>02</span><h3>戦術ボードと3D</h3><p>いつもどおりに描きます——ボールを持つ選手の番号、カット、スクリーン、ドリブル、パス。「3Dアニメーション」を押すと、3Dのコート上で正しい順番に動きます。まずスクリーン、次にそれを使う選手、そしてパス。</p></div>
     <div class="passo"><span>03</span><h3>Video Playbook</h3><p>上に相手の実際の映像、下にコート。何かが起きたところで止めて、今起きたことを描き、また進めます。最後に<b>ひとつの動画</b>になります。上に実際のプレー、下にご自身のプレー図が動きながら組み上がります。</p></div>
+  </div>
+
+  <div class="funz">
+    <h2>ソフトの七つの画面</h2>
+    <figure><img src="img/f-video.webp" alt="映像とタグ付け" loading="lazy"><figcaption>映像とタグ付け</figcaption></figure>
+    <figure><img src="img/f-playbook.webp" alt="戦術ボードと3D" loading="lazy"><figcaption>戦術ボードと3D</figcaption></figure>
+    <figure><img src="img/f-scouting.webp" alt="スカウティングレポート" loading="lazy"><figcaption>スカウティングレポート</figcaption></figure>
+    <figure><img src="img/f-personnel.webp" alt="Personnel" loading="lazy"><figcaption>Personnel</figcaption></figure>
+    <figure><img src="img/f-practice.webp" alt="練習計画" loading="lazy"><figcaption>練習計画</figcaption></figure>
+    <figure><img src="img/f-tiro.webp" alt="シュートチャート" loading="lazy"><figcaption>シュートチャート</figcaption></figure>
+    <figure><img src="img/f-montaggi.webp" alt="編集とプレゼン" loading="lazy"><figcaption>編集とプレゼン</figcaption></figure>
   </div>
 
   <div class="resto">
