@@ -22,7 +22,8 @@
   'use strict';
 
   var TAG       = 'AW-18461574834';
-  var EVENTO    = 'AW-18461574834/XgKzCJ3CoYYdELKNleNE';  // scaricamento prova gratuita
+  var SCARICA   = 'AW-18461574834/XgKzCJ3CoYYdELKNleNE';  // scaricamento prova gratuita
+  var STORE     = 'AW-18461574834/ReEoCJHE85YdELKNleNE';  // clic verso lo store
   var RICORDO   = 'vdm-consenso-misura';
 
   function leggi() { try { return localStorage.getItem(RICORDO); } catch (e) { return null; } }
@@ -59,11 +60,30 @@
   var TASTI = 'a[href*="scarica-mac"],a[href*="scarica-win"],'
             + 'a[href*="releases/latest/download"]';
 
+  /* 9 ottobre 2026 — IL SECONDO EVENTO: il clic verso il negozio.
+     Lo scaricamento e' la prova gratuita; questi sono i tasti «Compralo
+     sul Mac App Store» e «Compralo sul Microsoft Store», cioe' chi se ne
+     va di qui per pagare. E' il segnale piu' vicino a una vendita che
+     Google Ads possa vedere: la vendita vera avviene dentro il negozio e
+     da li' non torna indietro niente.
+     Chi comprano davvero lo dicono i negozi, non Ads: i collegamenti
+     portano `ct=sito` (Apple) e `cid=sito` (Microsoft), e i numeri si
+     leggono in App Store Connect → Analisi → Campagne e in Partner
+     Center → Acquisizioni. */
+  var NEGOZI = 'a[href*="apps.apple.com"],a[href*="apps.microsoft.com"]';
+
   document.addEventListener('click', function (e) {
-    var a = e.target && e.target.closest ? e.target.closest(TASTI) : null;
-    if (!a || leggi() !== 'si' || typeof window.gtag !== 'function') return;
+    if (leggi() !== 'si' || typeof window.gtag !== 'function') return;
+    var t = e.target && e.target.closest ? e.target : null;
+    if (!t) return;
+
+    var etichetta = null;
+    if (t.closest(TASTI))       etichetta = SCARICA;
+    else if (t.closest(NEGOZI)) etichetta = STORE;
+    if (!etichetta) return;
+
     window.gtag('event', 'conversion', {
-      send_to: EVENTO,
+      send_to: etichetta,
       value: 1.0,
       currency: 'EUR'
     });
