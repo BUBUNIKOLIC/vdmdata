@@ -43,14 +43,24 @@
   }
 
   /* Il clic sul pulsante di scaricamento.
-     Non blocchiamo niente e non rimandiamo da nessuna parte: quei pulsanti
-     avviano uno scaricamento, la pagina non se ne va, quindi l'evento ha
-     tutto il tempo di partire. Un ascoltatore solo sul documento prende
-     tutti i pulsanti di tutte le pagine, presenti e futuri. */
+     Un ascoltatore solo sul documento prende tutti i pulsanti di tutte le
+     pagine, presenti e futuri.
+
+     9 ottobre 2026 — PERCHE' NON CONTAVA NIENTE.
+     Qui si guardava soltanto 'releases/latest/download', che era dove i
+     tasti puntavano a settembre. Il 29 settembre i tasti sono stati fatti
+     passare per /scarica-mac.html e /scarica-win.html, e da quel giorno
+     questo ascoltatore non ha piu' trovato un solo collegamento: Google Ads
+     diceva «tag non attivo» e la campagna spendeva alla cieca. Adesso si
+     guardano tutte e tre le forme, cosi' se i tasti cambiano ancora quella
+     vecchia continua a funzionare.
+     L'evento parte sul clic anche se la pagina se ne va subito dopo: gtag
+     manda con sendBeacon, che sopravvive al cambio di pagina. */
+  var TASTI = 'a[href*="scarica-mac"],a[href*="scarica-win"],'
+            + 'a[href*="releases/latest/download"]';
+
   document.addEventListener('click', function (e) {
-    var a = e.target && e.target.closest
-          ? e.target.closest('a[href*="releases/latest/download"]')
-          : null;
+    var a = e.target && e.target.closest ? e.target.closest(TASTI) : null;
     if (!a || leggi() !== 'si' || typeof window.gtag !== 'function') return;
     window.gtag('event', 'conversion', {
       send_to: EVENTO,
