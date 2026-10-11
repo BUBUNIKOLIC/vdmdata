@@ -1,7 +1,7 @@
 <!DOCTYPE html><html lang="it"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex">
-<title>VDM Basketball Coach — scaricamento Windows</title>
+<title>VDM Basketball Coach &mdash; scaricamento Windows</title>
 <!-- PERCHE' QUESTA PAGINA ESISTE (29 settembre 2026)
      I tasti "Scarica gratis" portavano dritti a GitHub. Funzionava, ma non
      lasciava traccia: non si sapeva QUANTI scaricassero davvero ne' DA DOVE
@@ -11,8 +11,34 @@
      banner da accettare, niente che esca dall'Europa.
      Il rinvio parte dopo mezzo secondo: serve a dare al misuratore il tempo
      di mandare il conteggio. Se qualcosa va storto c'e' il collegamento
-     scritto, quindi non si resta mai bloccati. -->
+     scritto, quindi non si resta mai bloccati.
+
+     11 OTTOBRE 2026 — TRADOTTA. Era rimasta in italiano mentre tutto il
+     resto del sito e' in tre lingue: uno spagnolo premeva "Descarga gratis"
+     e atterrava su "Sto preparando il file...". Si vedeva solo guardando da
+     dove arriva la gente: l'11 ottobre, su sei arrivi qui, zero scaricamenti.
+     La riga che conta e' quella sotto: su Windows il browser spesso chiede
+     conferma, e se l'unica istruzione e' in una lingua che non leggi, ti
+     fermi. La lingua si prende dalla scelta fatta sul sito (stesso
+     localStorage dell'index) e, se non ha mai scelto, da quella del suo
+     computer. -->
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "b2cf278a022948df8fe261df7165aa48"}'></script>
+<script>
+/* STESSO IDENTICO GIRO DELL'INDEX, e deve restare identico: la classe va
+   sull'elemento <html>, che c'e' gia' mentre il resto si legge, cosi' non
+   si vede un lampo di italiano prima di cambiare. */
+(function(){
+  var l = null;
+  try { l = localStorage.getItem('vdm_lingua_scelta'); } catch(e){}
+  if (l !== 'it' && l !== 'en' && l !== 'es') {
+    var n = ((navigator.language || 'en') + '').toLowerCase();
+    l = n.indexOf('it') === 0 ? 'it' : (n.indexOf('es') === 0 ? 'es' : 'en');
+  }
+  document.documentElement.classList.remove('it','en','es');
+  document.documentElement.classList.add(l);
+  document.documentElement.lang = l;
+})();
+</script>
 <style>
  :root{color-scheme:dark}
  body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;
@@ -25,16 +51,43 @@
  .p{margin:18px auto 0;width:180px;height:3px;background:#1b2a41;border-radius:3px;overflow:hidden}
  .p i{display:block;height:100%;width:0;background:linear-gradient(90deg,#00eaff,#4c8dff);animation:g .5s linear forwards}
  @keyframes g{to{width:100%}}
+ /* UNA LINGUA PER VOLTA. Di base l'italiano; con la classe en/es su <html>
+    si spegne l'italiano e si accende l'altra. */
+ [data-en],[data-es]{display:none}
+ html.en [data-it],html.es [data-it]{display:none}
+ html.en [data-en]{display:revert}
+ html.es [data-es]{display:revert}
 </style></head><body>
 <div class="b">
-  <h1>Sto preparando il file…</h1>
-  <p>VDM Basketball Coach per Windows</p>
+  <h1 data-it>Sto preparando il file&hellip;</h1>
+  <h1 data-en>Getting your file ready&hellip;</h1>
+  <h1 data-es>Preparando tu archivo&hellip;</h1>
+
+  <p data-it>VDM Basketball Coach per Windows</p>
+  <p data-en>VDM Basketball Coach for Windows</p>
+  <p data-es>VDM Basketball Coach para Windows</p>
+
   <div class="p"><i></i></div>
-  <p style="margin-top:18px;font-size:14px">Se non parte da solo,
-     <a id="l" href="https://github.com/BUBUNIKOLIC/vdmdata/releases/latest/download/VDM-Basketball-Coach-win.exe">scaricalo da qui</a>.</p>
-  <p style="font-size:13px"><a href="/">Torna al sito</a></p>
+
+  <p style="margin-top:18px;font-size:14px" data-it>Se non parte da solo,
+     <a href="https://github.com/BUBUNIKOLIC/vdmdata/releases/latest/download/VDM-Basketball-Coach-win.exe">scaricalo da qui</a>.</p>
+  <p style="margin-top:18px;font-size:14px" data-en>If it doesn&rsquo;t start on its own,
+     <a href="https://github.com/BUBUNIKOLIC/vdmdata/releases/latest/download/VDM-Basketball-Coach-win.exe">download it here</a>.</p>
+  <p style="margin-top:18px;font-size:14px" data-es>Si no empieza solo,
+     <a href="https://github.com/BUBUNIKOLIC/vdmdata/releases/latest/download/VDM-Basketball-Coach-win.exe">desc&aacute;rgalo aqu&iacute;</a>.</p>
+
+  <p style="font-size:13px" data-it><a href="/">Torna al sito</a></p>
+  <p style="font-size:13px" data-en><a href="/">Back to the site</a></p>
+  <p style="font-size:13px" data-es><a href="/">Volver al sitio</a></p>
 </div>
 <script>
-  setTimeout(function(){ location.href = document.getElementById('l').href; }, 500);
+  /* IL COLLEGAMENTO SCRITTO E' QUELLO DELLA LINGUA ACCESA: si cerca il primo
+     che si vede davvero, se no su una lingua diversa dall'italiano si
+     scaricava lo stesso file ma partendo dal collegamento nascosto. */
+  setTimeout(function(){
+    var a = document.querySelector('p[data-' + document.documentElement.lang + '] a[href*="releases"]')
+         || document.querySelector('a[href*="releases"]');
+    if (a) location.href = a.href;
+  }, 500);
 </script>
 </body></html>
