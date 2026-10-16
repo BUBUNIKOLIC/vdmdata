@@ -30,11 +30,14 @@
 (function(){
   var l = null;
   try { l = localStorage.getItem('vdm_lingua_scelta'); } catch(e){}
-  if (l !== 'it' && l !== 'en' && l !== 'es') {
+  if (l !== 'it' && l !== 'en' && l !== 'es' && l !== 'zh' && l !== 'ja') {
     var n = ((navigator.language || 'en') + '').toLowerCase();
-    l = n.indexOf('it') === 0 ? 'it' : (n.indexOf('es') === 0 ? 'es' : 'en');
+    l = n.indexOf('it') === 0 ? 'it'
+      : n.indexOf('es') === 0 ? 'es'
+      : n.indexOf('zh') === 0 ? 'zh'
+      : n.indexOf('ja') === 0 ? 'ja' : 'en';
   }
-  document.documentElement.classList.remove('it','en','es');
+  document.documentElement.classList.remove('it','en','es','zh','ja');
   document.documentElement.classList.add(l);
   document.documentElement.lang = l;
 })();
@@ -53,19 +56,25 @@
  @keyframes g{to{width:100%}}
  /* UNA LINGUA PER VOLTA. Di base l'italiano; con la classe en/es su <html>
     si spegne l'italiano e si accende l'altra. */
- [data-en],[data-es]{display:none}
- html.en [data-it],html.es [data-it]{display:none}
+ [data-en],[data-es],[data-zh],[data-ja]{display:none}
+ html.en [data-it],html.es [data-it],html.zh [data-it],html.ja [data-it]{display:none}
  html.en [data-en]{display:revert}
  html.es [data-es]{display:revert}
+ html.zh [data-zh]{display:revert}
+ html.ja [data-ja]{display:revert}
 </style></head><body>
 <div class="b">
   <h1 data-it>Sto preparando il file&hellip;</h1>
   <h1 data-en>Getting your file ready&hellip;</h1>
+  <h1 data-zh>正在准备文件&hellip;</h1>
+  <h1 data-ja>ファイルを準備しています&hellip;</h1>
   <h1 data-es>Preparando tu archivo&hellip;</h1>
 
   <p data-it>VDM Basketball Coach per Mac</p>
   <p data-en>VDM Basketball Coach for Mac</p>
   <p data-es>VDM Basketball Coach para Mac</p>
+  <p data-zh>VDM Basketball Coach Mac 版</p>
+  <p data-ja>VDM Basketball Coach Mac版</p>
 
   <div class="p"><i></i></div>
 
@@ -76,9 +85,15 @@
   <p style="margin-top:18px;font-size:14px" data-es>Si no empieza solo,
      <a href="https://github.com/BUBUNIKOLIC/vdmdata/releases/latest/download/VDM-Basketball-Coach-mac.dmg">desc&aacute;rgalo aqu&iacute;</a>.</p>
 
+  <p style="margin-top:18px;font-size:14px" data-zh>如果没有自动开始，
+     <a href="https://github.com/BUBUNIKOLIC/vdmdata/releases/latest/download/VDM-Basketball-Coach-mac.dmg">请点此下载</a>。</p>
+  <p style="margin-top:18px;font-size:14px" data-ja>自動的に始まらない場合は、
+     <a href="https://github.com/BUBUNIKOLIC/vdmdata/releases/latest/download/VDM-Basketball-Coach-mac.dmg">こちらからダウンロード</a>してください。</p>
   <p style="font-size:13px" data-it><a href="/">Torna al sito</a></p>
   <p style="font-size:13px" data-en><a href="/">Back to the site</a></p>
   <p style="font-size:13px" data-es><a href="/">Volver al sitio</a></p>
+  <p style="font-size:13px" data-zh><a href="/cn">返回网站</a></p>
+  <p style="font-size:13px" data-ja><a href="/jp">サイトに戻る</a></p>
 </div>
 <script>
   /* IL COLLEGAMENTO SCRITTO E' QUELLO DELLA LINGUA ACCESA: si cerca il primo
