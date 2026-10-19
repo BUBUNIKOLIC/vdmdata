@@ -222,6 +222,21 @@
      partita vera con lo schema sotto — quindi non sta a tutta larghezza come
      gli altri: clip stretta a sinistra, testo a destra, e su telefono uno
      sopra l'altro. */
+
+  /* I TUTORIAL. Aggiunti il 19/10/2026: tre video su YouTube che mostrano il
+     programma che lavora. Non li incorporo con l'iframe di YouTube per non
+     tirarci dentro i suoi cookie: si vede il fermo immagine e si apre su
+     YouTube. */
+  .tut-griglia{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:26px;margin-top:34px}
+  .tut{display:block;text-decoration:none;color:inherit}
+  .tut figure{margin:0;position:relative;border-radius:14px;overflow:hidden;background:#0b1220;aspect-ratio:16/9}
+  .tut figure img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .35s}
+  .tut:hover figure img{transform:scale(1.04)}
+  .tut .play{position:absolute;inset:0;display:grid;place-items:center}
+  .tut .play span{width:58px;height:58px;border-radius:50%;background:rgba(0,0,0,.55);border:2px solid #fff;display:grid;place-items:center}
+  .tut .play span::after{content:"";border-left:16px solid #fff;border-top:10px solid transparent;border-bottom:10px solid transparent;margin-left:4px}
+  .tut h3{margin:14px 0 4px;font-size:1.02rem}
+  .tut p{margin:0;opacity:.75;font-size:.92rem}
   .vp-blocco{display:flex;gap:30px;align-items:center;margin:42px 0 0;flex-wrap:wrap;}
   .vp-clip{flex:0 0 300px;max-width:300px;border:2px solid var(--bordo);border-radius:10px;
     overflow:hidden;background:#04070f;}
@@ -780,6 +795,49 @@
       <h3 data-it>Proietti alla squadra</h3><h3 data-en>Present to the team</h3><h3 data-es>Preséntalo al equipo</h3>
       <p data-it>Metti in fila filmati, schede e diagrammi e proietti, con i capitoli e la barra del tempo.</p>
       <p data-en>Line up films, cards and diagrams and project them, with chapters and a time bar.</p><p data-es>Pon en fila vídeos, fichas y diagramas y proyéctalos, con capítulos y barra de tiempo.</p></div>
+  </div>
+</div></section>
+
+<!-- I TUTORIAL. 19 ottobre 2026: chiesto da Vince. Sulla home non c'era un
+     posto dove uno vede il programma mentre lavora dall'inizio alla fine.
+     I tre video stanno su YouTube; qui ci sono i fermi immagine presi dai
+     nostri file, cosi' la pagina non carica niente da fuori finche' non si
+     clicca. -->
+<section id="tutorial"><div class="wrap">
+  <div class="occhiello" data-it>Guardalo mentre lavora</div>
+  <div class="occhiello" data-en>Watch it work</div><div class="occhiello" data-es>Míralo trabajar</div>
+  <h2 data-it>I tutorial</h2>
+  <h2 data-en>The tutorials</h2><h2 data-es>Los tutoriales</h2>
+  <p class="didascalia" data-it>Niente slide: il programma vero, ripreso dallo schermo.</p>
+  <p class="didascalia" data-en>No slides: the real program, recorded off the screen.</p>
+  <p class="didascalia" data-es>Sin diapositivas: el programa real, grabado de la pantalla.</p>
+
+  <div class="tut-griglia">
+    <a class="tut" href="https://youtu.be/f5W8AhDyf3Y" target="_blank" rel="noopener">
+      <figure><img src="/clip/tutorial-1-fermo.jpg" alt="" loading="lazy"><span class="play"><span></span></span></figure>
+      <h3 data-it>Dalla lega vuota al roster completo</h3>
+      <h3 data-en>From an empty league to a full roster</h3><h3 data-es>De la liga vacía al roster completo</h3>
+      <p data-it>Due minuti: creo la lega, metto le squadre, e l'IA riempie roster, foto, statistiche e play type.</p>
+      <p data-en>Two minutes: I create the league, add the teams, and the AI fills in roster, photos, stats and play types.</p>
+      <p data-es>Dos minutos: creo la liga, añado los equipos y la IA rellena roster, fotos, estadísticas y play types.</p>
+    </a>
+
+    <a class="tut" href="https://youtube.com/shorts/F3yXImuYWgk" target="_blank" rel="noopener">
+      <figure><img src="/clip/video-playbook-fermo.jpg" alt="" loading="lazy"><span class="play"><span></span></span></figure>
+      <h3 data-it>Video Playbook</h3><h3 data-en>Video Playbook</h3><h3 data-es>Video Playbook</h3>
+      <p data-it>La clip vera dell'avversaria sopra, lo schema che si muove sotto. Un video solo.</p>
+      <p data-en>The opponents' real clip on top, the diagram moving underneath. One single video.</p>
+      <p data-es>El vídeo real del rival arriba, el esquema moviéndose debajo. Un solo vídeo.</p>
+    </a>
+
+    <a class="tut" href="https://youtube.com/shorts/N_yyC0GQ2tw" target="_blank" rel="noopener">
+      <figure><img src="/clip/pick-vs-show-fermo.jpg" alt="" loading="lazy"><span class="play"><span></span></span></figure>
+      <h3 data-it>Lo stesso gioco in 2D e in 3D</h3>
+      <h3 data-en>The same play in 2D and in 3D</h3><h3 data-es>La misma jugada en 2D y en 3D</h3>
+      <p data-it>Sulla lavagna il giocatore vede righe. In 3D vede quello che si trovera' davanti in campo.</p>
+      <p data-en>On the board a player sees lines. In 3D he sees what he will actually face on the floor.</p>
+      <p data-es>En la pizarra el jugador ve líneas. En 3D ve lo que se encontrará en la cancha.</p>
+    </a>
   </div>
 </div></section>
 
