@@ -109,11 +109,13 @@
       'padding:8px 18px;border:1px solid #2c3d57;background:#16203000;' +
       'color:#c8d4e6}' +
       '.vdm-consenso button.si{background:#2563eb;border-color:#2563eb;color:#fff;font-weight:600}' +
-      '.vdm-consenso [data-en],.vdm-consenso [data-es]{display:none}' +
+      '.vdm-consenso [data-en],.vdm-consenso [data-es],.vdm-consenso [data-fr]{display:none}' +
       'html.en .vdm-consenso [data-it],body.en .vdm-consenso [data-it],' +
-      'html.es .vdm-consenso [data-it],body.es .vdm-consenso [data-it]{display:none}' +
+      'html.es .vdm-consenso [data-it],body.es .vdm-consenso [data-it],' +
+      'html.fr .vdm-consenso [data-it],body.fr .vdm-consenso [data-it]{display:none}' +
       'html.en .vdm-consenso [data-en],body.en .vdm-consenso [data-en]{display:inline}' +
       'html.es .vdm-consenso [data-es],body.es .vdm-consenso [data-es]{display:inline}' +
+      'html.fr .vdm-consenso [data-fr],body.fr .vdm-consenso [data-fr]{display:inline}' +
       '@media(max-width:560px){.vdm-consenso{font-size:13px;padding:12px}}';
     document.head.appendChild(css);
 
@@ -131,9 +133,12 @@
       '<span data-es>Nos gustaría saber qué búsquedas traen aquí a quien descarga el programa. ' +
       'Requiere una cookie de Google Ads, y solo para eso. Si dices que no, el sitio funciona igual. ' +
       '<a href="privacy.html">Privacidad</a>.</span>' +
+      '<span data-fr>Nous aimerions savoir quelles recherches amènent ici ceux qui téléchargent le programme. ' +
+      'Il faut un cookie de Google Ads, et seulement pour ça. Si tu dis non, le site marche pareil. ' +
+      '<a href="privacy.html">Confidentialité</a>.</span>' +
       '</p>' +
-      '<button class="si"><span data-it>Va bene</span><span data-en>Allow</span><span data-es>De acuerdo</span></button>' +
-      '<button class="no"><span data-it>No, grazie</span><span data-en>No thanks</span><span data-es>No, gracias</span></button>';
+      '<button class="si"><span data-it>Va bene</span><span data-en>Allow</span><span data-es>De acuerdo</span><span data-fr>D\u2019accord</span></button>' +
+      '<button class="no"><span data-it>No, grazie</span><span data-en>No thanks</span><span data-es>No, gracias</span><span data-fr>Non, merci</span></button>';
     document.body.appendChild(b);
 
     b.querySelector('.si').addEventListener('click', function () {

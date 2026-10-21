@@ -89,11 +89,15 @@
     .bar .wrap{gap:10px;padding:0 14px;}
     .bar .vdm-segno{height:20px;width:44px;margin-right:6px;}
     .bar .logo{font-size:14.5px;}
+    /* Col francese i bottoni sono diventati quattro e sul telefono FR
+       usciva fuori come succedeva a EN: si stringono. (21 ottobre 2026) */
+    .lang button{padding:4px 5px;font-size:10.5px;letter-spacing:0;}
   }
   /* Sotto i 345 pixel (iPhone SE e simili) non ci sta piu' nemmeno il segno. */
   @media(max-width:345px){
     .bar .vdm-segno{display:none;}
     .bar .logo{font-size:13.5px;}
+    .lang button{padding:4px 4px;font-size:10px;letter-spacing:0;}
   }
 
   .hero{padding:80px 0 46px;position:relative;}
@@ -207,6 +211,9 @@
   body.es .avviso-win b[data-it],html.es .avviso-win b[data-it]{display:none;}
   body.es .avviso-win b[data-es],html.es .avviso-win b[data-es]{display:block;}
   .avviso-win b[data-es]{display:none;}
+  body.fr .avviso-win b[data-it],html.fr .avviso-win b[data-it]{display:none;}
+  body.fr .avviso-win b[data-fr],html.fr .avviso-win b[data-fr]{display:block;}
+  .avviso-win b[data-fr]{display:none;}
   .avviso-win p{color:var(--muted);font-size:13px;line-height:1.6;margin:0;}
   .avviso-win p + p{margin-top:8px;}
 
@@ -416,6 +423,11 @@
   html.es .fx-scheda b[data-it],html.es .fx-scheda span[data-it]{display:none;}
   body.es .fx-scheda b[data-es],body.es .fx-scheda span[data-es],
   html.es .fx-scheda b[data-es],html.es .fx-scheda span[data-es]{display:block;}
+  .fx-scheda b[data-fr],.fx-scheda span[data-fr]{display:none;}
+  body.fr .fx-scheda b[data-it],body.fr .fx-scheda span[data-it],
+  html.fr .fx-scheda b[data-it],html.fr .fx-scheda span[data-it]{display:none;}
+  body.fr .fx-scheda b[data-fr],body.fr .fx-scheda span[data-fr],
+  html.fr .fx-scheda b[data-fr],html.fr .fx-scheda span[data-fr]{display:block;}
   @media(max-width:900px){ .fx-schede{grid-template-columns:repeat(2,1fr);} }
   @media(max-width:620px){ .fx-schede{grid-template-columns:1fr;} .fx-seg{font-size:0;padding:0;} }
 
@@ -447,6 +459,9 @@
   body.en .dati span[data-en],html.en .dati span[data-en]{display:block;}
   body.es .dati span[data-it],html.es .dati span[data-it]{display:none;}
   body.es .dati span[data-es],html.es .dati span[data-es]{display:block;}
+  .dati span[data-fr]{display:none;}
+  body.fr .dati span[data-it],html.fr .dati span[data-it]{display:none;}
+  body.fr .dati span[data-fr],html.fr .dati span[data-fr]{display:block;}
 
   /* separatori di sezione sfumati invece che righe piatte */
   section{border-top:0;position:relative;}
@@ -495,11 +510,13 @@
      italiano. Con lo spagnolo non basta piu' un si'/no, serve dire quale
      lingua si tiene e quali due si nascondono. La classe sta su <html> e
      c'e' SEMPRE: it, en oppure es. */
-  html.it [data-en], html.it [data-es]{display:none;}
-  html.en [data-it], html.en [data-es]{display:none;}
-  html.es [data-it], html.es [data-en]{display:none;}
-  body.en [data-it], body.en [data-es]{display:none;}
-  body.es [data-it], body.es [data-en]{display:none;}
+  html.it [data-en], html.it [data-es], html.it [data-fr]{display:none;}
+  html.en [data-it], html.en [data-es], html.en [data-fr]{display:none;}
+  html.es [data-it], html.es [data-en], html.es [data-fr]{display:none;}
+  html.fr [data-it], html.fr [data-en], html.fr [data-es]{display:none;}
+  body.en [data-it], body.en [data-es], body.en [data-fr]{display:none;}
+  body.es [data-it], body.es [data-en], body.es [data-fr]{display:none;}
+  body.fr [data-it], body.fr [data-en], body.fr [data-es]{display:none;}
 
   /* ============ IL MARCHIO VDM DATA ============
    * Due pezzi. Il segno piccolo accanto al nome, in alto; e la filigrana
@@ -603,11 +620,13 @@
      Uno spagnolo che arriva da una mail in spagnolo deve trovare la pagina in
      spagnolo, non in inglese. Se il browser non e' ne' italiano ne' spagnolo,
      resta l'inglese come prima. */
-  if (l !== 'it' && l !== 'en' && l !== 'es') {
+  if (l !== 'it' && l !== 'en' && l !== 'es' && l !== 'fr') {
     var n = ((navigator.language || 'en') + '').toLowerCase();
-    l = n.indexOf('it') === 0 ? 'it' : (n.indexOf('es') === 0 ? 'es' : 'en');
+    l = n.indexOf('it') === 0 ? 'it' :
+        (n.indexOf('es') === 0 ? 'es' :
+        (n.indexOf('fr') === 0 ? 'fr' : 'en'));
   }
-  document.documentElement.classList.remove('it','en','es');
+  document.documentElement.classList.remove('it','en','es','fr');
   document.documentElement.classList.add(l);
   document.documentElement.lang = l;
 })();
@@ -622,9 +641,11 @@
 (function(){
   var l = null;
   try { l = localStorage.getItem('vdm_lingua_scelta'); } catch(e){}
-  if (l !== 'it' && l !== 'en' && l !== 'es') {
+  if (l !== 'it' && l !== 'en' && l !== 'es' && l !== 'fr') {
     var n = ((navigator.language || 'en') + '').toLowerCase();
-    l = n.indexOf('it') === 0 ? 'it' : (n.indexOf('es') === 0 ? 'es' : 'en');
+    l = n.indexOf('it') === 0 ? 'it' :
+        (n.indexOf('es') === 0 ? 'es' :
+        (n.indexOf('fr') === 0 ? 'fr' : 'en'));
   }
   if (l !== 'it') document.body.className += (document.body.className ? ' ' : '') + l;
 })();
@@ -633,15 +654,15 @@
 <div class="bar"><div class="wrap">
   <svg class="vdm-segno" viewBox="0 0 210 90" aria-hidden="true"><g fill="url(#gradSegno)"><polygon points="6,22 15.5,22 26,52.4 36.5,22 46,22 28.8,72 23.2,72"/><circle cx="26" cy="31" r="5"/><polygon points="68.6,14 72.4,14 75,16.6 75,79.4 72.4,82 68.6,82 66,79.4 66,16.6"/><polygon points="60.6,22 105.4,22 108,24.6 108,28.4 105.4,31 60.6,31 58,28.4 58,24.6"/><polygon points="60.6,63 105.4,63 108,65.6 108,69.4 105.4,72 60.6,72 58,69.4 58,65.6"/><polygon points="101.6,22 105.4,22 108,24.6 108,69.4 105.4,72 101.6,72 99,69.4 99,24.6"/><polygon points="126.6,22 193.4,22 196,24.6 196,28.4 193.4,31 126.6,31 124,28.4 124,24.6"/><polygon points="134.6,22 138.4,22 141,24.6 141,79.4 138.4,82 134.6,82 132,79.4 132,24.6"/><polygon points="158.6,22 162.4,22 165,24.6 165,79.4 162.4,82 158.6,82 156,79.4 156,24.6"/><polygon points="182.6,22 186.4,22 189,24.6 189,79.4 186.4,82 182.6,82 180,79.4 180,24.6"/></g><defs><linearGradient id="gradSegno" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#00eaff"/><stop offset="1" stop-color="#4c8dff"/></linearGradient></defs></svg><span class="logo">VDM <b>Basketball Coach</b></span>
   <nav>
-    <a href="#come" data-it>Come funziona</a><a href="#come" data-en>How it works</a><a href="#come" data-es>Cómo funciona</a>
-    <a href="#fogli" data-it>Fogli e PDF</a><a href="#fogli" data-en>Sheets &amp; PDF</a><a href="#fogli" data-es>Hojas y PDF</a>
-    <a href="#effetti" data-it>Disegni</a><a href="#effetti" data-en>Drawing</a><a href="#effetti" data-es>Dibujos</a>
-    <a href="#cosa" data-it>Cosa fa</a><a href="#cosa" data-en>Features</a><a href="#cosa" data-es>Funciones</a>
-    <a href="#ia" data-it>IA</a><a href="#ia" data-en>AI</a><a href="#ia" data-es>IA</a>
-    <a href="#playbook" data-it>iPad</a><a href="#playbook" data-en>iPad</a><a href="#playbook" data-es>iPad</a>
-    <a href="istruzioni.html" data-it>Istruzioni</a><a href="istruzioni.html" data-en>Guide</a><a href="istruzioni.html" data-es>Guía</a>
-    <a href="#scarica" data-it>Scarica</a><a href="#scarica" data-en>Download</a><a href="#scarica" data-es>Descargar</a>
-    <span class="lang"><button id="bIt" onclick="lingua('it', true)">IT</button><button id="bEn" class="on" onclick="lingua('en', true)">EN</button><button id="bEs" onclick="lingua('es', true)">ES</button></span>
+    <a href="#come" data-it>Come funziona</a><a href="#come" data-en>How it works</a><a href="#come" data-es>Cómo funciona</a><a href="#come" data-fr>Comment ça marche</a>
+    <a href="#fogli" data-it>Fogli e PDF</a><a href="#fogli" data-en>Sheets &amp; PDF</a><a href="#fogli" data-es>Hojas y PDF</a><a href="#fogli" data-fr>Feuilles et PDF</a>
+    <a href="#effetti" data-it>Disegni</a><a href="#effetti" data-en>Drawing</a><a href="#effetti" data-es>Dibujos</a><a href="#effetti" data-fr>Dessins</a>
+    <a href="#cosa" data-it>Cosa fa</a><a href="#cosa" data-en>Features</a><a href="#cosa" data-es>Funciones</a><a href="#cosa" data-fr>Fonctions</a>
+    <a href="#ia" data-it>IA</a><a href="#ia" data-en>AI</a><a href="#ia" data-es>IA</a><a href="#ia" data-fr>IA</a>
+    <a href="#playbook" data-it>iPad</a><a href="#playbook" data-en>iPad</a><a href="#playbook" data-es>iPad</a><a href="#playbook" data-fr>iPad</a>
+    <a href="istruzioni.html" data-it>Istruzioni</a><a href="istruzioni.html" data-en>Guide</a><a href="istruzioni.html" data-es>Guía</a><a href="istruzioni.html" data-fr>Guide</a>
+    <a href="#scarica" data-it>Scarica</a><a href="#scarica" data-en>Download</a><a href="#scarica" data-es>Descargar</a><a href="#scarica" data-fr>Télécharger</a>
+    <span class="lang"><button id="bIt" onclick="lingua('it', true)">IT</button><button id="bEn" class="on" onclick="lingua('en', true)">EN</button><button id="bEs" onclick="lingua('es', true)">ES</button><button id="bFr" onclick="lingua('fr', true)">FR</button></span>
   </nav>
 </div></div>
 
@@ -663,18 +684,18 @@
 </svg><div class="wrap hero-due">
 <div class="hero-testo-alto">
   <span class="occhio" data-it>🏀 Scritto da un allenatore, per gli allenatori · <b>ottimizzato per IA</b></span>
-  <span class="occhio" data-en>🏀 Written by a coach, for coaches · <b>optimised for AI</b></span><span class="occhio" data-es>🏀 Escrito por un entrenador, para entrenadores · <b>optimizado para IA</b></span>
+  <span class="occhio" data-en>🏀 Written by a coach, for coaches · <b>optimised for AI</b></span><span class="occhio" data-es>🏀 Escrito por un entrenador, para entrenadores · <b>optimizado para IA</b></span><span class="occhio" data-fr>🏀 Écrit par un entraîneur, pour les entraîneurs · <b>optimisé pour l'IA</b></span>
   <h1 data-it>Il lavoro di una stagione<br><em>in un posto solo.</em></h1>
-  <h1 data-en>A whole season<br><em>in one place.</em></h1><h1 data-es>Toda una temporada<br><em>en un solo sitio.</em></h1>
+  <h1 data-en>A whole season<br><em>in one place.</em></h1><h1 data-es>Toda una temporada<br><em>en un solo sitio.</em></h1><h1 data-fr>Toute une saison<br><em>au même endroit.</em></h1>
   <p class="sub" data-it>Video taggati, giochi disegnati, scouting dell'avversario, presentazioni alla squadra, allenamenti e registro del tiro. Tutto per squadra, tutto sul tuo computer.</p>
-  <p class="sub" data-en>Tagged film, drawn plays, opponent scouting, team presentations, practice plans and a shooting log. All by team, all on your own computer.</p><p class="sub" data-es>Vídeo etiquetado, jugadas dibujadas, scouting del rival, presentaciones al equipo, planes de entrenamiento y registro de tiro. Todo por equipo, todo en tu ordenador.</p>
+  <p class="sub" data-en>Tagged film, drawn plays, opponent scouting, team presentations, practice plans and a shooting log. All by team, all on your own computer.</p><p class="sub" data-es>Vídeo etiquetado, jugadas dibujadas, scouting del rival, presentaciones al equipo, planes de entrenamiento y registro de tiro. Todo por equipo, todo en tu ordenador.</p><p class="sub" data-fr>Vidéo taguée, systèmes dessinés, scouting de l'adversaire, présentations à l'équipe, plans d'entraînement et registre des tirs. Tout par équipe, tout sur ton ordinateur.</p>
 </div>
   <figure class="hero-clip">
     <video src="/clip/top-pick-3d.mp4" poster="/clip/top-pick-3d-fermo.png"
            autoplay muted loop playsinline preload="metadata"></video>
     <figcaption data-it>Disegni la giocata sulla lavagna. La guardi correre in 3D.</figcaption>
     <figcaption data-en>Draw the play on the board. Watch it run in 3D.</figcaption>
-    <figcaption data-es>Dibujas la jugada en la pizarra. La ves correr en 3D.</figcaption>
+    <figcaption data-es>Dibujas la jugada en la pizarra. La ves correr en 3D.</figcaption><figcaption data-fr>Tu dessines le système au tableau. Tu le regardes tourner en 3D.</figcaption>
   </figure>
 <div class="hero-testo-basso">
   <!-- 12 settembre 2026, sera. Il tasto in alto diceva "Provala gratis 14 giorni"
@@ -687,40 +708,40 @@
        Quelli in fondo restano dove sono, per chi legge tutta la pagina. -->
   <div class="cta">
     <a class="btn primo due-righe" href="/scarica-mac.html" data-it>Scarica gratis per Mac<small>file .dmg · 14 giorni, senza carta di credito</small></a>
-    <a class="btn primo due-righe" href="/scarica-mac.html" data-en>Download free for Mac<small>.dmg file · 14 days, no credit card</small></a><a class="btn primo due-righe" href="/scarica-mac.html" data-es>Descarga gratis para Mac<small>archivo .dmg · 14 días, sin tarjeta</small></a>
+    <a class="btn primo due-righe" href="/scarica-mac.html" data-en>Download free for Mac<small>.dmg file · 14 days, no credit card</small></a><a class="btn primo due-righe" href="/scarica-mac.html" data-es>Descarga gratis para Mac<small>archivo .dmg · 14 días, sin tarjeta</small></a><a class="btn primo due-righe" href="/scarica-mac.html" data-fr>Téléchargement gratuit pour Mac<small>fichier .dmg · 14 jours, sans carte</small></a>
     <a class="btn primo due-righe" href="/scarica-win.html" data-it>Scarica gratis per Windows<small>file .exe · 14 giorni, senza carta di credito</small></a>
-    <a class="btn primo due-righe" href="/scarica-win.html" data-en>Download free for Windows<small>.exe file · 14 days, no credit card</small></a><a class="btn primo due-righe" href="/scarica-win.html" data-es>Descarga gratis para Windows<small>archivo .exe · 14 días, sin tarjeta</small></a>
+    <a class="btn primo due-righe" href="/scarica-win.html" data-en>Download free for Windows<small>.exe file · 14 days, no credit card</small></a><a class="btn primo due-righe" href="/scarica-win.html" data-es>Descarga gratis para Windows<small>archivo .exe · 14 días, sin tarjeta</small></a><a class="btn primo due-righe" href="/scarica-win.html" data-fr>Téléchargement gratuit pour Windows<small>fichier .exe · 14 jours, sans carte</small></a>
     <a class="btn" href="#come" data-it>Guarda come funziona</a>
-    <a class="btn" href="#come" data-en>See how it works</a><a class="btn" href="#come" data-es>Mira cómo funciona</a>
+    <a class="btn" href="#come" data-en>See how it works</a><a class="btn" href="#come" data-es>Mira cómo funciona</a><a class="btn" href="#come" data-fr>Regarde comment ça marche</a>
   </div>
   <p class="solo-telefono" data-it>Stai leggendo dal telefono: VDM è un programma per Mac e Windows, sul telefono non si installa. Riapri questa pagina dal computer con cui prepari gli allenamenti.</p>
-  <p class="solo-telefono" data-en>You are reading this on a phone: VDM is a program for Mac and Windows, it does not install on a phone. Open this page again on the computer you work on.</p><p class="solo-telefono" data-es>Estás leyendo desde el móvil: VDM es un programa para Mac y Windows, en el móvil no se instala. Vuelve a abrir esta página en el ordenador con el que trabajas.</p>
+  <p class="solo-telefono" data-en>You are reading this on a phone: VDM is a program for Mac and Windows, it does not install on a phone. Open this page again on the computer you work on.</p><p class="solo-telefono" data-es>Estás leyendo desde el móvil: VDM es un programa para Mac y Windows, en el móvil no se instala. Vuelve a abrir esta página en el ordenador con el que trabajas.</p><p class="solo-telefono" data-fr>Tu lis depuis un téléphone : VDM est un programme pour Mac et Windows, il ne s'installe pas sur mobile. Rouvre cette page sur l'ordinateur avec lequel tu travailles.</p>
   <div class="ricorda-telefono">
     <button type="button" class="btn ricordamelo" data-it data-ogg="VDM Basketball Coach" data-corpo="Aprilo dal computer: https://vdmdata.it">&#9993;&#65039; Mandami il link</button>
     <button type="button" class="btn ricordamelo" data-en data-ogg="VDM Basketball Coach" data-corpo="Open it on your computer: https://vdmdata.it">&#9993;&#65039; Send me the link</button>
-    <button type="button" class="btn ricordamelo" data-es data-ogg="VDM Basketball Coach" data-corpo="&Aacute;brelo desde el ordenador: https://vdmdata.it">&#9993;&#65039; Env&iacute;ame el enlace</button>
+    <button type="button" class="btn ricordamelo" data-es data-ogg="VDM Basketball Coach" data-corpo="&Aacute;brelo desde el ordenador: https://vdmdata.it">&#9993;&#65039; Env&iacute;ame el enlace</button><button type="button" class="btn ricordamelo" data-fr data-ogg="VDM Basketball Coach" data-corpo="&Aacute;brelo desde el ordenador: https://vdmdata.it">&#9993;&#65039; Envoie-moi le lien</button>
   </div>
   <!-- 30 settembre 2026 — LA PRIMA FIRMA DI QUALCUN ALTRO. Fino a oggi sulla
        pagina c'era solo quello che dico io di me stesso. USAP e' il sindacato
        degli allenatori professionisti: una riga come questa vale piu' di dieci
        aggettivi, e va messa in alto, dove la gente atterra. -->
   <div class="usap" data-it><span class="segno">🤝</span><span class="t"><b>Convenzionato con USAP</b>Unione Sindacale Allenatori Professionisti &mdash; condizioni riservate agli iscritti.</span></div>
-  <div class="usap" data-en><span class="segno">🤝</span><span class="t"><b>Partner of USAP</b>The Italian professional basketball coaches&rsquo; union &mdash; special terms for its members.</span></div><div class="usap" data-es><span class="segno">🤝</span><span class="t"><b>Convenio con USAP</b>El sindicato italiano de entrenadores profesionales &mdash; condiciones reservadas a sus socios.</span></div>
+  <div class="usap" data-en><span class="segno">🤝</span><span class="t"><b>Partner of USAP</b>The Italian professional basketball coaches&rsquo; union &mdash; special terms for its members.</span></div><div class="usap" data-es><span class="segno">🤝</span><span class="t"><b>Convenio con USAP</b>El sindicato italiano de entrenadores profesionales &mdash; condiciones reservadas a sus socios.</span></div><div class="usap" data-fr><span class="segno">🤝</span><span class="t"><b>Accord avec l'USAP</b>Le syndicat italien des entraîneurs professionnels &mdash; conditions réservées à ses membres.</span></div>
   <p class="nota" data-it>Si paga una volta. Nessun abbonamento, nessun account, nessun dato che esce dal tuo computer.</p>
-  <p class="nota" data-en>Pay once. No subscription, no account, no data leaving your computer.</p><p class="nota" data-es>Se paga una vez. Sin suscripción, sin cuenta, sin datos que salgan de tu ordenador.</p>
+  <p class="nota" data-en>Pay once. No subscription, no account, no data leaving your computer.</p><p class="nota" data-es>Se paga una vez. Sin suscripción, sin cuenta, sin datos que salgan de tu ordenador.</p><p class="nota" data-fr>On paie une fois. Sans abonnement, sans compte, sans données qui sortent de ton ordinateur.</p>
   <div class="dati">
-    <div><b>12</b><span data-it>lingue</span><span data-en>languages</span><span data-es>idiomas</span></div>
-    <div><b>0</b><span data-it>abbonamenti</span><span data-en>subscriptions</span><span data-es>suscripciones</span></div>
+    <div><b>12</b><span data-it>lingue</span><span data-en>languages</span><span data-es>idiomas</span><span data-fr>langues</span></div>
+    <div><b>0</b><span data-it>abbonamenti</span><span data-en>subscriptions</span><span data-es>suscripciones</span><span data-fr>abonnements</span></div>
   </div>
 </div>
 </div></div>
 
 <section id="come"><div class="wrap">
-  <div class="occhiello" data-it>Come funziona</div><div class="occhiello" data-en>How it works</div><div class="occhiello" data-es>Cómo funciona</div>
+  <div class="occhiello" data-it>Come funziona</div><div class="occhiello" data-en>How it works</div><div class="occhiello" data-es>Cómo funciona</div><div class="occhiello" data-fr>Comment ça marche</div>
   <h2 data-it>Dalla partita alla riunione tecnica, senza uscire dal programma</h2>
-  <h2 data-en>From the game to the staff meeting, without leaving the program</h2><h2 data-es>Del partido a la reunión del cuerpo técnico, sin salir del programa</h2>
+  <h2 data-en>From the game to the staff meeting, without leaving the program</h2><h2 data-es>Del partido a la reunión del cuerpo técnico, sin salir del programa</h2><h2 data-fr>Du match à la réunion du staff, sans sortir du programme</h2>
   <p class="intro" data-it>Una schermata per ogni cosa che fa: si importa la partita, si tagga guardandola, e da lì escono montaggi, fogli e presentazioni.</p>
-  <p class="intro" data-en>One screen for each thing it does: import the game, tag it as you watch, and out come reels, sheets and presentations.</p><p class="intro" data-es>Una pantalla para cada cosa: importas el partido, lo etiquetas mientras lo ves, y salen vídeos, hojas y presentaciones.</p>
+  <p class="intro" data-en>One screen for each thing it does: import the game, tag it as you watch, and out come reels, sheets and presentations.</p><p class="intro" data-es>Una pantalla para cada cosa: importas el partido, lo etiquetas mientras lo ves, y salen vídeos, hojas y presentaciones.</p><p class="intro" data-fr>Un écran pour chaque chose : tu importes le match, tu le tagues en le regardant, et il en sort des vidéos, des feuilles et des présentations.</p>
 
   <!-- 9 settembre 2026: trenta secondi girati DENTRO il programma, su una
        partita vera, con le scritte in inglese perche' nove visitatori su
@@ -752,7 +773,7 @@
            autoplay muted loop playsinline preload="metadata" controls></video>
   </div>
   <p class="didascalia" data-it>Quaranta secondi dentro il programma, su una partita vera.</p>
-  <p class="didascalia" data-en>Forty seconds inside the program, on a real game.</p><p class="didascalia" data-es>Cuarenta segundos dentro del programa, en un partido real.</p>
+  <p class="didascalia" data-en>Forty seconds inside the program, on a real game.</p><p class="didascalia" data-es>Cuarenta segundos dentro del programa, en un partido real.</p><p class="didascalia" data-fr>Quarante secondes dans le programme, sur un vrai match.</p>
 
 
   <!-- IL VIDEO PLAYBOOK. Aggiunto il 07/10/2026: era la cosa piu' nuova del
@@ -764,13 +785,13 @@
              autoplay muted loop playsinline preload="metadata" controls></video>
     </figure>
     <div class="vp-testo">
-      <h3 data-it>Video Playbook</h3><h3 data-en>Video Playbook</h3><h3 data-es>Video Playbook</h3>
+      <h3 data-it>Video Playbook</h3><h3 data-en>Video Playbook</h3><h3 data-es>Video Playbook</h3><h3 data-fr>Video Playbook</h3>
       <p data-it>Sopra la clip vera dell'avversaria, sotto il campo. Dove succede qualcosa fermi, disegni quello che e' appena successo, e riprendi.</p>
       <p data-en>The opponents' real clip on top, the court underneath. Where something happens you pause, draw what just happened, and carry on.</p>
-      <p data-es>Arriba el video real del rival, debajo la pista. Donde pasa algo pausas, dibujas lo que acaba de pasar y sigues.</p>
+      <p data-es>Arriba el video real del rival, debajo la pista. Donde pasa algo pausas, dibujas lo que acaba de pasar y sigues.</p><p data-fr>En haut la vraie vidéo de l'adversaire, en bas le terrain. Là où il se passe quelque chose tu mets en pause, tu dessines ce qui vient d'arriver, et tu continues.</p>
       <p data-it>Alla fine esce <b>un solo video</b>: l'azione vera sopra e il tuo schema che si costruisce sotto, in movimento. Per spiegarlo a una squadra, o a una sala di allenatori, non c'e' niente di piu' rapido.</p>
       <p data-en>At the end it gives you <b>one single video</b>: the real play above and your diagram building underneath, in motion. For teaching a team, or a room of coaches, there is nothing quicker.</p>
-      <p data-es>Al final sale <b>un solo video</b>: la jugada real arriba y tu esquema construyendose debajo, en movimiento. Para explicarlo a un equipo, o a una sala de entrenadores, no hay nada mas rapido.</p>
+      <p data-es>Al final sale <b>un solo video</b>: la jugada real arriba y tu esquema construyendose debajo, en movimiento. Para explicarlo a un equipo, o a una sala de entrenadores, no hay nada mas rapido.</p><p data-fr>À la fin il sort <b>une seule vidéo</b> : l'action réelle en haut et ton schéma qui se construit en dessous, en mouvement. Pour l'expliquer à une équipe, ou à une salle d'entraîneurs, il n'y a rien de plus rapide.</p>
     </div>
   </div>
 
@@ -780,21 +801,21 @@
 
   <div class="passi" style="margin-top:40px;">
     <div class="passo">
-      <h3 data-it>Importi la partita</h3><h3 data-en>Import the game</h3><h3 data-es>Importa el partido</h3>
+      <h3 data-it>Importi la partita</h3><h3 data-en>Import the game</h3><h3 data-es>Importa el partido</h3><h3 data-fr>Tu importes le match</h3>
       <p data-it>Trascini il filmato dentro VDM. La pulsantiera delle giocate si adatta da sola alla squadra che incontri.</p>
-      <p data-en>Drag the film into VDM. The play buttons adapt to the team you are facing.</p><p data-es>Arrastra el vídeo a VDM. Los botones de jugada se adaptan al equipo al que te enfrentas.</p></div>
+      <p data-en>Drag the film into VDM. The play buttons adapt to the team you are facing.</p><p data-es>Arrastra el vídeo a VDM. Los botones de jugada se adaptan al equipo al que te enfrentas.</p><p data-fr>Tu fais glisser la vidéo dans VDM. Les boutons de jeu s'adaptent à l'équipe que tu affrontes.</p></div>
     <div class="passo">
-      <h3 data-it>Tagghi guardando</h3><h3 data-en>Tag as you watch</h3><h3 data-es>Etiqueta mientras miras</h3>
+      <h3 data-it>Tagghi guardando</h3><h3 data-en>Tag as you watch</h3><h3 data-es>Etiqueta mientras miras</h3><h3 data-fr>Tu tagues en regardant</h3>
       <p data-it>Un tasto per ogni giocata. Ogni tag diventa una clip con un nome, che puoi accorciare e assegnare a un giocatore.</p>
-      <p data-en>One button per play. Each tag becomes a named clip you can trim and assign to a player.</p><p data-es>Un botón por jugada. Cada etiqueta se convierte en un clip con nombre que puedes recortar y asignar a un jugador.</p></div>
+      <p data-en>One button per play. Each tag becomes a named clip you can trim and assign to a player.</p><p data-es>Un botón por jugada. Cada etiqueta se convierte en un clip con nombre que puedes recortar y asignar a un jugador.</p><p data-fr>Un bouton par action. Chaque tag devient un clip nommé que tu peux rogner et attribuer à un joueur.</p></div>
     <div class="passo">
-      <h3 data-it>Monti e stampi</h3><h3 data-en>Build and print</h3><h3 data-es>Monta e imprime</h3>
+      <h3 data-it>Monti e stampi</h3><h3 data-en>Build and print</h3><h3 data-es>Monta e imprime</h3><h3 data-fr>Tu montes et tu imprimes</h3>
       <p data-it>Dalle clip esce un filmato solo per lo spogliatoio. Dagli stessi dati escono scouting report, personnel e playbook su A4.</p>
-      <p data-en>The clips become one film for the locker room. The same data prints as scouting report, personnel and playbook on A4.</p><p data-es>Los clips se convierten en un vídeo para el vestuario. Los mismos datos se imprimen en A4 como scouting report, personnel y playbook.</p></div>
+      <p data-en>The clips become one film for the locker room. The same data prints as scouting report, personnel and playbook on A4.</p><p data-es>Los clips se convierten en un vídeo para el vestuario. Los mismos datos se imprimen en A4 como scouting report, personnel y playbook.</p><p data-fr>Les clips deviennent une vidéo pour le vestiaire. Les mêmes données s'impriment en A4 : scouting report, personnel et playbook.</p></div>
     <div class="passo">
-      <h3 data-it>Proietti alla squadra</h3><h3 data-en>Present to the team</h3><h3 data-es>Preséntalo al equipo</h3>
+      <h3 data-it>Proietti alla squadra</h3><h3 data-en>Present to the team</h3><h3 data-es>Preséntalo al equipo</h3><h3 data-fr>Tu présentes à l'équipe</h3>
       <p data-it>Metti in fila filmati, schede e diagrammi e proietti, con i capitoli e la barra del tempo.</p>
-      <p data-en>Line up films, cards and diagrams and project them, with chapters and a time bar.</p><p data-es>Pon en fila vídeos, fichas y diagramas y proyéctalos, con capítulos y barra de tiempo.</p></div>
+      <p data-en>Line up films, cards and diagrams and project them, with chapters and a time bar.</p><p data-es>Pon en fila vídeos, fichas y diagramas y proyéctalos, con capítulos y barra de tiempo.</p><p data-fr>Tu mets à la suite vidéos, fiches et diagrammes et tu projettes, avec les chapitres et la barre de temps.</p></div>
   </div>
 </div></section>
 
@@ -805,62 +826,62 @@
      clicca. -->
 <section id="tutorial"><div class="wrap">
   <div class="occhiello" data-it>Guardalo mentre lavora</div>
-  <div class="occhiello" data-en>Watch it work</div><div class="occhiello" data-es>Míralo trabajar</div>
+  <div class="occhiello" data-en>Watch it work</div><div class="occhiello" data-es>Míralo trabajar</div><div class="occhiello" data-fr>Regarde-le travailler</div>
   <h2 data-it>I tutorial</h2>
-  <h2 data-en>The tutorials</h2><h2 data-es>Los tutoriales</h2>
+  <h2 data-en>The tutorials</h2><h2 data-es>Los tutoriales</h2><h2 data-fr>Les tutoriels</h2>
   <p class="didascalia" data-it>Niente slide: il programma vero, ripreso dallo schermo.</p>
   <p class="didascalia" data-en>No slides: the real program, recorded off the screen.</p>
-  <p class="didascalia" data-es>Sin diapositivas: el programa real, grabado de la pantalla.</p>
+  <p class="didascalia" data-es>Sin diapositivas: el programa real, grabado de la pantalla.</p><p class="didascalia" data-fr>Pas de diapositives : le vrai programme, filmé à l'écran.</p>
 
   <div class="tut-griglia">
     <a class="tut" href="https://youtu.be/f5W8AhDyf3Y" target="_blank" rel="noopener">
       <figure><img src="/clip/tutorial-1-fermo.jpg" alt="" loading="lazy"><span class="play"><span></span></span></figure>
       <h3 data-it>Dalla lega vuota al roster completo</h3>
-      <h3 data-en>From an empty league to a full roster</h3><h3 data-es>De la liga vacía al roster completo</h3>
+      <h3 data-en>From an empty league to a full roster</h3><h3 data-es>De la liga vacía al roster completo</h3><h3 data-fr>De la ligue vide au roster complet</h3>
       <p data-it>Due minuti: creo la lega, metto le squadre, e l'IA riempie roster, foto, statistiche e play type.</p>
       <p data-en>Two minutes: I create the league, add the teams, and the AI fills in roster, photos, stats and play types.</p>
-      <p data-es>Dos minutos: creo la liga, añado los equipos y la IA rellena roster, fotos, estadísticas y play types.</p>
+      <p data-es>Dos minutos: creo la liga, añado los equipos y la IA rellena roster, fotos, estadísticas y play types.</p><p data-fr>Deux minutes : je crée la ligue, j'ajoute les équipes, et l'IA remplit roster, photos, statistiques et play types.</p>
     </a>
 
     <a class="tut" href="https://youtube.com/shorts/F3yXImuYWgk" target="_blank" rel="noopener">
       <figure><img src="/clip/video-playbook-fermo.jpg" alt="" loading="lazy"><span class="play"><span></span></span></figure>
-      <h3 data-it>Video Playbook</h3><h3 data-en>Video Playbook</h3><h3 data-es>Video Playbook</h3>
+      <h3 data-it>Video Playbook</h3><h3 data-en>Video Playbook</h3><h3 data-es>Video Playbook</h3><h3 data-fr>Video Playbook</h3>
       <p data-it>La clip vera dell'avversaria sopra, lo schema che si muove sotto. Un video solo.</p>
       <p data-en>The opponents' real clip on top, the diagram moving underneath. One single video.</p>
-      <p data-es>El vídeo real del rival arriba, el esquema moviéndose debajo. Un solo vídeo.</p>
+      <p data-es>El vídeo real del rival arriba, el esquema moviéndose debajo. Un solo vídeo.</p><p data-fr>La vraie vidéo de l'adversaire en haut, le schéma qui bouge en dessous. Une seule vidéo.</p>
     </a>
 
     <a class="tut" href="https://youtube.com/shorts/N_yyC0GQ2tw" target="_blank" rel="noopener">
       <figure><img src="/clip/pick-vs-show-fermo.jpg" alt="" loading="lazy"><span class="play"><span></span></span></figure>
       <h3 data-it>Lo stesso gioco in 2D e in 3D</h3>
-      <h3 data-en>The same play in 2D and in 3D</h3><h3 data-es>La misma jugada en 2D y en 3D</h3>
+      <h3 data-en>The same play in 2D and in 3D</h3><h3 data-es>La misma jugada en 2D y en 3D</h3><h3 data-fr>Le même système en 2D et en 3D</h3>
       <p data-it>Sulla lavagna il giocatore vede righe. In 3D vede quello che si trovera' davanti in campo.</p>
       <p data-en>On the board a player sees lines. In 3D he sees what he will actually face on the floor.</p>
-      <p data-es>En la pizarra el jugador ve líneas. En 3D ve lo que se encontrará en la cancha.</p>
+      <p data-es>En la pizarra el jugador ve líneas. En 3D ve lo que se encontrará en la cancha.</p><p data-fr>Au tableau le joueur voit des lignes. En 3D il voit ce qu'il aura devant lui sur le terrain.</p>
     </a>
   </div>
 </div></section>
 
 <section id="fogli"><div class="wrap">
   <div class="occhiello" data-it>Quello che esce dalla stampante</div>
-  <div class="occhiello" data-en>What comes out of the printer</div><div class="occhiello" data-es>Lo que sale de la impresora</div>
+  <div class="occhiello" data-en>What comes out of the printer</div><div class="occhiello" data-es>Lo que sale de la impresora</div><div class="occhiello" data-fr>Ce qui sort de l'imprimante</div>
   <h2 data-it>Due clic, e il foglio è già un PDF</h2>
-  <h2 data-en>Two clicks, and the sheet is already a PDF</h2><h2 data-es>Dos clics, y la hoja ya es un PDF</h2>
+  <h2 data-en>Two clicks, and the sheet is already a PDF</h2><h2 data-es>Dos clics, y la hoja ya es un PDF</h2><h2 data-fr>Deux clics, et la feuille est déjà un PDF</h2>
   <p class="intro" data-it>Ogni sezione ha il suo bottone Stampa. Si apre il foglio già impaginato su A4: si può ancora correggere un titolo a mano, poi Stampa o Salva PDF. Nessuna esportazione da imparare, nessun programma di mezzo.</p>
-  <p class="intro" data-en>Every section has its own Print button. The sheet opens already laid out on A4: you can still fix a heading by hand, then Print or Save PDF. No export to learn, no other program in between.</p><p class="intro" data-es>Cada sección tiene su botón Imprimir. La hoja se abre ya maquetada en A4: todavía puedes corregir un título a mano, y luego Imprimir o Guardar como PDF. Nada que exportar, ningún otro programa por medio.</p>
+  <p class="intro" data-en>Every section has its own Print button. The sheet opens already laid out on A4: you can still fix a heading by hand, then Print or Save PDF. No export to learn, no other program in between.</p><p class="intro" data-es>Cada sección tiene su botón Imprimir. La hoja se abre ya maquetada en A4: todavía puedes corregir un título a mano, y luego Imprimir o Guardar como PDF. Nada que exportar, ningún otro programa por medio.</p><p class="intro" data-fr>Chaque section a son bouton Imprimer. La feuille s'ouvre déjà mise en page en A4 : tu peux encore corriger un titre à la main, puis Imprimer ou Enregistrer en PDF. Rien à exporter, aucun autre programme.</p>
 
   <div class="fogli-due">
     <div>
       <div class="fogli-schermo"><img id="fogliSchermo" src="img/come-si-stampa.webp" alt="" width="1060" height="1013" loading="lazy" decoding="async"></div>
       <p class="didascalia" data-it>Il bottone Stampa apre questa finestra: il foglio è quello vero, non un'anteprima approssimativa.</p>
-      <p class="didascalia" data-en>The Print button opens this window: the sheet is the real one, not a rough preview.</p><p class="didascalia" data-es>El botón Imprimir abre esta ventana: la hoja es la de verdad, no una vista previa aproximada.</p>
+      <p class="didascalia" data-en>The Print button opens this window: the sheet is the real one, not a rough preview.</p><p class="didascalia" data-es>El botón Imprimir abre esta ventana: la hoja es la de verdad, no una vista previa aproximada.</p><p class="didascalia" data-fr>Le bouton Imprimer ouvre cette fenêtre : la feuille est la vraie, pas un aperçu approximatif.</p>
     </div>
     <div>
       <div class="fogli-griglia" id="fogliGriglia"></div>
       <div class="fogli-azioni">
         <a class="btn primo" id="fogliPdf" href="pdf/VDM-fogli-esempio.pdf" target="_blank" rel="noopener">
           <span data-it>📄 Apri un esempio<small>PDF, tre fogli veri</small></span>
-          <span data-en>📄 Open a sample<small>PDF, three real sheets</small></span><span data-es>📄 Abre un ejemplo<small>PDF, tres hojas reales</small></span>
+          <span data-en>📄 Open a sample<small>PDF, three real sheets</small></span><span data-es>📄 Abre un ejemplo<small>PDF, tres hojas reales</small></span><span data-fr>📄 Ouvre un exemple<small>PDF, trois vraies feuilles</small></span>
         </a>
       </div>
     </div>
@@ -869,17 +890,17 @@
 
 <section id="effetti"><div class="wrap">
   <div class="occhiello" data-it>Disegni sopra la clip</div>
-  <div class="occhiello" data-en>Drawing over the clip</div><div class="occhiello" data-es>Dibujar sobre el clip</div>
+  <div class="occhiello" data-en>Drawing over the clip</div><div class="occhiello" data-es>Dibujar sobre el clip</div><div class="occhiello" data-fr>Dessiner sur le clip</div>
   <h2 data-it>Quello che vuoi far vedere, si vede</h2>
-  <h2 data-en>What you want them to see, they see</h2><h2 data-es>Lo que quieres que vean, lo ven</h2>
+  <h2 data-en>What you want them to see, they see</h2><h2 data-es>Lo que quieres que vean, lo ven</h2><h2 data-fr>Ce que tu veux qu'ils voient, ils le voient</h2>
   <p class="intro" data-it>Un pezzo di partita da solo non basta: il giocatore guarda la palla, non il blocco. Sopra ogni clip si disegna, e il disegno resta dentro al filmato che esporti — non serve nessun altro programma.</p>
-  <p class="intro" data-en>A clip on its own is not enough: the player watches the ball, not the screen. You draw over every clip, and the drawing stays inside the film you export &mdash; no other program needed.</p><p class="intro" data-es>Un clip solo no basta: el jugador mira el balón, no el bloqueo. Dibujas sobre cada clip, y el dibujo se queda dentro del vídeo que exportas &mdash; no hace falta ningún otro programa.</p>
+  <p class="intro" data-en>A clip on its own is not enough: the player watches the ball, not the screen. You draw over every clip, and the drawing stays inside the film you export &mdash; no other program needed.</p><p class="intro" data-es>Un clip solo no basta: el jugador mira el balón, no el bloqueo. Dibujas sobre cada clip, y el dibujo se queda dentro del vídeo que exportas &mdash; no hace falta ningún otro programa.</p><p class="intro" data-fr>Un clip seul ne suffit pas : le joueur regarde le ballon, pas l'écran posé. Tu dessines sur chaque clip, et le dessin reste dans la vidéo que tu exportes &mdash; aucun autre programme n'est nécessaire.</p>
 
   <div class="fx-pannello">
     <div class="fx-testata">
       <span class="fx-spia"></span>
       <b>EDIT CLIP</b><span class="sep">/</span>
-      <span id="fxNomeStrumento"><span data-it>Fascio di luce</span><span data-en>Spotlight</span><span data-es>Foco</span></span>
+      <span id="fxNomeStrumento"><span data-it>Fascio di luce</span><span data-en>Spotlight</span><span data-es>Foco</span><span data-fr>Focus</span></span>
       <span class="fx-tempo" id="fxTempo">00:00</span>
     </div>
     <div class="fx-schermo">
@@ -896,98 +917,98 @@
   <div class="fx-schede" id="fxSchede"></div>
 
   <p class="didascalia" data-it>Il filmato qui sopra è uscito dall'app: i disegni sono esportati dentro al video, non aggiunti dopo. Clicca uno strumento per rivederlo. Spezzone di repertorio a licenza libera, usato come esempio: le persone riprese non hanno alcun rapporto con VDM.</p>
-  <p class="didascalia" data-en>The film above came out of the app: the drawings are exported inside the video, not added afterwards. Click a tool to watch it again. Free-licence stock footage used as an example: the people filmed have no connection with VDM.</p><p class="didascalia" data-es>El vídeo de arriba salió de la aplicación: los dibujos están exportados dentro del vídeo, no añadidos después. Pulsa una herramienta para verlo otra vez. Imágenes de archivo con licencia libre usadas como ejemplo: las personas filmadas no tienen ninguna relación con VDM.</p>
+  <p class="didascalia" data-en>The film above came out of the app: the drawings are exported inside the video, not added afterwards. Click a tool to watch it again. Free-licence stock footage used as an example: the people filmed have no connection with VDM.</p><p class="didascalia" data-es>El vídeo de arriba salió de la aplicación: los dibujos están exportados dentro del vídeo, no añadidos después. Pulsa una herramienta para verlo otra vez. Imágenes de archivo con licencia libre usadas como ejemplo: las personas filmadas no tienen ninguna relación con VDM.</p><p class="didascalia" data-fr>La vidéo ci-dessus est sortie de l'application : les dessins sont exportés dans la vidéo, pas ajoutés après. Appuie sur un outil pour le revoir. Images d'archive sous licence libre utilisées comme exemple : les personnes filmées n'ont aucun lien avec VDM.</p>
 </div></section>
 
 <section id="voci"><div class="wrap">
   <div class="occhiello" data-it>Chi la sta provando</div>
-  <div class="occhiello" data-en>The coaches testing it</div><div class="occhiello" data-es>Los entrenadores que lo están probando</div>
+  <div class="occhiello" data-en>The coaches testing it</div><div class="occhiello" data-es>Los entrenadores que lo están probando</div><div class="occhiello" data-fr>Les entraîneurs qui l'essaient</div>
   <h2 data-it>Le prime parole di chi la usa in palestra</h2>
-  <h2 data-en>First words from the gym</h2><h2 data-es>Las primeras palabras desde el pabellón</h2>
+  <h2 data-en>First words from the gym</h2><h2 data-es>Las primeras palabras desde el pabellón</h2><h2 data-fr>Les premiers mots depuis la salle</h2>
   <p class="intro" data-it>VDM è in collaudo presso alcuni allenatori, con partite e squadre vere. Queste sono le parole di Andrea Ruggieri, assistant coach in Legadue, di Matteo Mosso della GYM Academy e di Antonello Sorci del Gran Torino Basket: hanno acconsentito a metterci il nome.</p>
-  <p class="intro" data-en>VDM is being tested by a handful of coaches, on real games with real teams. These are the words of Andrea Ruggieri, an assistant coach in Legadue &mdash; the Italian second division &mdash; of Matteo Mosso of GYM Academy and of Antonello Sorci of Gran Torino Basket: they all agreed to put their names to them.</p><p class="intro" data-es>VDM lo está probando un puñado de entrenadores, en partidos de verdad con equipos de verdad. Estas son las palabras de Andrea Ruggieri, entrenador ayudante en Legadue &mdash; la segunda división italiana &mdash; de Matteo Mosso, de la GYM Academy, y de Antonello Sorci, del Gran Torino Basket: todos aceptaron firmarlas con su nombre.</p>
+  <p class="intro" data-en>VDM is being tested by a handful of coaches, on real games with real teams. These are the words of Andrea Ruggieri, an assistant coach in Legadue &mdash; the Italian second division &mdash; of Matteo Mosso of GYM Academy and of Antonello Sorci of Gran Torino Basket: they all agreed to put their names to them.</p><p class="intro" data-es>VDM lo está probando un puñado de entrenadores, en partidos de verdad con equipos de verdad. Estas son las palabras de Andrea Ruggieri, entrenador ayudante en Legadue &mdash; la segunda división italiana &mdash; de Matteo Mosso, de la GYM Academy, y de Antonello Sorci, del Gran Torino Basket: todos aceptaron firmarlas con su nombre.</p><p class="intro" data-fr>VDM est testé par une poignée d'entraîneurs, dans de vrais matchs avec de vraies équipes. Voici les mots d'Andrea Ruggieri, entraîneur adjoint en Legadue &mdash; la deuxième division italienne &mdash; de Matteo Mosso, de la GYM Academy, et d'Antonello Sorci, du Gran Torino Basket : tous ont accepté de les signer de leur nom.</p>
 
   <div class="voci">
     <div class="voce lunga">
       <span class="virg">&ldquo;</span>
       <p data-it>La prima app che racchiude tutti i processi che uno staff utilizza per il self scouting e lo scouting avversario: tagging, playbook, scouting report, editing e montaggio. Assolutamente uno strumento da avere nel computer di professionisti e non. Altre due cose super importanti: qualità prezzo super e orgoglio italiano.</p>
-      <p data-en>The first app that brings together everything a staff does for self-scouting and opponent scouting: tagging, playbook, scouting report, editing and cutting. Absolutely a tool to have on your computer, professional or not. Two more things that matter: the value for money is excellent, and it is Italian &mdash; and that is something to be proud of.</p><p data-es>La primera aplicación que reúne todo lo que hace un cuerpo técnico para el self scouting y el scouting del rival: etiquetado, playbook, informe de scouting, edición y montaje. Sin duda una herramienta que hay que tener en el ordenador, seas profesional o no. Y dos cosas más que importan: una relación calidad-precio estupenda, y el orgullo de que sea italiana.</p>
+      <p data-en>The first app that brings together everything a staff does for self-scouting and opponent scouting: tagging, playbook, scouting report, editing and cutting. Absolutely a tool to have on your computer, professional or not. Two more things that matter: the value for money is excellent, and it is Italian &mdash; and that is something to be proud of.</p><p data-es>La primera aplicación que reúne todo lo que hace un cuerpo técnico para el self scouting y el scouting del rival: etiquetado, playbook, informe de scouting, edición y montaje. Sin duda una herramienta que hay que tener en el ordenador, seas profesional o no. Y dos cosas más que importan: una relación calidad-precio estupenda, y el orgullo de que sea italiana.</p><p data-fr>La première application qui réunit tout ce que fait un staff pour le self scouting et le scouting de l'adversaire : tagage, playbook, scouting report, édition et montage. Sans aucun doute un outil à avoir sur son ordinateur, qu'on soit professionnel ou non. Et deux choses qui comptent : un excellent rapport qualité-prix, et la fierté qu'elle soit italienne.</p>
       <div class="chi" data-it>Alex Latini · assistant coach, Libertas Livorno (Legadue) · ottobre 2026</div>
-      <div class="chi" data-en>Alex Latini · assistant coach, Libertas Livorno, Italian second division · October 2026</div><div class="chi" data-es>Alex Latini · entrenador ayudante, Libertas Livorno, segunda división italiana · octubre 2026</div>
+      <div class="chi" data-en>Alex Latini · assistant coach, Libertas Livorno, Italian second division · October 2026</div><div class="chi" data-es>Alex Latini · entrenador ayudante, Libertas Livorno, segunda división italiana · octubre 2026</div><div class="chi" data-fr>Alex Latini · entraîneur adjoint, Libertas Livorno, deuxième division italienne · octobre 2026</div>
     </div>
     <div class="voce">
       <span class="virg">&ldquo;</span>
       <p data-it>A primo impatto sembra molto intuitivo. Mi piace molto la parte di spotlight e lente d&rsquo;ingrandimento.</p>
-      <p data-en>At first glance it feels very intuitive. I really like the spotlight and the magnifier.</p><p data-es>A primera vista parece muy intuitivo. Me gusta mucho la parte del foco y de la lupa.</p>
+      <p data-en>At first glance it feels very intuitive. I really like the spotlight and the magnifier.</p><p data-es>A primera vista parece muy intuitivo. Me gusta mucho la parte del foco y de la lupa.</p><p data-fr>À première vue ça paraît très intuitif. J'aime beaucoup la partie du focus et de la loupe.</p>
       <div class="chi" data-it>Antonello Sorci &middot; coach, Gran Torino Basket &middot; settembre 2026</div>
-      <div class="chi" data-en>Antonello Sorci &middot; coach, Gran Torino Basket &middot; September 2026</div><div class="chi" data-es>Antonello Sorci &middot; entrenador, Gran Torino Basket &middot; septiembre 2026</div>
+      <div class="chi" data-en>Antonello Sorci &middot; coach, Gran Torino Basket &middot; September 2026</div><div class="chi" data-es>Antonello Sorci &middot; entrenador, Gran Torino Basket &middot; septiembre 2026</div><div class="chi" data-fr>Antonello Sorci &middot; entraîneur, Gran Torino Basket &middot; septembre 2026</div>
     </div>
     <div class="voce lunga">
       <span class="virg">&ldquo;</span>
       <p data-it>Per noi che ci affidiamo molto alla video analisi per il miglioramento del giocatore, VDM Basketball Coach è diventato uno strumento fondamentale. Integra perfettamente tagging, lavagna tattica e reportistica in un'unica piattaforma intuitiva, facendo risparmiare tantissimo tempo allo staff e rendendo i feedback con i giocatori immediati ed efficaci. Per completezza e rapporto qualità/prezzo, è una risorsa imprescindibile per chiunque voglia alzare il livello del proprio lavoro sul campo. Consigliatissimo!</p>
-      <p data-en>For us, video analysis is at the centre of how we develop players, and VDM Basketball Coach has become an essential tool. It brings tagging, the tactical board and the reports together in one intuitive program, it saves the staff a great deal of time, and it makes feedback with the players immediate and effective. For everything it covers and for what it costs, it is a must for anyone who wants to raise the level of their work on the court. Highly recommended!</p><p data-es>Para nosotros, que nos apoyamos mucho en el análisis de vídeo para la mejora del jugador, VDM Basketball Coach se ha convertido en una herramienta fundamental. Integra a la perfección el etiquetado, la pizarra táctica y los informes en un solo programa intuitivo, ahorra muchísimo tiempo al cuerpo técnico y hace que el feedback con los jugadores sea inmediato y eficaz. Por todo lo que abarca y por su relación calidad/precio, es un recurso imprescindible para quien quiera subir el nivel de su trabajo en la pista. ¡Muy recomendable!</p>
+      <p data-en>For us, video analysis is at the centre of how we develop players, and VDM Basketball Coach has become an essential tool. It brings tagging, the tactical board and the reports together in one intuitive program, it saves the staff a great deal of time, and it makes feedback with the players immediate and effective. For everything it covers and for what it costs, it is a must for anyone who wants to raise the level of their work on the court. Highly recommended!</p><p data-es>Para nosotros, que nos apoyamos mucho en el análisis de vídeo para la mejora del jugador, VDM Basketball Coach se ha convertido en una herramienta fundamental. Integra a la perfección el etiquetado, la pizarra táctica y los informes en un solo programa intuitivo, ahorra muchísimo tiempo al cuerpo técnico y hace que el feedback con los jugadores sea inmediato y eficaz. Por todo lo que abarca y por su relación calidad/precio, es un recurso imprescindible para quien quiera subir el nivel de su trabajo en la pista. ¡Muy recomendable!</p><p data-fr>Pour nous, qui nous appuyons beaucoup sur l'analyse vidéo pour la progression du joueur, VDM Basketball Coach est devenu un outil fondamental. Il intègre parfaitement le tagage, le tableau tactique et les rapports dans un seul programme intuitif, il fait gagner énormément de temps au staff et rend le retour aux joueurs immédiat et efficace. Pour tout ce qu'il couvre et pour son rapport qualité-prix, c'est une ressource indispensable pour qui veut élever le niveau de son travail sur le terrain. Je le recommande vivement !</p>
       <div class="chi" data-it>Matteo Mosso · GYM Academy · settembre 2026</div>
-      <div class="chi" data-en>Matteo Mosso · GYM Academy · September 2026</div><div class="chi" data-es>Matteo Mosso · GYM Academy · septiembre 2026</div>
+      <div class="chi" data-en>Matteo Mosso · GYM Academy · September 2026</div><div class="chi" data-es>Matteo Mosso · GYM Academy · septiembre 2026</div><div class="chi" data-fr>Matteo Mosso · GYM Academy · septembre 2026</div>
     </div>
     <div class="voce">
       <span class="virg">&ldquo;</span>
       <p data-it>Mi trovo benissimo. Credo che questa app possa risolvere tanti problemi per lo staff: ha tutto integrato ed è semplice da utilizzare.</p>
-      <p data-en>I'm getting on really well with it. I think this app can solve a lot of problems for the staff: everything is in one place and it is simple to use.</p><p data-es>Me estoy entendiendo muy bien con él. Creo que esta aplicación puede resolver muchos problemas al cuerpo técnico: está todo en un sitio y es sencillo de usar.</p>
+      <p data-en>I'm getting on really well with it. I think this app can solve a lot of problems for the staff: everything is in one place and it is simple to use.</p><p data-es>Me estoy entendiendo muy bien con él. Creo que esta aplicación puede resolver muchos problemas al cuerpo técnico: está todo en un sitio y es sencillo de usar.</p><p data-fr>Je m'entends très bien avec lui. Je crois que cette application peut résoudre beaucoup de problèmes au staff : tout est au même endroit et c'est simple à utiliser.</p>
       <div class="chi" data-it>Andrea Ruggieri · assistant coach, Legadue · agosto 2026</div>
-      <div class="chi" data-en>Andrea Ruggieri · assistant coach, Legadue · August 2026</div><div class="chi" data-es>Andrea Ruggieri · entrenador ayudante, Legadue · agosto 2026</div>
+      <div class="chi" data-en>Andrea Ruggieri · assistant coach, Legadue · August 2026</div><div class="chi" data-es>Andrea Ruggieri · entrenador ayudante, Legadue · agosto 2026</div><div class="chi" data-fr>Andrea Ruggieri · entraîneur adjoint, Legadue · août 2026</div>
     </div>
     <div class="voce">
       <span class="virg">&ldquo;</span>
       <p data-it>La cosa super dei tag è che hai effettivamente tutto sotto controllo: vedere i tag che hai fatto nelle situazioni di gioco. Anche l'edit è molto intuitivo e semplice.</p>
-      <p data-en>The great thing about the tags is that you really have everything under control: seeing the tags you made, situation by situation. The editing is very intuitive too.</p><p data-es>Lo bueno de las etiquetas es que tienes todo bajo control de verdad: ver las etiquetas que has hecho, situación por situación. El montaje también es muy intuitivo.</p>
+      <p data-en>The great thing about the tags is that you really have everything under control: seeing the tags you made, situation by situation. The editing is very intuitive too.</p><p data-es>Lo bueno de las etiquetas es que tienes todo bajo control de verdad: ver las etiquetas que has hecho, situación por situación. El montaje también es muy intuitivo.</p><p data-fr>Ce qui est bien avec les tags, c'est qu'on a vraiment tout sous contrôle : voir les tags qu'on a faits, situation par situation. Le montage aussi est très intuitif.</p>
       <div class="chi" data-it>Andrea Ruggieri · assistant coach, Legadue · agosto 2026</div>
-      <div class="chi" data-en>Andrea Ruggieri · assistant coach, Legadue · August 2026</div><div class="chi" data-es>Andrea Ruggieri · entrenador ayudante, Legadue · agosto 2026</div>
+      <div class="chi" data-en>Andrea Ruggieri · assistant coach, Legadue · August 2026</div><div class="chi" data-es>Andrea Ruggieri · entrenador ayudante, Legadue · agosto 2026</div><div class="chi" data-fr>Andrea Ruggieri · entraîneur adjoint, Legadue · août 2026</div>
     </div>
     <div class="voce">
       <span class="virg">&ldquo;</span>
       <p data-it>Anche oggi non mi ha dato nessun problema. Mai crashato.</p>
-      <p data-en>Another day without a single problem. It has never crashed.</p><p data-es>Otro día sin un solo problema. No se ha bloqueado nunca.</p>
+      <p data-en>Another day without a single problem. It has never crashed.</p><p data-es>Otro día sin un solo problema. No se ha bloqueado nunca.</p><p data-fr>Un autre jour sans le moindre problème. Il n'a jamais planté.</p>
       <div class="chi" data-it>Andrea Ruggieri · assistant coach, Legadue · agosto 2026</div>
-      <div class="chi" data-en>Andrea Ruggieri · assistant coach, Legadue · August 2026</div><div class="chi" data-es>Andrea Ruggieri · entrenador ayudante, Legadue · agosto 2026</div>
+      <div class="chi" data-en>Andrea Ruggieri · assistant coach, Legadue · August 2026</div><div class="chi" data-es>Andrea Ruggieri · entrenador ayudante, Legadue · agosto 2026</div><div class="chi" data-fr>Andrea Ruggieri · entraîneur adjoint, Legadue · août 2026</div>
     </div>
   </div>
 </div></section>
 
 <section id="cosa"><div class="wrap">
-  <div class="occhiello" data-it>Cosa fa</div><div class="occhiello" data-en>What it does</div><div class="occhiello" data-es>Qué hace</div>
+  <div class="occhiello" data-it>Cosa fa</div><div class="occhiello" data-en>What it does</div><div class="occhiello" data-es>Qué hace</div><div class="occhiello" data-fr>Ce qu'il fait</div>
   <h2 data-it>Quattro lavori che di solito stanno in quattro posti diversi</h2>
-  <h2 data-en>Four jobs that usually live in four different places</h2><h2 data-es>Cuatro trabajos que normalmente viven en cuatro sitios distintos</h2>
+  <h2 data-en>Four jobs that usually live in four different places</h2><h2 data-es>Cuatro trabajos que normalmente viven en cuatro sitios distintos</h2><h2 data-fr>Quatre travaux qui vivent d'habitude dans quatre endroits différents</h2>
   <p class="intro" data-it>I video della partita, i giochi disegnati, lo studio dell'avversario e la programmazione degli allenamenti. Nello stesso programma, organizzati per squadra.</p>
-  <p class="intro" data-en>Game film, drawn plays, opponent scouting and practice planning. In one program, organised by team.</p><p class="intro" data-es>Vídeo del partido, jugadas dibujadas, scouting del rival y planificación del entrenamiento. En un solo programa, ordenado por equipo.</p>
+  <p class="intro" data-en>Game film, drawn plays, opponent scouting and practice planning. In one program, organised by team.</p><p class="intro" data-es>Vídeo del partido, jugadas dibujadas, scouting del rival y planificación del entrenamiento. En un solo programa, ordenado por equipo.</p><p class="intro" data-fr>Vidéo du match, systèmes dessinés, scouting de l'adversaire et préparation de l'entraînement. Dans un seul programme, rangé par équipe.</p>
 
   <div class="griglia">
-    <div class="box"><span class="ico">🎥</span><h3 data-it>Video e tag</h3><h3 data-en>Film and tagging</h3><h3 data-es>Vídeo y etiquetado</h3>
+    <div class="box"><span class="ico">🎥</span><h3 data-it>Video e tag</h3><h3 data-en>Film and tagging</h3><h3 data-es>Vídeo y etiquetado</h3><h3 data-fr>Vidéo et tagage</h3>
       <p data-it>Ogni giocata diventa una clip con un nome, che puoi accorciare, assegnare a un giocatore e disegnarci sopra. I tag rapidi prendono gli ultimi secondi, per quando la giocata è già passata.</p>
-      <p data-en>Every play becomes a named clip you can trim, assign to a player and draw on. Quick tags grab the last few seconds, for when the play has already happened.</p><p data-es>Cada jugada se convierte en un clip con nombre que puedes recortar, asignar a un jugador y dibujar encima. Las etiquetas rápidas cogen los últimos segundos, para cuando la jugada ya ha pasado.</p></div>
-    <div class="box"><span class="ico">🎬</span><h3 data-it>Montaggi</h3><h3 data-en>Reels</h3><h3 data-es>Montajes</h3>
+      <p data-en>Every play becomes a named clip you can trim, assign to a player and draw on. Quick tags grab the last few seconds, for when the play has already happened.</p><p data-es>Cada jugada se convierte en un clip con nombre que puedes recortar, asignar a un jugador y dibujar encima. Las etiquetas rápidas cogen los últimos segundos, para cuando la jugada ya ha pasado.</p><p data-fr>Chaque action devient un clip nommé que tu peux rogner, attribuer à un joueur et sur lequel tu peux dessiner. Les tags rapides prennent les dernières secondes, pour quand l'action est déjà passée.</p></div>
+    <div class="box"><span class="ico">🎬</span><h3 data-it>Montaggi</h3><h3 data-en>Reels</h3><h3 data-es>Montajes</h3><h3 data-fr>Montages</h3>
       <p data-it>Dalle clip esce un filmato solo, nell'ordine che decidi tu, con il nome del gioco sopra e una copertina davanti. Un gioco, una situazione difensiva, o il filmato di un singolo giocatore.</p>
-      <p data-en>The clips become a single film, in your order, with the play name on screen and a cover card. One play, a defensive situation, or one player's reel.</p><p data-es>Los clips se convierten en un único vídeo, en tu orden, con el nombre de la jugada en pantalla y una portada. Una jugada, una situación defensiva, o el montaje de un jugador.</p></div>
-    <div class="box"><span class="ico">📋</span><h3 data-it>Playbook</h3><h3 data-en>Playbook</h3><h3 data-es>Playbook</h3>
+      <p data-en>The clips become a single film, in your order, with the play name on screen and a cover card. One play, a defensive situation, or one player's reel.</p><p data-es>Los clips se convierten en un único vídeo, en tu orden, con el nombre de la jugada en pantalla y una portada. Una jugada, una situación defensiva, o el montaje de un jugador.</p><p data-fr>Les clips deviennent une seule vidéo, dans ton ordre, avec le nom de l'action à l'écran et une couverture. Une action, une situation défensive, ou le montage d'un joueur.</p></div>
+    <div class="box"><span class="ico">📋</span><h3 data-it>Playbook</h3><h3 data-en>Playbook</h3><h3 data-es>Playbook</h3><h3 data-fr>Playbook</h3>
       <p data-it>Quattro campi in fila per ogni gioco: disegni il primo e i successivi ereditano da soli. La palla segue la logica: se passi da 1 a 4, nel campo dopo ce l'ha già la 4.</p>
-      <p data-en>Four courts in a row per play: draw the first and the rest inherit it. The ball follows the logic: pass from 1 to 4 and next court the ball is already there.</p><p data-es>Cuatro campos seguidos por jugada: dibujas el primero y el resto lo heredan. El balón sigue la lógica: pase del 1 al 4 y en el campo siguiente el balón ya está ahí.</p></div>
-    <div class="box"><span class="ico">🔎</span><h3 data-it>Scouting Report</h3><h3 data-en>Scouting Report</h3><h3 data-es>Scouting Report</h3>
+      <p data-en>Four courts in a row per play: draw the first and the rest inherit it. The ball follows the logic: pass from 1 to 4 and next court the ball is already there.</p><p data-es>Cuatro campos seguidos por jugada: dibujas el primero y el resto lo heredan. El balón sigue la lógica: pase del 1 al 4 y en el campo siguiente el balón ya está ahí.</p><p data-fr>Quatre terrains à la suite par système : tu dessines le premier et les autres en héritent. Le ballon suit la logique : passe du 1 au 4 et sur le terrain suivant le ballon est déjà là.</p></div>
+    <div class="box"><span class="ico">🔎</span><h3 data-it>Scouting Report</h3><h3 data-en>Scouting Report</h3><h3 data-es>Scouting Report</h3><h3 data-fr>Scouting Report</h3>
       <p data-it>Una scheda per ogni avversario, con punti di forza, cosa serve per vincere, le scelte tattiche e i giocatori da studiare uno per uno. Esce su A4.</p>
-      <p data-en>One sheet per opponent: strengths, what it takes to win, tactical choices and the players to study one by one. Prints on A4.</p><p data-es>Una hoja por rival: puntos fuertes, qué hace falta para ganar, decisiones tácticas y los jugadores a estudiar uno por uno. Se imprime en A4.</p></div>
-    <div class="box"><span class="ico">👥</span><h3 data-it>Personnel</h3><h3 data-en>Personnel</h3><h3 data-es>Personnel</h3>
+      <p data-en>One sheet per opponent: strengths, what it takes to win, tactical choices and the players to study one by one. Prints on A4.</p><p data-es>Una hoja por rival: puntos fuertes, qué hace falta para ganar, decisiones tácticas y los jugadores a estudiar uno por uno. Se imprime en A4.</p><p data-fr>Une feuille par adversaire : points forts, ce qu'il faut pour gagner, choix tactiques et les joueurs à étudier un par un. Ça s'imprime en A4.</p></div>
+    <div class="box"><span class="ico">👥</span><h3 data-it>Personnel</h3><h3 data-en>Personnel</h3><h3 data-es>Personnel</h3><h3 data-fr>Personnel</h3>
       <p data-it>Le schede giocatore con foto, numero, ruolo, altezza, medie e caratteristiche, disposte come vuoi tu sul foglio che porti in panchina.</p>
-      <p data-en>Player cards with photo, number, position, height, averages and traits, laid out your way on the sheet you take to the bench.</p><p data-es>Fichas de jugador con foto, dorsal, posición, altura, promedios y características, colocadas a tu manera en la hoja que te llevas al banquillo.</p></div>
-    <div class="box"><span class="ico">🎯</span><h3 data-it>Allenamenti e tiro</h3><h3 data-en>Practice and shooting</h3><h3 data-es>Entrenamiento y tiro</h3>
+      <p data-en>Player cards with photo, number, position, height, averages and traits, laid out your way on the sheet you take to the bench.</p><p data-es>Fichas de jugador con foto, dorsal, posición, altura, promedios y características, colocadas a tu manera en la hoja que te llevas al banquillo.</p><p data-fr>Fiches joueur avec photo, numéro, poste, taille, moyennes et caractéristiques, placées à ta façon sur la feuille que tu emmènes sur le banc.</p></div>
+    <div class="box"><span class="ico">🎯</span><h3 data-it>Allenamenti e tiro</h3><h3 data-en>Practice and shooting</h3><h3 data-es>Entrenamiento y tiro</h3><h3 data-fr>Entraînement et tir</h3>
       <p data-it>Piani con fasi, tempi, esercizi e diagrammi. E per tutta la stagione le sedute di tiro, quantità e percentuali, giocatore per giocatore, con l'andamento nel tempo.</p>
-      <p data-en>Plans with phases, timings, drills and diagrams. And across the season, shooting sessions with makes, attempts and percentages, player by player, with the trend.</p><p data-es>Planes con fases, tiempos, ejercicios y diagramas. Y a lo largo de la temporada, las sesiones de tiro con anotados, intentos y porcentajes, jugador por jugador, con la evolución.</p></div>
-    <div class="box"><span class="ico">📽️</span><h3 data-it>Presentazioni</h3><h3 data-en>Presentations</h3><h3 data-es>Presentaciones</h3>
+      <p data-en>Plans with phases, timings, drills and diagrams. And across the season, shooting sessions with makes, attempts and percentages, player by player, with the trend.</p><p data-es>Planes con fases, tiempos, ejercicios y diagramas. Y a lo largo de la temporada, las sesiones de tiro con anotados, intentos y porcentajes, jugador por jugador, con la evolución.</p><p data-fr>Des plans avec phases, temps, exercices et diagrammes. Et au fil de la saison, les séances de tir avec réussis, tentatives et pourcentages, joueur par joueur, avec l'évolution.</p></div>
+    <div class="box"><span class="ico">📽️</span><h3 data-it>Presentazioni</h3><h3 data-en>Presentations</h3><h3 data-es>Presentaciones</h3><h3 data-fr>Présentations</h3>
       <p data-it>Filmati, schede e diagrammi in fila, proiettati alla squadra con capitoli e barra del tempo.</p>
-      <p data-en>Films, cards and diagrams in a row, projected to the team with chapters and a time bar.</p><p data-es>Vídeos, fichas y diagramas en fila, proyectados al equipo con capítulos y barra de tiempo.</p></div>
-    <div class="box"><span class="ico">🤝</span><h3 data-it>Lavoro in comune</h3><h3 data-en>Shared work</h3><h3 data-es>Trabajo compartido</h3>
+      <p data-en>Films, cards and diagrams in a row, projected to the team with chapters and a time bar.</p><p data-es>Vídeos, fichas y diagramas en fila, proyectados al equipo con capítulos y barra de tiempo.</p><p data-fr>Vidéos, fiches et diagrammes à la suite, projetés à l'équipe avec chapitres et barre de temps.</p></div>
+    <div class="box"><span class="ico">🤝</span><h3 data-it>Lavoro in comune</h3><h3 data-en>Shared work</h3><h3 data-es>Trabajo compartido</h3><h3 data-fr>Travail partagé</h3>
       <p data-it>Più allenatori sulla stessa squadra, attraverso una cartella condivisa. Ognuno tiene le squadre che sta guardando, il resto si aggiorna col lavoro degli altri.</p>
-      <p data-en>Several coaches on one team, through a shared folder. Each holds the teams they are looking at; the rest updates with the others' work.</p><p data-es>Varios entrenadores en un mismo equipo, a través de una carpeta compartida. Cada uno tiene los equipos que está mirando; el resto se actualiza con el trabajo de los demás.</p></div>
-    <div class="box"><span class="ico">🗄️</span><h3 data-it>Archivio</h3><h3 data-en>Archive</h3><h3 data-es>Archivo</h3>
+      <p data-en>Several coaches on one team, through a shared folder. Each holds the teams they are looking at; the rest updates with the others' work.</p><p data-es>Varios entrenadores en un mismo equipo, a través de una carpeta compartida. Cada uno tiene los equipos que está mirando; el resto se actualiza con el trabajo de los demás.</p><p data-fr>Plusieurs entraîneurs sur une même équipe, par un dossier partagé. Chacun a les équipes qu'il regarde ; le reste se met à jour avec le travail des autres.</p></div>
+    <div class="box"><span class="ico">🗄️</span><h3 data-it>Archivio</h3><h3 data-en>Archive</h3><h3 data-es>Archivo</h3><h3 data-fr>Archives</h3>
       <p data-it>Scouting report, personnel e playbook si salvano in archivio: li riapri quando vuoi, li modifichi, li riporti sul foglio o li copi su un'altra squadra.</p>
-      <p data-en>Scouting reports, personnel and playbooks save to an archive: reopen, edit, put them back on the sheet or copy them to another team.</p><p data-es>Scouting reports, personnel y playbooks se guardan en un archivo: los reabres, los editas, los vuelves a poner en la hoja o los copias a otro equipo.</p></div>
+      <p data-en>Scouting reports, personnel and playbooks save to an archive: reopen, edit, put them back on the sheet or copy them to another team.</p><p data-es>Scouting reports, personnel y playbooks se guardan en un archivo: los reabres, los editas, los vuelves a poner en la hoja o los copias a otro equipo.</p><p data-fr>Scouting reports, personnel et playbooks sont rangés dans des archives : tu les rouvres, tu les modifies, tu les remets sur la feuille ou tu les copies vers une autre équipe.</p></div>
   </div>
 
   <div class="bandiere">
@@ -1005,22 +1026,22 @@
      niente da solo. Prepara l'ordine per l'IA del coach, quella che usa gia'.
      Detto storto sembra che serva pagare un abbonamento in piu'. -->
 <section id="ia"><div class="wrap">
-  <div class="occhiello" data-it>Novità</div><div class="occhiello" data-en>New</div><div class="occhiello" data-es>Novedad</div>
+  <div class="occhiello" data-it>Novità</div><div class="occhiello" data-en>New</div><div class="occhiello" data-es>Novedad</div><div class="occhiello" data-fr>Nouveau</div>
   <h2 data-it>Ottimizzato per lavorare con l'intelligenza artificiale</h2>
-  <h2 data-en>Built to work with AI</h2><h2 data-es>Optimizado para trabajar con inteligencia artificial</h2>
+  <h2 data-en>Built to work with AI</h2><h2 data-es>Optimizado para trabajar con inteligencia artificial</h2><h2 data-fr>Optimisé pour travailler avec l'intelligence artificielle</h2>
   <p class="intro" data-it>VDM non va su internet e non cerca niente da solo: prepara la richiesta da dare alla <b>tua</b> IA, quella che usi già tutti i giorni. La copi, gliela incolli, e lei cerca e prepara il file. VDM lo legge e riempie da solo le schede e il report. Non devi attivare niente e non sei legato a nessun fornitore.</p>
-  <p class="intro" data-en>VDM does not go online and does not search for anything by itself: it writes the request for <b>your</b> AI, the one you already use every day. You copy it, paste it, and the AI does the searching and prepares the file. VDM reads it and fills in the cards and the report on its own. Nothing to activate, and you are not tied to any provider.</p><p class="intro" data-es>VDM no entra en internet ni busca nada por su cuenta: prepara la petición para <b>tu</b> IA, la que ya usas cada día. La copias, se la pegas, y ella busca y prepara el archivo. VDM lo lee y rellena solo las fichas y el informe. No tienes que activar nada y no dependes de ningún proveedor.</p>
+  <p class="intro" data-en>VDM does not go online and does not search for anything by itself: it writes the request for <b>your</b> AI, the one you already use every day. You copy it, paste it, and the AI does the searching and prepares the file. VDM reads it and fills in the cards and the report on its own. Nothing to activate, and you are not tied to any provider.</p><p class="intro" data-es>VDM no entra en internet ni busca nada por su cuenta: prepara la petición para <b>tu</b> IA, la que ya usas cada día. La copias, se la pegas, y ella busca y prepara el archivo. VDM lo lee y rellena solo las fichas y el informe. No tienes que activar nada y no dependes de ningún proveedor.</p><p class="intro" data-fr>VDM ne va pas sur internet et ne cherche rien tout seul : il prépare la demande pour <b>ton</b> IA, celle que tu utilises déjà tous les jours. Tu la copies, tu la lui colles, et c'est elle qui cherche et prépare le fichier. VDM le lit et remplit tout seul les fiches et le rapport. Tu n'as rien à activer et tu ne dépends d'aucun fournisseur.</p>
 
   <div class="griglia">
-    <div class="box"><span class="ico">🤖</span><h3 data-it>Spunti e copi</h3><h3 data-en>Tick and copy</h3><h3 data-es>Marcas y copias</h3>
+    <div class="box"><span class="ico">🤖</span><h3 data-it>Spunti e copi</h3><h3 data-en>Tick and copy</h3><h3 data-es>Marcas y copias</h3><h3 data-fr>Tu coches et tu copies</h3>
       <p data-it>Logo, foto, numeri di maglia, statistiche, statistiche avanzate, play type, quintetti: spunti quello che ti serve e copi la richiesta, già scritta col nome della squadra. Scegli anche su quante partite: ultime 5, ultime 10, stagione in corso o quella scorsa.</p>
-      <p data-en>Logo, photos, jersey numbers, statistics, advanced stats, play types, lineups: tick what you need and copy the request, already written with the team name. You also choose how many games: last 5, last 10, current season or last season.</p><p data-es>Escudo, fotos, dorsales, estadísticas, estadísticas avanzadas, play types, quintetos: marcas lo que necesitas y copias la petición, ya escrita con el nombre del equipo. Eliges también sobre cuántos partidos: últimos 5, últimos 10, temporada actual o la pasada.</p></div>
-    <div class="box"><span class="ico">📂</span><h3 data-it>Entra da solo</h3><h3 data-en>It lands by itself</h3><h3 data-es>Entra solo</h3>
+      <p data-en>Logo, photos, jersey numbers, statistics, advanced stats, play types, lineups: tick what you need and copy the request, already written with the team name. You also choose how many games: last 5, last 10, current season or last season.</p><p data-es>Escudo, fotos, dorsales, estadísticas, estadísticas avanzadas, play types, quintetos: marcas lo que necesitas y copias la petición, ya escrita con el nombre del equipo. Eliges también sobre cuántos partidos: últimos 5, últimos 10, temporada actual o la pasada.</p><p data-fr>Logo, photos, numéros, statistiques, statistiques avancées, play types, cinq majeurs : tu coches ce dont tu as besoin et tu copies la demande, déjà écrite avec le nom de l'équipe. Tu choisis aussi sur combien de matchs : 5 derniers, 10 derniers, saison en cours ou passée.</p></div>
+    <div class="box"><span class="ico">📂</span><h3 data-it>Entra da solo</h3><h3 data-en>It lands by itself</h3><h3 data-es>Entra solo</h3><h3 data-fr>Il entre tout seul</h3>
       <p data-it>Colleghi una cartella una volta sola. Il file che la tua IA ci salva dentro il programma lo vede e lo legge da solo: roster, numeri, foto, statistiche e play type finiscono al loro posto, nelle schede e nel report. Non devi scegliere nessun file.</p>
-      <p data-en>You link a folder once. Whatever your AI saves in there, the program sees and reads by itself: roster, numbers, photos, statistics and play types land where they belong, in the cards and in the report. No file to pick, ever.</p><p data-es>Enlazas una carpeta una sola vez. Lo que tu IA guarde ahí, el programa lo ve y lo lee solo: plantilla, dorsales, fotos, estadísticas y play types van a su sitio, en las fichas y en el informe. Ningún archivo que elegir.</p></div>
-    <div class="box"><span class="ico">✍️</span><h3 data-it>Quello che manca lo scrivi tu</h3><h3 data-en>What is missing, you type</h3><h3 data-es>Lo que falta lo escribes tú</h3>
+      <p data-en>You link a folder once. Whatever your AI saves in there, the program sees and reads by itself: roster, numbers, photos, statistics and play types land where they belong, in the cards and in the report. No file to pick, ever.</p><p data-es>Enlazas una carpeta una sola vez. Lo que tu IA guarde ahí, el programa lo ve y lo lee solo: plantilla, dorsales, fotos, estadísticas y play types van a su sitio, en las fichas y en el informe. Ningún archivo que elegir.</p><p data-fr>Tu relies un dossier une seule fois. Ce que ton IA y enregistre, le programme le voit et le lit tout seul : effectif, numéros, photos, statistiques et play types vont à leur place, dans les fiches et dans le rapport. Aucun fichier à choisir.</p></div>
+    <div class="box"><span class="ico">✍️</span><h3 data-it>Quello che manca lo scrivi tu</h3><h3 data-en>What is missing, you type</h3><h3 data-es>Lo que falta lo escribes tú</h3><h3 data-fr>Ce qui manque, tu l'écris</h3>
       <p data-it>Di una giocatrice appena arrivata l'IA non trova niente: statistiche avanzate e play type li scrivi a mano, nella sua scheda e nel foglio di squadra. E il foglio in più si stampa o si toglie con una spunta.</p>
-      <p data-en>For a player who just joined, the AI finds nothing: advanced stats and play types you type yourself, on her card and on the team sheet. And the extra sheet prints or drops with a tick.</p><p data-es>De una jugadora recién llegada la IA no encuentra nada: las estadísticas avanzadas y los play types los escribes a mano, en su ficha y en la hoja de equipo. Y la hoja extra se imprime o se quita con una casilla.</p></div>
+      <p data-en>For a player who just joined, the AI finds nothing: advanced stats and play types you type yourself, on her card and on the team sheet. And the extra sheet prints or drops with a tick.</p><p data-es>De una jugadora recién llegada la IA no encuentra nada: las estadísticas avanzadas y los play types los escribes a mano, en su ficha y en la hoja de equipo. Y la hoja extra se imprime o se quita con una casilla.</p><p data-fr>D'une joueuse qui vient d'arriver, l'IA ne trouve rien : les statistiques avancées et les play types, tu les écris à la main, sur sa fiche et sur la feuille d'équipe. Et la feuille en plus s'imprime ou se retire avec une case.</p></div>
   </div>
 </div></section>
 
@@ -1032,14 +1053,14 @@
      serve l'iPad e non il computer. Sezione corta apposta: il prodotto
      principale resta il Coach, questo e' il fratello piccolo. -->
 <section id="playbook"><div class="wrap">
-  <div class="occhiello" data-it>Novità</div><div class="occhiello" data-en>New</div><div class="occhiello" data-es>Novedad</div>
+  <div class="occhiello" data-it>Novità</div><div class="occhiello" data-en>New</div><div class="occhiello" data-es>Novedad</div><div class="occhiello" data-fr>Nouveau</div>
   <h2 data-it>E da oggi c'è anche sull'iPad</h2>
-  <h2 data-en>And from today, it's on the iPad too</h2><h2 data-es>Y desde hoy, también en el iPad</h2>
+  <h2 data-en>And from today, it's on the iPad too</h2><h2 data-es>Y desde hoy, también en el iPad</h2><h2 data-fr>Et depuis aujourd'hui, sur iPad aussi</h2>
   <p class="intro" data-it><b>VDM Basketball Playbook</b> è il playbook da solo, per iPad: disegni i giochi con le dita, li tieni ordinati per squadra e li stampi in PDF a due, tre o quattro colonne. Quello che serve in panchina e in palestra, dove il portatile non lo apri. <b>29,99 €, una volta sola.</b></p>
-  <p class="intro" data-en><b>VDM Basketball Playbook</b> is the playbook on its own, for iPad: draw plays with your finger, keep them sorted by team, print them as a PDF in two, three or four columns. What you need on the bench and in the gym, where you don't open a laptop. <b>29.99 €, one time.</b></p><p class="intro" data-es><b>VDM Basketball Playbook</b> es el playbook solo, para iPad: dibujas las jugadas con el dedo, las tienes ordenadas por equipo y las imprimes en PDF a dos, tres o cuatro columnas. Lo que hace falta en el banquillo y en el pabellón, donde no abres el portátil. <b>29,99 €, una sola vez.</b></p>
+  <p class="intro" data-en><b>VDM Basketball Playbook</b> is the playbook on its own, for iPad: draw plays with your finger, keep them sorted by team, print them as a PDF in two, three or four columns. What you need on the bench and in the gym, where you don't open a laptop. <b>29.99 €, one time.</b></p><p class="intro" data-es><b>VDM Basketball Playbook</b> es el playbook solo, para iPad: dibujas las jugadas con el dedo, las tienes ordenadas por equipo y las imprimes en PDF a dos, tres o cuatro columnas. Lo que hace falta en el banquillo y en el pabellón, donde no abres el portátil. <b>29,99 €, una sola vez.</b></p><p class="intro" data-fr><b>VDM Basketball Playbook</b> c'est le playbook seul, pour iPad : tu dessines les systèmes au doigt, tu les as rangés par équipe et tu les imprimes en PDF sur deux, trois ou quatre colonnes. Ce qu'il faut sur le banc et dans la salle, là où tu n'ouvres pas l'ordinateur. <b>29,99 €, une seule fois.</b></p>
   <p style="margin-top:14px">
     <a class="btn primo" href="https://apps.apple.com/it/app/vdm-basketball-playbook/id6814953831?pt=129320326&amp;ct=sito&amp;mt=8" target="_blank" rel="noopener" data-it>Guardalo sull'App Store <small>per iPad · 29,99 €</small></a>
-    <a class="btn primo" href="https://apps.apple.com/it/app/vdm-basketball-playbook/id6814953831?pt=129320326&amp;ct=sito&amp;mt=8" target="_blank" rel="noopener" data-en>See it on the App Store <small>for iPad · 29.99 €</small></a><a class="btn primo" href="https://apps.apple.com/it/app/vdm-basketball-playbook/id6814953831?pt=129320326&amp;ct=sito&amp;mt=8" target="_blank" rel="noopener" data-es>Verlo en la App Store <small>para iPad · 29,99 €</small></a>
+    <a class="btn primo" href="https://apps.apple.com/it/app/vdm-basketball-playbook/id6814953831?pt=129320326&amp;ct=sito&amp;mt=8" target="_blank" rel="noopener" data-en>See it on the App Store <small>for iPad · 29.99 €</small></a><a class="btn primo" href="https://apps.apple.com/it/app/vdm-basketball-playbook/id6814953831?pt=129320326&amp;ct=sito&amp;mt=8" target="_blank" rel="noopener" data-es>Verlo en la App Store <small>para iPad · 29,99 €</small></a><a class="btn primo" href="https://apps.apple.com/it/app/vdm-basketball-playbook/id6814953831?pt=129320326&amp;ct=sito&amp;mt=8" target="_blank" rel="noopener" data-fr>Le voir sur l'App Store <small>pour iPad · 29,99 €</small></a>
   </p>
 
   <!-- 2 ottobre 2026. Il Playbook ha una pagina sua, /playbook: li' c'e'
@@ -1047,16 +1068,16 @@
        Questo e' il link che ce la fa trovare, dai visitatori e da Google. -->
   <p style="margin-top:12px">
     <a class="btn" href="/playbook/" data-it>VDM Basketball Playbook <small>il playbook per tablet · 3 giorni di prova</small></a>
-    <a class="btn" href="/playbook/" data-en>VDM Basketball Playbook <small>the playbook for tablets · 3-day trial</small></a><a class="btn" href="/playbook/" data-es>VDM Basketball Playbook <small>el playbook para tablets · 3 días de prueba</small></a>
+    <a class="btn" href="/playbook/" data-en>VDM Basketball Playbook <small>the playbook for tablets · 3-day trial</small></a><a class="btn" href="/playbook/" data-es>VDM Basketball Playbook <small>el playbook para tablets · 3 días de prueba</small></a><a class="btn" href="/playbook/" data-fr>VDM Basketball Playbook <small>le playbook pour tablettes · 3 jours d'essai</small></a>
   </p>
 </div></section>
 
 <section id="scarica"><div class="wrap">
-  <div class="occhiello" data-it>Scarica</div><div class="occhiello" data-en>Download</div><div class="occhiello" data-es>Descargar</div>
+  <div class="occhiello" data-it>Scarica</div><div class="occhiello" data-en>Download</div><div class="occhiello" data-es>Descargar</div><div class="occhiello" data-fr>Télécharger</div>
   <h2 data-it>Una licenza, il tuo computer, per sempre</h2>
-  <h2 data-en>One licence, your computer, forever</h2><h2 data-es>Una licencia, tu ordenador, para siempre</h2>
+  <h2 data-en>One licence, your computer, forever</h2><h2 data-es>Una licencia, tu ordenador, para siempre</h2><h2 data-fr>Une licence, ton ordinateur, pour toujours</h2>
   <p class="intro" data-it>Nessun abbonamento e nessun rinnovo: si compra una volta e si usa. Il tuo lavoro resta sul tuo disco.</p>
-  <p class="intro" data-en>No subscription and no renewals: buy once and use it. Your work stays on your own disk.</p><p class="intro" data-es>Sin suscripción y sin renovaciones: se compra una vez y se usa. Tu trabajo se queda en tu disco.</p>
+  <p class="intro" data-en>No subscription and no renewals: buy once and use it. Your work stays on your own disk.</p><p class="intro" data-es>Sin suscripción y sin renovaciones: se compra una vez y se usa. Tu trabajo se queda en tu disco.</p><p class="intro" data-fr>Sans abonnement et sans renouvellement : on l'achète une fois et on s'en sert. Ton travail reste sur ton disque.</p>
 
   <div class="prova-grande" data-it>
     <b>Provala gratis per 14 giorni.</b>
@@ -1069,10 +1090,12 @@
     You download the whole program: every feature, no sign-up, no credit card. If after two weeks it is not for you, you have given nothing to anyone.
   </div><div class="prova-grande" data-es><b>Pruébalo gratis 14 días.</b>
     <span class="prova-sotto">Luego, si te gusta, lo compras.</span>
-    Te descargas el programa entero: todas las funciones, sin registro y sin tarjeta de crédito. Si después de dos semanas no es para ti, no le has dado nada a nadie.</div>
-  <div class="prezzo"><b>59,99 €</b><span data-it>IVA inclusa · pagamento unico</span><span data-en>VAT included · one-time payment</span><span data-es>IVA incluido · pago único</span></div>
+    Te descargas el programa entero: todas las funciones, sin registro y sin tarjeta de crédito. Si después de dos semanas no es para ti, no le has dado nada a nadie.</div><div class="prova-grande" data-fr><b>Essaie-le gratuitement 14 jours.</b>
+    <span class="prova-sotto">Ensuite, si ça te plaît, tu l'achètes.</span>
+    Tu télécharges le programme entier : toutes les fonctions, sans inscription et sans carte bancaire. Si après deux semaines ce n'est pas pour toi, tu n'as rien donné à personne.</div>
+  <div class="prezzo"><b>59,99 €</b><span data-it>IVA inclusa · pagamento unico</span><span data-en>VAT included · one-time payment</span><span data-es>IVA incluido · pago único</span><span data-fr>TVA incluse · paiement unique</span></div>
   <p class="prezzo-lancio" data-it><b>Prezzo di lancio fino al 31 dicembre.</b> Dal 1° gennaio il programma costa 79,99 €. Chi compra adesso non paga la differenza: la licenza resta valida com'è.</p>
-  <p class="prezzo-lancio" data-en><b>Launch price until 31 December.</b> From 1 January the program costs €79.99. If you buy now you never pay the difference: your licence stays as it is.</p><p class="prezzo-lancio" data-es><b>Precio de lanzamiento hasta el 31 de diciembre.</b> Desde el 1 de enero el programa cuesta 79,99 €. Quien compra ahora no paga la diferencia: su licencia sigue igual.</p>
+  <p class="prezzo-lancio" data-en><b>Launch price until 31 December.</b> From 1 January the program costs €79.99. If you buy now you never pay the difference: your licence stays as it is.</p><p class="prezzo-lancio" data-es><b>Precio de lanzamiento hasta el 31 de diciembre.</b> Desde el 1 de enero el programa cuesta 79,99 €. Quien compra ahora no paga la diferencia: su licencia sigue igual.</p><p class="prezzo-lancio" data-fr><b>Prix de lancement jusqu'au 31 décembre.</b> À partir du 1er janvier le programme coûte 79,99 €. Qui achète maintenant ne paie pas la différence : sa licence reste la même.</p>
 
   <div class="solo-pc" data-it>
     <b>VDM è un programma da computer.</b>
@@ -1082,35 +1105,36 @@
     <b>VDM is a desktop program.</b>
     It runs on Mac and on Windows. <b style="display:inline">It does not install on iPhone or iPad</b>: if you are reading this on your phone, open this page again on the computer you work on.
   </div><div class="solo-pc" data-es><b>VDM es un programa de ordenador.</b>
-    Funciona en Mac y en Windows. <b style="display:inline">No se instala en iPhone ni en iPad</b>: si estás leyendo esto desde el móvil, vuelve a abrir esta página en el ordenador con el que trabajas.</div>
+    Funciona en Mac y en Windows. <b style="display:inline">No se instala en iPhone ni en iPad</b>: si estás leyendo esto desde el móvil, vuelve a abrir esta página en el ordenador con el que trabajas.</div><div class="solo-pc" data-fr><b>VDM est un programme d'ordinateur.</b>
+    Il fonctionne sur Mac et sur Windows. <b style="display:inline">Il ne s'installe ni sur iPhone ni sur iPad</b> : si tu lis ceci depuis un téléphone, rouvre cette page sur l'ordinateur avec lequel tu travailles.</div>
   <div class="scarica">
     <div class="piatto">
       <h3>macOS</h3>
       <p class="req" data-it>macOS 11 o successivo · Apple Silicon e Intel</p>
-      <p class="req" data-en>macOS 11 or later · Apple Silicon and Intel</p><p class="req" data-es>macOS 11 o posterior · Apple Silicon e Intel</p>
+      <p class="req" data-en>macOS 11 or later · Apple Silicon and Intel</p><p class="req" data-es>macOS 11 o posterior · Apple Silicon e Intel</p><p class="req" data-fr>macOS 11 ou plus récent · Apple Silicon et Intel</p>
       <a class="btn primo" href="/scarica-mac.html" id="dlMac" data-it>Scarica gratis per Mac <small>file .dmg · 14 giorni</small></a>
-      <a class="btn primo" href="/scarica-mac.html" data-en>Download free for Mac <small>.dmg file · 14 days</small></a><a class="btn primo" href="/scarica-mac.html" data-es>Descarga gratis para Mac <small>archivo .dmg · 14 días</small></a>
+      <a class="btn primo" href="/scarica-mac.html" data-en>Download free for Mac <small>.dmg file · 14 days</small></a><a class="btn primo" href="/scarica-mac.html" data-es>Descarga gratis para Mac <small>archivo .dmg · 14 días</small></a><a class="btn primo" href="/scarica-mac.html" data-fr>Téléchargement gratuit pour Mac <small>fichier .dmg · 14 jours</small></a>
       <p class="prova" data-it>✓ Prova gratuita di 14 giorni — il programma completo, senza registrarsi</p>
-      <p class="prova" data-en>✓ Free 14-day trial — the whole program, no sign-up</p><p class="prova" data-es>✓ Prueba gratuita de 14 días — el programa entero, sin registro</p>
+      <p class="prova" data-en>✓ Free 14-day trial — the whole program, no sign-up</p><p class="prova" data-es>✓ Prueba gratuita de 14 días — el programa entero, sin registro</p><p class="prova" data-fr>✓ Essai gratuit de 14 jours — le programme entier, sans inscription</p>
       <!-- 7 settembre 2026: il negozio Apple stava in un riquadro tutto suo, in fondo,
            e sembrava un altro prodotto. Ora sta qui sotto il Mac, dove uno lo cerca. -->
       <a class="btn negozio" href="https://apps.apple.com/app/id6804416013?pt=129320326&amp;ct=sito&amp;mt=8" target="_blank" rel="noopener" id="dlAsc" data-it>Compralo sul Mac App Store</a>
-      <a class="btn negozio" href="https://apps.apple.com/app/id6804416013?pt=129320326&amp;ct=sito&amp;mt=8" target="_blank" rel="noopener" data-en>Buy it on the Mac App Store</a><a class="btn negozio" href="https://apps.apple.com/app/id6804416013?pt=129320326&amp;ct=sito&amp;mt=8" target="_blank" rel="noopener" data-es>Cómpralo en la Mac App Store</a>
+      <a class="btn negozio" href="https://apps.apple.com/app/id6804416013?pt=129320326&amp;ct=sito&amp;mt=8" target="_blank" rel="noopener" data-en>Buy it on the Mac App Store</a><a class="btn negozio" href="https://apps.apple.com/app/id6804416013?pt=129320326&amp;ct=sito&amp;mt=8" target="_blank" rel="noopener" data-es>Cómpralo en la Mac App Store</a><a class="btn negozio" href="https://apps.apple.com/app/id6804416013?pt=129320326&amp;ct=sito&amp;mt=8" target="_blank" rel="noopener" data-fr>Achète-le sur le Mac App Store</a>
       <p class="req" data-it>Controllato da Apple, aggiornamenti automatici</p>
-      <p class="req" data-en>Checked by Apple, automatic updates</p><p class="req" data-es>Verificado por Apple, actualizaciones automáticas</p>
+      <p class="req" data-en>Checked by Apple, automatic updates</p><p class="req" data-es>Verificado por Apple, actualizaciones automáticas</p><p class="req" data-fr>Vérifié par Apple, mises à jour automatiques</p>
     </div>
     <div class="piatto">
       <h3>Windows</h3>
       <p class="req" data-it>Windows 10 e 11 · 64 bit</p>
-      <p class="req" data-en>Windows 10 and 11 · 64-bit</p><p class="req" data-es>Windows 10 y 11 · 64 bits</p>
+      <p class="req" data-en>Windows 10 and 11 · 64-bit</p><p class="req" data-es>Windows 10 y 11 · 64 bits</p><p class="req" data-fr>Windows 10 et 11 · 64 bits</p>
       <a class="btn primo" href="/scarica-win.html" id="dlWin" data-it>Scarica gratis per Windows <small>file .exe · 14 giorni</small></a>
-      <a class="btn primo" href="/scarica-win.html" data-en>Download free for Windows <small>.exe file · 14 days</small></a><a class="btn primo" href="/scarica-win.html" data-es>Descarga gratis para Windows <small>archivo .exe · 14 días</small></a>
+      <a class="btn primo" href="/scarica-win.html" data-en>Download free for Windows <small>.exe file · 14 days</small></a><a class="btn primo" href="/scarica-win.html" data-es>Descarga gratis para Windows <small>archivo .exe · 14 días</small></a><a class="btn primo" href="/scarica-win.html" data-fr>Téléchargement gratuit pour Windows <small>fichier .exe · 14 jours</small></a>
       <p class="prova" data-it>✓ Prova gratuita di 14 giorni — il programma completo, senza registrarsi</p>
-      <p class="prova" data-en>✓ Free 14-day trial — the whole program, no sign-up</p><p class="prova" data-es>✓ Prueba gratuita de 14 días — el programa entero, sin registro</p>
+      <p class="prova" data-en>✓ Free 14-day trial — the whole program, no sign-up</p><p class="prova" data-es>✓ Prueba gratuita de 14 días — el programa entero, sin registro</p><p class="prova" data-fr>✓ Essai gratuit de 14 jours — le programme entier, sans inscription</p>
       <a class="btn negozio" href="https://apps.microsoft.com/detail/9NLD6JCZNJ0G?cid=sito" target="_blank" rel="noopener" id="dlMs" data-it>Compralo sul Microsoft Store</a>
-      <a class="btn negozio" href="https://apps.microsoft.com/detail/9NLD6JCZNJ0G?cid=sito" target="_blank" rel="noopener" data-en>Buy it on the Microsoft Store</a><a class="btn negozio" href="https://apps.microsoft.com/detail/9NLD6JCZNJ0G?cid=sito" target="_blank" rel="noopener" data-es>Cómpralo en la Microsoft Store</a>
+      <a class="btn negozio" href="https://apps.microsoft.com/detail/9NLD6JCZNJ0G?cid=sito" target="_blank" rel="noopener" data-en>Buy it on the Microsoft Store</a><a class="btn negozio" href="https://apps.microsoft.com/detail/9NLD6JCZNJ0G?cid=sito" target="_blank" rel="noopener" data-es>Cómpralo en la Microsoft Store</a><a class="btn negozio" href="https://apps.microsoft.com/detail/9NLD6JCZNJ0G?cid=sito" target="_blank" rel="noopener" data-fr>Achète-le sur le Microsoft Store</a>
       <p class="req" data-it>Nessun avviso di Windows, aggiornamenti automatici</p>
-      <p class="req" data-en>No Windows warning, automatic updates</p><p class="req" data-es>Sin aviso de Windows, actualizaciones automáticas</p>
+      <p class="req" data-en>No Windows warning, automatic updates</p><p class="req" data-es>Sin aviso de Windows, actualizaciones automáticas</p><p class="req" data-fr>Sans avertissement de Windows, mises à jour automatiques</p>
     </div>
   </div>
   <!-- 23 settembre 2026: il terzo modo di comprare. Prima qui c'erano solo i due
@@ -1121,7 +1145,7 @@
        solo il programma, che lo mostra nel pannello Licenza. -->
   <div class="avviso-win">
     <b data-it>Oppure comprala direttamente da me.</b>
-    <b data-en>Or buy it directly from me.</b><b data-es>O c&oacute;mprala directamente a m&iacute;.</b>
+    <b data-en>Or buy it directly from me.</b><b data-es>O c&oacute;mprala directamente a m&iacute;.</b><b data-fr>Ou ach&egrave;te-la-moi directement.</b>
     <p data-it>Scrivimi a <b>info@vdmdata.it</b>: ti rispondo con i dati per il bonifico e, appena arriva,
       ti mando la chiave da incollare nel programma. Resti nella copia che stai gi&agrave; usando e il tuo
       lavoro resta dov'&egrave;: niente negozio, niente da reinstallare. Il codice del tuo computer lo trovi
@@ -1129,15 +1153,15 @@
     <p data-en>Write to <b>info@vdmdata.it</b>: I reply with the bank transfer details and, as soon as it
       arrives, I send you the key to paste into the program. You stay in the copy you are already using and
       your work stays where it is: no store, nothing to reinstall. The code of your computer is in the
-      program, in the <b>Licence</b> panel.</p><p data-es>Escr&iacute;beme a <b>info@vdmdata.it</b>: te respondo con los datos para la transferencia y, en cuanto llega, te mando la clave para pegarla en el programa. Te quedas en la copia que ya est&aacute;s usando y tu trabajo se queda donde est&aacute;: sin tienda y sin reinstalar nada. El c&oacute;digo de tu ordenador est&aacute; en el programa, en el panel <b>Licencia</b>.</p>
+      program, in the <b>Licence</b> panel.</p><p data-es>Escr&iacute;beme a <b>info@vdmdata.it</b>: te respondo con los datos para la transferencia y, en cuanto llega, te mando la clave para pegarla en el programa. Te quedas en la copia que ya est&aacute;s usando y tu trabajo se queda donde est&aacute;: sin tienda y sin reinstalar nada. El c&oacute;digo de tu ordenador est&aacute; en el programa, en el panel <b>Licencia</b>.</p><p data-fr>&Eacute;cris-moi &agrave; <b>info@vdmdata.it</b> : je te r&eacute;ponds avec les coordonn&eacute;es pour le virement et, d&egrave;s qu'il arrive, je t'envoie la cl&eacute; &agrave; coller dans le programme. Tu restes sur la copie que tu utilises d&eacute;j&agrave; et ton travail reste o&ugrave; il est : sans boutique et sans rien r&eacute;installer. Le code de ton ordinateur est dans le programme, dans le panneau <b>Licence</b>.</p>
     <p style="margin-top:14px">
       <a class="btn negozio" href="mailto:info@vdmdata.it?subject=Vorrei%20comprare%20VDM%20Basketball%20Coach&body=Buongiorno%2C%0Avorrei%20comprare%20VDM%20Basketball%20Coach.%0A%0AGrazie." data-it>&#9993;&#65039; Scrivimi per comprarla</a>
-      <a class="btn negozio" href="mailto:info@vdmdata.it?subject=I%27d%20like%20to%20buy%20VDM%20Basketball%20Coach&body=Hello%2C%0AI%27d%20like%20to%20buy%20VDM%20Basketball%20Coach.%0A%0AThank%20you." data-en>&#9993;&#65039; Write to me to buy it</a><a class="btn negozio" href="mailto:info@vdmdata.it?subject=Quisiera%20comprar%20VDM%20Basketball%20Coach&body=Buenos%20d%C3%ADas%2C%0Aquisiera%20comprar%20VDM%20Basketball%20Coach.%0A%0AGracias." data-es>&#9993;&#65039; Escr&iacute;beme para comprarla</a>
+      <a class="btn negozio" href="mailto:info@vdmdata.it?subject=I%27d%20like%20to%20buy%20VDM%20Basketball%20Coach&body=Hello%2C%0AI%27d%20like%20to%20buy%20VDM%20Basketball%20Coach.%0A%0AThank%20you." data-en>&#9993;&#65039; Write to me to buy it</a><a class="btn negozio" href="mailto:info@vdmdata.it?subject=Quisiera%20comprar%20VDM%20Basketball%20Coach&body=Buenos%20d%C3%ADas%2C%0Aquisiera%20comprar%20VDM%20Basketball%20Coach.%0A%0AGracias." data-es>&#9993;&#65039; Escr&iacute;beme para comprarla</a><a class="btn negozio" href="mailto:info@vdmdata.it?subject=Quisiera%20comprar%20VDM%20Basketball%20Coach&body=Buenos%20d%C3%ADas%2C%0Aquisiera%20comprar%20VDM%20Basketball%20Coach.%0A%0AGracias." data-fr>&#9993;&#65039; &Eacute;cris-moi pour l'acheter</a>
     </p>
   </div>
   <div class="avviso-win">
     <b data-it>Su Windows compare un avviso azzurro: è normale.</b>
-    <b data-en>Windows shows a blue warning: that is normal.</b><b data-es>Windows muestra un aviso azul: es normal.</b>
+    <b data-en>Windows shows a blue warning: that is normal.</b><b data-es>Windows muestra un aviso azul: es normal.</b><b data-fr>Windows affiche un avertissement bleu : c'est normal.</b>
     <p data-it>Windows segnala tutti i programmi di chi non paga un certificato annuale, e io non lo pago:
       quei soldi preferisco non farteli pagare. Non vuol dire che il file sia pericoloso.
       Quando compare la finestra <i>Windows ha protetto il PC</i>, clicca su <b>Ulteriori informazioni</b>
@@ -1145,9 +1169,9 @@
     <p data-en>Windows flags every program whose author does not pay for a yearly certificate, and I do not pay for one —
       I would rather not charge you for it. It does not mean the file is unsafe.
       When the <i>Windows protected your PC</i> window appears, click <b>More info</b>,
-      then <b>Run anyway</b>. The warning fades away as more people download it.</p><p data-es>Windows avisa de todos los programas cuyo autor no paga un certificado anual, y yo no lo pago — prefiero no cobrártelo a ti. No significa que el archivo sea peligroso. Cuando aparezca la ventana <i>Windows protegió su PC</i>, pulsa <b>Más información</b> y luego <b>Ejecutar de todas formas</b>. El aviso desaparece a medida que más gente lo descarga.</p>
+      then <b>Run anyway</b>. The warning fades away as more people download it.</p><p data-es>Windows avisa de todos los programas cuyo autor no paga un certificado anual, y yo no lo pago — prefiero no cobrártelo a ti. No significa que el archivo sea peligroso. Cuando aparezca la ventana <i>Windows protegió su PC</i>, pulsa <b>Más información</b> y luego <b>Ejecutar de todas formas</b>. El aviso desaparece a medida que más gente lo descarga.</p><p data-fr>Windows avertit pour tous les programmes dont l'auteur ne paie pas un certificat annuel, et je ne le paie pas &mdash; je pr&eacute;f&egrave;re ne pas te le faire payer. &Ccedil;a ne veut pas dire que le fichier est dangereux. Quand la fen&ecirc;tre <i>Windows a prot&eacute;g&eacute; votre ordinateur</i> appara&icirc;t, appuie sur <b>Informations compl&eacute;mentaires</b> puis sur <b>Ex&eacute;cuter quand m&ecirc;me</b>. L'avertissement dispara&icirc;t &agrave; mesure que plus de gens le t&eacute;l&eacute;chargent.</p>
     <b data-it>Se il file non si scarica proprio.</b>
-    <b data-en>If the file will not even download.</b><b data-es>Si el archivo ni siquiera se descarga.</b>
+    <b data-en>If the file will not even download.</b><b data-es>Si el archivo ni siquiera se descarga.</b><b data-fr>Si le fichier ne se t&eacute;l&eacute;charge m&ecirc;me pas.</b>
     <p data-it>A volte e' il browser a fermare il file prima ancora di salvarlo. In <b>Edge</b>: apri i download in alto a
       destra, passa il mouse sul file, clicca i tre puntini e scegli <b>Mantieni</b>, poi <b>Mostra altro</b> e
       <b>Mantieni comunque</b>. In <b>Chrome</b>: nei download, clicca sulla freccia accanto al file e scegli
@@ -1157,7 +1181,7 @@
       at the top right, hover over the file, click the three dots and choose <b>Keep</b>, then <b>Show more</b> and
       <b>Keep anyway</b>. In <b>Chrome</b>: in the downloads, click the arrow next to the file and choose <b>Keep</b>.
       If you would rather not deal with it, get it from the <b>Microsoft Store</b> above: from there it installs with no
-      warning at all.</p><p data-es>A veces es el navegador el que detiene el archivo antes incluso de guardarlo. En <b>Edge</b>: abre las descargas arriba a la derecha, pasa el rat&oacute;n por encima del archivo, pulsa los tres puntos y elige <b>Conservar</b>, luego <b>Mostrar m&aacute;s</b> y <b>Conservar de todas formas</b>. En <b>Chrome</b>: en las descargas, pulsa la flecha junto al archivo y elige <b>Conservar</b>. Si prefieres no complicarte, c&oacute;gelo de la <b>Microsoft Store</b> de arriba: desde ah&iacute; se instala sin ning&uacute;n aviso.</p>
+      warning at all.</p><p data-es>A veces es el navegador el que detiene el archivo antes incluso de guardarlo. En <b>Edge</b>: abre las descargas arriba a la derecha, pasa el rat&oacute;n por encima del archivo, pulsa los tres puntos y elige <b>Conservar</b>, luego <b>Mostrar m&aacute;s</b> y <b>Conservar de todas formas</b>. En <b>Chrome</b>: en las descargas, pulsa la flecha junto al archivo y elige <b>Conservar</b>. Si prefieres no complicarte, c&oacute;gelo de la <b>Microsoft Store</b> de arriba: desde ah&iacute; se instala sin ning&uacute;n aviso.</p><p data-fr>Parfois c'est le navigateur qui bloque le fichier avant m&ecirc;me de l'enregistrer. Dans <b>Edge</b> : ouvre les t&eacute;l&eacute;chargements en haut &agrave; droite, passe la souris sur le fichier, appuie sur les trois points et choisis <b>Conserver</b>, puis <b>Afficher plus</b> et <b>Conserver quand m&ecirc;me</b>. Dans <b>Chrome</b> : dans les t&eacute;l&eacute;chargements, appuie sur la fl&egrave;che &agrave; c&ocirc;t&eacute; du fichier et choisis <b>Conserver</b>. Si tu pr&eacute;f&egrave;res ne pas te compliquer, prends-le sur le <b>Microsoft Store</b> ci-dessus : de l&agrave; il s'installe sans aucun avertissement.</p>
   </div>
   <p class="nota" data-it>Il programma si scarica e si installa: alla prima apertura chiede la chiave. Dopo l'acquisto ricevi una chiave legata al tuo computer. Se cambi computer, scrivimi e te ne faccio una nuova.</p>
   <!-- 10 settembre 2026, sera. Il link Windows e' rimasto rotto due giorni e nessuno
@@ -1165,40 +1189,40 @@
        pagina per segnalarlo. Chi trova un intoppo se ne va: non scrive. Quindi
        l'indirizzo va messo QUI, dove l'intoppo succede, non solo la' sotto. -->
   <p class="scrivimi" data-it>Qualcosa non funziona, o il file non si scarica? <b>Scrivimi:</b> <a href="https://www.instagram.com/vdmbasketballcoach/" rel="me noopener" target="_blank" aria-label="VDM Basketball Coach su Instagram">Instagram</a><a href="mailto:info@vdmdata.it">info@vdmdata.it</a> &mdash; rispondo io, di solito in giornata.</p>
-  <p class="scrivimi" data-en>Something not working, or the file won't download? <b>Write to me:</b> <a href="mailto:info@vdmdata.it">info@vdmdata.it</a> &mdash; it's me who answers, usually the same day.</p><p class="scrivimi" data-es>&iquest;Algo no funciona, o el archivo no se descarga? <b>Escr&iacute;beme:</b> <a href="mailto:info@vdmdata.it">info@vdmdata.it</a> &mdash; contesto yo, normalmente el mismo d&iacute;a.</p>
-  <p class="nota" data-en>Download it and install it: it asks for the key on first launch. After purchase you receive a key tied to your computer. If you change computer, write to me and I'll issue a new one.</p><p class="nota" data-es>Descárgalo e instálalo: al abrirlo por primera vez pide la clave. Después de la compra recibes una clave ligada a tu ordenador. Si cambias de ordenador, escríbeme y te hago una nueva.</p>
+  <p class="scrivimi" data-en>Something not working, or the file won't download? <b>Write to me:</b> <a href="mailto:info@vdmdata.it">info@vdmdata.it</a> &mdash; it's me who answers, usually the same day.</p><p class="scrivimi" data-es>&iquest;Algo no funciona, o el archivo no se descarga? <b>Escr&iacute;beme:</b> <a href="mailto:info@vdmdata.it">info@vdmdata.it</a> &mdash; contesto yo, normalmente el mismo d&iacute;a.</p><p class="scrivimi" data-fr>Quelque chose ne marche pas, ou le fichier ne se t&eacute;l&eacute;charge pas ? <b>&Eacute;cris-moi :</b> <a href="mailto:info@vdmdata.it">info@vdmdata.it</a> &mdash; c'est moi qui r&eacute;ponds, en g&eacute;n&eacute;ral le jour m&ecirc;me.</p>
+  <p class="nota" data-en>Download it and install it: it asks for the key on first launch. After purchase you receive a key tied to your computer. If you change computer, write to me and I'll issue a new one.</p><p class="nota" data-es>Descárgalo e instálalo: al abrirlo por primera vez pide la clave. Después de la compra recibes una clave ligada a tu ordenador. Si cambias de ordenador, escríbeme y te hago una nueva.</p><p class="nota" data-fr>Télécharge-le et installe-le : à la première ouverture il demande la clé. Après l'achat tu reçois une clé liée à ton ordinateur. Si tu changes d'ordinateur, écris-moi et je t'en fais une nouvelle.</p>
 </div></section>
 
 <section id="domande"><div class="wrap">
-  <div class="occhiello" data-it>Domande</div><div class="occhiello" data-en>Questions</div><div class="occhiello" data-es>Preguntas</div>
+  <div class="occhiello" data-it>Domande</div><div class="occhiello" data-en>Questions</div><div class="occhiello" data-es>Preguntas</div><div class="occhiello" data-fr>Questions</div>
   <h2 data-it>Le cose che mi chiedono più spesso</h2>
-  <h2 data-en>What I get asked most</h2><h2 data-es>Lo que más me preguntan</h2>
+  <h2 data-en>What I get asked most</h2><h2 data-es>Lo que más me preguntan</h2><h2 data-fr>Ce qu'on me demande le plus</h2>
   <p class="intro" data-it>Le altre stanno nelle <a href="istruzioni.html">istruzioni complete</a>, divise per argomento.</p>
-  <p class="intro" data-en>The rest are in the <a href="istruzioni.html">full guide</a>, by topic.</p><p class="intro" data-es>El resto está en la <a href="istruzioni.html">guía completa</a>, por temas.</p>
+  <p class="intro" data-en>The rest are in the <a href="istruzioni.html">full guide</a>, by topic.</p><p class="intro" data-es>El resto está en la <a href="istruzioni.html">guía completa</a>, por temas.</p><p class="intro" data-fr>Le reste est dans le <a href="istruzioni.html">guide complet</a>, par thèmes.</p>
 
-  <details class="dom"><summary><span data-it>Il mio lavoro va su internet?</span><span data-en>Does my work go on the internet?</span><span data-es>¿Mi trabajo va a internet?</span></summary>
+  <details class="dom"><summary><span data-it>Il mio lavoro va su internet?</span><span data-en>Does my work go on the internet?</span><span data-es>¿Mi trabajo va a internet?</span><span data-fr>Mon travail part-il sur internet ?</span></summary>
     <p data-it>No. Roster, video, playbook, scouting e allenamenti restano sul disco del tuo computer. VDM non ha account e non manda niente a nessun server.</p>
-    <p data-en>No. Rosters, film, playbooks, scouting and practices stay on your computer's disk. VDM has no accounts and sends nothing to any server.</p><p data-es>No. Plantillas, vídeos, playbooks, scouting y entrenamientos se quedan en el disco de tu ordenador. VDM no tiene cuentas y no envía nada a ningún servidor.</p></details>
-  <details class="dom"><summary><span data-it>Serve internet per usarlo?</span><span data-en>Do I need internet to use it?</span><span data-es>¿Hace falta internet para usarlo?</span></summary>
+    <p data-en>No. Rosters, film, playbooks, scouting and practices stay on your computer's disk. VDM has no accounts and sends nothing to any server.</p><p data-es>No. Plantillas, vídeos, playbooks, scouting y entrenamientos se quedan en el disco de tu ordenador. VDM no tiene cuentas y no envía nada a ningún servidor.</p><p data-fr>Non. Effectifs, vidéos, playbooks, scouting et entraînements restent sur le disque de ton ordinateur. VDM n'a pas de comptes et n'envoie rien à aucun serveur.</p></details>
+  <details class="dom"><summary><span data-it>Serve internet per usarlo?</span><span data-en>Do I need internet to use it?</span><span data-es>¿Hace falta internet para usarlo?</span><span data-fr>Faut-il internet pour l'utiliser ?</span></summary>
     <p data-it>No, si lavora senza rete. Serve solo se usi il lavoro in comune con altri allenatori, e in quel caso dipende dalla cartella che condividete.</p>
-    <p data-en>No, it works offline. You only need it for shared work with other coaches, and there it depends on the folder you share.</p><p data-es>No, funciona sin conexión. Solo hace falta para el trabajo compartido con otros entrenadores, y ahí depende de la carpeta que compartáis.</p></details>
-  <details class="dom"><summary><span data-it>Posso provarlo prima di comprarlo?</span><span data-en>Can I try it before buying?</span><span data-es>¿Puedo probarlo antes de comprarlo?</span></summary>
+    <p data-en>No, it works offline. You only need it for shared work with other coaches, and there it depends on the folder you share.</p><p data-es>No, funciona sin conexión. Solo hace falta para el trabajo compartido con otros entrenadores, y ahí depende de la carpeta que compartáis.</p><p data-fr>Non, il fonctionne hors connexion. Il ne sert que pour le travail partagé avec d'autres entraîneurs, et là ça dépend du dossier que vous partagez.</p></details>
+  <details class="dom"><summary><span data-it>Posso provarlo prima di comprarlo?</span><span data-en>Can I try it before buying?</span><span data-es>¿Puedo probarlo antes de comprarlo?</span><span data-fr>Puis-je l'essayer avant de l'acheter ?</span></summary>
     <p data-it>Sì. Quello che scarichi da questo sito è il programma intero e funziona <b>14 giorni</b>, senza registrazione, senza carta di credito e senza limiti sulle funzioni. Passati i 14 giorni serve la licenza, e il lavoro che hai fatto resta dov'è.</p>
-    <p data-en>Yes. What you download from this site is the whole program and it runs for <b>14 days</b> — no sign-up, no credit card, no features held back. After the 14 days you need a licence, and the work you have done stays where it is.</p><p data-es>Sí. Lo que descargas desde esta web es el programa entero y funciona durante <b>14 días</b> — sin registro, sin tarjeta de crédito, sin funciones capadas. Pasados los 14 días hace falta una licencia, y el trabajo que has hecho se queda donde está.</p></details>
-  <details class="dom"><summary><span data-it>Che formati video legge?</span><span data-en>Which video formats does it read?</span><span data-es>¿Qué formatos de vídeo lee?</span></summary>
+    <p data-en>Yes. What you download from this site is the whole program and it runs for <b>14 days</b> — no sign-up, no credit card, no features held back. After the 14 days you need a licence, and the work you have done stays where it is.</p><p data-es>Sí. Lo que descargas desde esta web es el programa entero y funciona durante <b>14 días</b> — sin registro, sin tarjeta de crédito, sin funciones capadas. Pasados los 14 días hace falta una licencia, y el trabajo que has hecho se queda donde está.</p><p data-fr>Oui. Ce que tu télécharges depuis ce site est le programme entier et il fonctionne pendant <b>14 jours</b> — sans inscription, sans carte bancaire, sans fonctions bridées. Passés les 14 jours il faut une licence, et le travail que tu as fait reste où il est.</p></details>
+  <details class="dom"><summary><span data-it>Che formati video legge?</span><span data-en>Which video formats does it read?</span><span data-es>¿Qué formatos de vídeo lee?</span><span data-fr>Quels formats vidéo lit-il ?</span></summary>
     <p data-it>Quelli che legge il tuo computer: mp4, mov, m4v, webm. Se un filmato non si apre, spesso basta convertirlo in mp4.</p>
-    <p data-en>The ones your computer reads: mp4, mov, m4v, webm. If a film won't open, converting it to mp4 usually solves it.</p><p data-es>Los que lee tu ordenador: mp4, mov, m4v, webm. Si un vídeo no se abre, convertirlo a mp4 suele resolverlo.</p></details>
-  <details class="dom"><summary><span data-it>Vale anche per il basket maschile e giovanile?</span><span data-en>Does it work for men's and youth basketball?</span><span data-es>¿Sirve para baloncesto masculino y de formación?</span></summary>
+    <p data-en>The ones your computer reads: mp4, mov, m4v, webm. If a film won't open, converting it to mp4 usually solves it.</p><p data-es>Los que lee tu ordenador: mp4, mov, m4v, webm. Si un vídeo no se abre, convertirlo a mp4 suele resolverlo.</p><p data-fr>Ceux que lit ton ordinateur : mp4, mov, m4v, webm. Si une vidéo ne s'ouvre pas, la convertir en mp4 suffit en général.</p></details>
+  <details class="dom"><summary><span data-it>Vale anche per il basket maschile e giovanile?</span><span data-en>Does it work for men's and youth basketball?</span><span data-es>¿Sirve para baloncesto masculino y de formación?</span><span data-fr>Est-ce que ça marche pour le basket masculin et pour les jeunes ?</span></summary>
     <p data-it>Sì. Non c'è niente legato a una categoria: giochi, difese e caselle li decidi tu e li rinomini come vuoi.</p>
-    <p data-en>Yes. Nothing is tied to a category: plays, defences and buttons are yours to name and change.</p><p data-es>Sí. Nada está atado a una categoría: jugadas, defensas y botones los nombras y los cambias tú.</p></details>
+    <p data-en>Yes. Nothing is tied to a category: plays, defences and buttons are yours to name and change.</p><p data-es>Sí. Nada está atado a una categoría: jugadas, defensas y botones los nombras y los cambias tú.</p><p data-fr>Oui. Rien n'est lié à une catégorie : systèmes, défenses et boutons, c'est toi qui les nommes et les changes.</p></details>
 </div></section>
 
 <footer><div class="wrap">
   <svg class="vdm-segno-pie" viewBox="0 0 210 90" aria-hidden="true"><g fill="currentColor"><polygon points="6,22 15.5,22 26,52.4 36.5,22 46,22 28.8,72 23.2,72"/><circle cx="26" cy="31" r="5"/><polygon points="68.6,14 72.4,14 75,16.6 75,79.4 72.4,82 68.6,82 66,79.4 66,16.6"/><polygon points="60.6,22 105.4,22 108,24.6 108,28.4 105.4,31 60.6,31 58,28.4 58,24.6"/><polygon points="60.6,63 105.4,63 108,65.6 108,69.4 105.4,72 60.6,72 58,69.4 58,65.6"/><polygon points="101.6,22 105.4,22 108,24.6 108,69.4 105.4,72 101.6,72 99,69.4 99,24.6"/><polygon points="126.6,22 193.4,22 196,24.6 196,28.4 193.4,31 126.6,31 124,28.4 124,24.6"/><polygon points="134.6,22 138.4,22 141,24.6 141,79.4 138.4,82 134.6,82 132,79.4 132,24.6"/><polygon points="158.6,22 162.4,22 165,24.6 165,79.4 162.4,82 158.6,82 156,79.4 156,24.6"/><polygon points="182.6,22 186.4,22 189,24.6 189,79.4 186.4,82 182.6,82 180,79.4 180,24.6"/></g></svg><span>© 2026 VDM DATA</span>
   <nav>
-    <a href="istruzioni.html" data-it>Istruzioni</a><a href="istruzioni.html" data-en>Guide</a><a href="istruzioni.html" data-es>Guía</a>
-    <a href="/cn" lang="zh-Hans">中文</a><a href="/jp" lang="ja">日本語</a><a href="privacy.html" data-it>Informativa privacy</a><a href="privacy.html" data-en>Privacy policy</a><a href="privacy.html" data-es>Política de privacidad</a>
-    <a href="assistenza.html" data-it>Assistenza</a><a href="assistenza.html" data-en>Support</a><a href="assistenza.html" data-es>Soporte</a>
+    <a href="istruzioni.html" data-it>Istruzioni</a><a href="istruzioni.html" data-en>Guide</a><a href="istruzioni.html" data-es>Guía</a><a href="istruzioni.html" data-fr>Guide</a>
+    <a href="/cn" lang="zh-Hans">中文</a><a href="/jp" lang="ja">日本語</a><a href="privacy.html" data-it>Informativa privacy</a><a href="privacy.html" data-en>Privacy policy</a><a href="privacy.html" data-es>Política de privacidad</a><a href="privacy.html" data-fr>Politique de confidentialité</a>
+    <a href="assistenza.html" data-it>Assistenza</a><a href="assistenza.html" data-en>Support</a><a href="assistenza.html" data-es>Soporte</a><a href="assistenza.html" data-fr>Assistance</a>
     <a href="mailto:info@vdmdata.it">info@vdmdata.it</a>
   </nav>
   <!-- 25 settembre 2026: il lancio su Product Hunt e' programmato per giovedi'
@@ -1235,42 +1259,55 @@ const GALLERIA = [
     dit: 'La partita, le giocate su due colonne e il contatore che sale a ogni tag.',
     den: 'The game, the plays in two columns and the counter rising with every tag.',
     es: 'Vídeo y etiquetas',
-    des: 'El partido, las jugadas en dos columnas y el contador que sube con cada etiqueta.' },
+    des: 'El partido, las jugadas en dos columnas y el contador que sube con cada etiqueta.',
+    fr: 'Vidéo et tags',
+    dfr: 'Le match, les systèmes sur deux colonnes et le compteur qui monte à chaque tag.' },
   { f: 'montaggi',     img: 'img/f-montaggi.webp',     it: 'Montaggi',      en: 'Reels',
     dit: 'Le clip flaggate diventano un filmato solo, con copertina e nome del gioco.',
     den: 'Flagged clips become one film, with a cover card and the play name.',
     es: 'Montajes',
-    des: 'Los clips marcados se convierten en un único vídeo, con portada y nombre de la jugada.' },
+    des: 'Los clips marcados se convierten en un único vídeo, con portada y nombre de la jugada.',
+    fr: 'Montages',
+    dfr: 'Les clips marqués deviennent une seule vidéo, avec couverture et nom du système.' },
   { f: 'scouting',     img: 'img/f-scouting.webp',     it: 'Scouting Report', en: 'Scouting Report',
     dit: 'Il foglio dell\'avversario su A4, pronto per la riunione tecnica.',
     den: 'The opponent sheet on A4, ready for the staff meeting.',
     es: 'Scouting Report',
-    des: 'La hoja del rival en A4, lista para la reunión técnica.' },
+    des: 'La hoja del rival en A4, lista para la reunión técnica.',
+    fr: 'Scouting Report',
+    dfr: "La feuille de l'adversaire en A4, prête pour la réunion du staff." },
   { f: 'personnel',    img: 'img/f-personnel.webp',    it: 'Personnel',     en: 'Personnel',
     dit: 'Le schede giocatore con foto, medie e caratteristiche.',
     den: 'Player cards with photo, averages and traits.',
     es: 'Personnel',
-    des: 'Las fichas de jugador con foto, promedios y características.' },
+    des: 'Las fichas de jugador con foto, promedios y características.',
+    fr: 'Personnel',
+    dfr: 'Les fiches joueur avec photo, moyennes et caractéristiques.' },
   { f: 'practice',     img: 'img/f-practice.webp',     it: 'Allenamenti',   en: 'Practice',
     dit: 'Il piano di allenamento con fasi, tempi, esercizi e diagrammi di campo, pronto da stampare.',
     den: 'The practice plan with phases, timings, drills and court diagrams, ready to print.',
     es: 'Entrenamientos',
-    des: 'El plan de entrenamiento con fases, tiempos, ejercicios y diagramas de campo, listo para imprimir.' },
+    des: 'El plan de entrenamiento con fases, tiempos, ejercicios y diagramas de campo, listo para imprimir.',
+    fr: 'Entraînements',
+    dfr: "Le plan d'entraînement avec phases, temps, exercices et diagrammes de terrain, prêt à imprimer." },
   { f: 'tiro',         img: 'img/f-tiro.webp',         it: 'Registro del tiro', en: 'Shooting log',
     dit: 'Le sedute di tiro di tutta la stagione, con l\'andamento nel tempo.',
     den: 'The whole season of shooting sessions, with the trend over time.',
     es: 'Registro de tiro',
-    des: 'Las sesiones de tiro de toda la temporada, con la evolución en el tiempo.' },
+    des: 'Las sesiones de tiro de toda la temporada, con la evolución en el tiempo.',
+    fr: 'Registre des tirs',
+    dfr: "Les séances de tir de toute la saison, avec l'évolution dans le temps." },
 ];
 let galAttiva = 0;
 function LNG(){ var c = document.documentElement.classList;
-  return c.contains('es') ? 'es' : (c.contains('en') ? 'en' : 'it'); }
+  return c.contains('es') ? 'es' : (c.contains('fr') ? 'fr' :
+         (c.contains('en') ? 'en' : 'it')); }
 function galDisegna(){
   const L = LNG(), en = (L !== 'it');
   const g = GALLERIA[galAttiva];
   document.getElementById('galTasti').innerHTML = GALLERIA.map((x, i) =>
     '<button class="' + (i === galAttiva ? 'on' : '') + '" onclick="galVai(' + i + ')">' +
-    (L==='es' ? x.es : L==='en' ? x.en : x.it) + '</button>').join('');
+    (L==='es' ? x.es : L==='fr' ? x.fr : L==='en' ? x.en : x.it) + '</button>').join('');
   /* Due serie di schermate: l'app parla dodici lingue e il coach straniero
    * deve vedere i menu nella sua. In italiano si prende img/f-*.png, in
    * inglese img/en/f-*.png. Se la versione inglese manca si ricade su
@@ -1278,11 +1315,11 @@ function galDisegna(){
    * manca anche quella compare il riquadro "manca il file". */
   const via = en ? g.img.replace('img/', 'img/en/') : g.img;
   document.getElementById('galCornice').innerHTML =
-    '<img src="' + via + '" alt="' + (L==='es' ? g.es : L==='en' ? g.en : g.it) + '" ' +
+    '<img src="' + via + '" alt="' + (L==='es' ? g.es : L==='fr' ? g.fr : L==='en' ? g.en : g.it) + '" ' +
     'width="1660" height="1013" decoding="async" fetchpriority="high" ' +
     'data-ripiego="' + g.img + '" ' +
     'onerror="galRipiego(this, ' + galAttiva + ')">';
-  document.getElementById('galDidascalia').textContent = L==='es' ? g.des : L==='en' ? g.den : g.dit;
+  document.getElementById('galDidascalia').textContent = L==='es' ? g.des : L==='fr' ? g.dfr : L==='en' ? g.den : g.dit;
 }
 function galRipiego(img, i){
   const alt = img.getAttribute('data-ripiego');
@@ -1303,9 +1340,9 @@ function galVai(i){ galAttiva = i; galDisegna(); }
  * la miniatura. In inglese si prendono i file con il suffisso -en, e il
  * pulsante punta al PDF inglese. */
 const FOGLI = [
-  { f: 'scouting',  it: 'Scouting Report',  en: 'Scouting Report', es: 'Scouting Report' },
-  { f: 'personnel', it: 'Personnel',        en: 'Personnel',       es: 'Personnel' },
-  { f: 'practice',  it: 'Allenamento',      en: 'Practice',        es: 'Entrenamiento' },
+  { f: 'scouting',  it: 'Scouting Report',  en: 'Scouting Report', es: 'Scouting Report', fr: 'Scouting Report' },
+  { f: 'personnel', it: 'Personnel',        en: 'Personnel',       es: 'Personnel',       fr: 'Personnel' },
+  { f: 'practice',  it: 'Allenamento',      en: 'Practice',        es: 'Entrenamiento',   fr: 'Entraînement' },
 ];
 function fogliDisegna(){
   /* In spagnolo non ci sono ancora ne' le schermate ne' i PDF dedicati: si
@@ -1315,9 +1352,9 @@ function fogliDisegna(){
   if (!g) return;
   g.innerHTML = FOGLI.map(x =>
     '<div class="foglio"><img src="img/foglio-' + x.f + (en ? '-en' : '') + '.webp" alt="' +
-    (L==='es' ? x.es : L==='en' ? x.en : x.it) + '" width="744" height="1053" loading="lazy" decoding="async"' +
+    (L==='es' ? x.es : L==='fr' ? x.fr : L==='en' ? x.en : x.it) + '" width="744" height="1053" loading="lazy" decoding="async"' +
     ' onerror="this.src=\'img/foglio-' + x.f + '.webp\'">' +
-    '<div class="et">' + (L==='es' ? x.es : L==='en' ? x.en : x.it) + '</div></div>').join('');
+    '<div class="et">' + (L==='es' ? x.es : L==='fr' ? x.fr : L==='en' ? x.en : x.it) + '</div></div>').join('');
   const sc = document.getElementById('fogliSchermo');
   if (sc) sc.src = en ? 'img/en/come-si-stampa.webp' : 'img/come-si-stampa.webp';
   /* il filmato segue la lingua: italiano per chi arriva in italiano,
@@ -1340,27 +1377,33 @@ const FX = [
   { t:0.0,  d:2.4, it:'Fascio di luce', en:'Spotlight',
     di:'Il resto del campo si abbassa. Resta illuminato solo chi devono guardare.',
     de:'The rest of the floor dims. Only the player they must watch stays lit.',
-    es:'Foco', des:'El resto de la pista se apaga. Solo queda iluminado a quien tienen que mirar.' },
+    es:'Foco', des:'El resto de la pista se apaga. Solo queda iluminado a quien tienen que mirar.',
+    fr:'Projecteur', dfr:"Le reste du terrain s'assombrit. Seul celui qu'ils doivent regarder reste éclairé." },
   { t:2.6,  d:2.2, it:"Lente d'ingrandimento", en:'Magnifier',
     di:'Ingrandisce un pezzo dell\u2019immagine \u2014 i piedi, le mani \u2014 mentre il filmato continua a correre.',
     de:'Blows up one piece of the picture \u2014 the feet, the hands \u2014 while the film keeps running.',
-    es:'Lupa', des:'Amplía un trozo de la imagen — los pies, las manos — mientras el vídeo sigue corriendo.' },
+    es:'Lupa', des:'Amplía un trozo de la imagen — los pies, las manos — mientras el vídeo sigue corriendo.',
+    fr:'Loupe', dfr:"Agrandit un morceau de l'image — les pieds, les mains — pendant que la vidéo continue de tourner." },
   { t:5.0,  d:2.1, it:'Cerchio e freccia', en:'Circle and arrow',
     di:'Chi devi guardare, e dove deve andare. Le frecce si curvano come il taglio.',
     de:'Who to watch, and where they should go. Arrows curve like the cut.',
-    es:'Círculo y flecha', des:'A quién hay que mirar, y adónde tiene que ir. Las flechas se curvan como el corte.' },
+    es:'Círculo y flecha', des:'A quién hay que mirar, y adónde tiene que ir. Las flechas se curvan como el corte.',
+    fr:'Cercle et flèche', dfr:'Qui regarder, et où il doit aller. Les flèches se courbent comme la coupe.' },
   { t:7.2,  d:1.8, it:'Muro difensivo', en:'Defensive wall',
     di:'Il muro dove si chiude la linea di penetrazione, con l\u2019angolo che decidi tu.',
     de:'The wall that closes the driving line, at the angle you choose.',
-    es:'Muro defensivo', des:'El muro donde se cierra la línea de penetración, con el ángulo que decides tú.' },
+    es:'Muro defensivo', des:'El muro donde se cierra la línea de penetración, con el ángulo que decides tú.',
+    fr:'Mur défensif', dfr:'Le mur où se ferme la ligne de pénétration, avec l\u2019angle que tu décides.' },
   { t:9.0,  d:2.4, it:'Sposta un pezzo', en:'Move a piece',
     di:'Stacchi il giocatore dal campo e lo sposti: si vede dove sarebbe dovuto stare.',
     de:'Lift the player off the floor and slide him across: you see where he should have been.',
-    es:'Mueve una pieza', des:'Despegas al jugador del campo y lo desplazas: se ve dónde tendría que haber estado.' },
+    es:'Mueve una pieza', des:'Despegas al jugador del campo y lo desplazas: se ve dónde tendría que haber estado.',
+    fr:'Déplace une pièce', dfr:"Tu détaches le joueur du terrain et tu le déplaces : on voit où il aurait dû être." },
   { t:11.4, d:4.5, it:'Rallenty e fermo', en:'Slow and freeze',
     di:'Rallenti il momento della lettura, o lo fermi per il tempo che serve.',
     de:'Slow the moment of the read, or freeze it for as long as you need.',
-    es:'Cámara lenta y congelado', des:'Ralentizas el momento de la lectura, o lo congelas el tiempo que haga falta.' },
+    es:'Cámara lenta y congelado', des:'Ralentizas el momento de la lectura, o lo congelas el tiempo que haga falta.',
+    fr:'Ralenti et arrêt sur image', dfr:"Tu ralentis le moment de la lecture, ou tu le figes le temps qu'il faut." },
 ];
 function fxCostruisci(){
   const riga = document.getElementById('fxRiga');
@@ -1369,13 +1412,13 @@ function fxCostruisci(){
   riga.innerHTML = FX.map(function(f,i){
     return '<div class="fx-seg" data-i="'+i+'" onclick="fxVai('+i+')" style="flex:'+f.d.toFixed(2)+'">'
       + '<span class="fx-avanz"></span>'
-      + '<span data-it>'+f.it+'</span><span data-en>'+f.en+'</span><span data-es>'+f.es+'</span></div>';
+      + '<span data-it>'+f.it+'</span><span data-en>'+f.en+'</span><span data-es>'+f.es+'</span><span data-fr>'+f.fr+'</span></div>';
   }).join('');
   schede.innerHTML = FX.map(function(f,i){
     return '<div class="fx-scheda" data-i="'+i+'" onclick="fxVai('+i+')">'
       + '<i>0'+(i+1)+'</i>'
-      + '<b data-it>'+f.it+'</b><b data-en>'+f.en+'</b><b data-es>'+f.es+'</b>'
-      + '<span data-it>'+f.di+'</span><span data-en>'+f.de+'</span><span data-es>'+f.des+'</span></div>';
+      + '<b data-it>'+f.it+'</b><b data-en>'+f.en+'</b><b data-es>'+f.es+'</b><b data-fr>'+f.fr+'</b>'
+      + '<span data-it>'+f.di+'</span><span data-en>'+f.de+'</span><span data-es>'+f.des+'</span><span data-fr>'+f.dfr+'</span></div>';
   }).join('');
 }
 function fxVai(i){
@@ -1387,7 +1430,7 @@ function fxVai(i){
 function fxSegna(i){
   const nome = document.getElementById('fxNomeStrumento');
   if (nome && FX[i]) {
-    nome.innerHTML = '<span data-it>'+FX[i].it+'</span><span data-en>'+FX[i].en+'</span><span data-es>'+FX[i].es+'</span>';
+    nome.innerHTML = '<span data-it>'+FX[i].it+'</span><span data-en>'+FX[i].en+'</span><span data-es>'+FX[i].es+'</span><span data-fr>'+FX[i].fr+'</span>';
   }
   document.querySelectorAll('#fxRiga .fx-seg').forEach(function(e){
     e.classList.toggle('on', +e.dataset.i === i);
@@ -1439,15 +1482,17 @@ else fxAvvia();
 function lingua(l, scelta){
   /* Tre lingue: si toglie quella di prima e si mette quella nuova, sia sul
      <body> sia su <html>. Con due bastava un interruttore, con tre no. */
-  document.body.classList.remove('it','en','es');
+  document.body.classList.remove('it','en','es','fr');
   if (l !== 'it') document.body.classList.add(l);
-  document.documentElement.classList.remove('it','en','es');
+  document.documentElement.classList.remove('it','en','es','fr');
   document.documentElement.classList.add(l);
   document.documentElement.lang = l;
   document.getElementById('bIt').classList.toggle('on', l === 'it');
   document.getElementById('bEn').classList.toggle('on', l === 'en');
   var bes = document.getElementById('bEs');
   if (bes) bes.classList.toggle('on', l === 'es');
+  var bfr = document.getElementById('bFr');
+  if (bfr) bfr.classList.toggle('on', l === 'fr');
   try { if (scelta) localStorage.setItem('vdm_lingua_scelta', l); } catch(e){}
   galDisegna();
   fogliDisegna();
@@ -1455,9 +1500,11 @@ function lingua(l, scelta){
 (function(){
   var l = null;
   try { l = localStorage.getItem('vdm_lingua_scelta'); } catch(e){}
-  if (l !== 'it' && l !== 'en' && l !== 'es') {
+  if (l !== 'it' && l !== 'en' && l !== 'es' && l !== 'fr') {
     var n = ((navigator.language || 'en') + '').toLowerCase();
-    l = n.indexOf('it') === 0 ? 'it' : (n.indexOf('es') === 0 ? 'es' : 'en');
+    l = n.indexOf('it') === 0 ? 'it' :
+        (n.indexOf('es') === 0 ? 'es' :
+        (n.indexOf('fr') === 0 ? 'fr' : 'en'));
   }
   lingua(l);
 })();
